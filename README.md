@@ -15,3 +15,5 @@ Alternatively, you can append the url with addr parameter like below to specify 
 ### Supported yield pools
 * [SNX/USDC Balancer Pool Token Staking Pool](https://penandlim.github.io/yield-farming/snx-usdc/) yields SNX, BAL
 * [sBTC Curve Pool Token Staking Pool](https://penandlim.github.io/yield-farming/sBTC/) yields SNX, REN, BAL, CRV
+* [iETH Staking Pool](https://penandlim.github.io/yield-farming/ieth/) yields SNX
+

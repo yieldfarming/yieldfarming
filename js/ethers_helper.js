@@ -64,3 +64,41 @@ const toFixed = function(num, fixed) {
     const re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return num.toString().match(re)[0];
 };
+
+
+const start = function (f) {
+    f().then().catch((e)=> {
+        console.log(e);
+        console.error(e);
+        console.log("Oops something went wrong. Try refreshing the page.")
+    });
+};
+
+const consoleInit = function() {
+    const logger = document.getElementById('log');
+    console.log = function () {
+        for (let i = 0; i < arguments.length; i++) {
+            if (typeof arguments[i] == 'object') {
+                logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+            } else {
+                logger.innerHTML += arguments[i] + '<br />';
+            }
+        }
+    }
+};
+
+const sleep = function(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+};
+
+const lookUpPrices = async function(id_array) {
+    let ids = id_array.join("%2C");
+    return $.ajax({
+        url: "https://api.coingecko.com/api/v3/simple/price?ids=" + ids + "&vs_currencies=usd",
+        type: 'GET'
+    });
+}

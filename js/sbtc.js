@@ -1,10 +1,9 @@
+consoleInit();
+start(main);
 
 async function main() {
-    console.log("******************* 👨‍🌾 UNOFFICIAL BTC YIELD FARMING CALCULATOR 👨‍🌾 ********************");
-    console.log("INFO: https://blog.synthetix.io/btc-yield-farming-pool/");
-    console.log("POOL: https://www.curve.fi/sbtc/deposit");
-    console.log("STAKE: https://mintr.synthetix.io/");
-    console.log("***************************************************************************************\n");
+
+    sleep(10);
 
     const App = await init_ethers();
 
@@ -21,15 +20,20 @@ async function main() {
     const rawStakedCRVAmount = await SYNTH_CRV_POOL.balanceOf(App.YOUR_ADDRESS);
     const stakedCRVAmount = rawStakedCRVAmount / 1e18;
 
-    const renBTCamount = rawStakedCRVAmount <= 0 ? 0 : await CURVE_BTC_POOL.calc_withdraw_one_coin(rawStakedCRVAmount, 0) / 1e8;
-    const wBTCamount = rawStakedCRVAmount <= 0 ? 0 : await CURVE_BTC_POOL.calc_withdraw_one_coin(rawStakedCRVAmount, 1) / 1e8;
-    const SBTCamount = rawStakedCRVAmount <= 0 ? 0 : await CURVE_BTC_POOL.calc_withdraw_one_coin(rawStakedCRVAmount, 2) / 1e18;
+    const totalRenBTCAmount = await CURVE_BTC_POOL.balances(0) / 1e8;
+    const totalWBTCAmount = await CURVE_BTC_POOL.balances(1) / 1e8;
+    const totalSBTCAmount = await CURVE_BTC_POOL.balances(2) / 1e18;
+    const totalCrvRenWSBTCSupply = await crvRenWSBTC_TOKEN_CONTRACT.totalSupply() / 1e18;
+
+    const renBTCamountPerToken = totalRenBTCAmount * (1 / totalCrvRenWSBTCSupply);
+    const wBTCamountPerToken = totalWBTCAmount * (1 / totalCrvRenWSBTCSupply);
+    const sBTCamountPerToken = totalSBTCAmount * (1 / totalCrvRenWSBTCSupply);
 
     // Balancer
     const earnedBPT = await SYNTH_CRV_POOL.earned(App.YOUR_ADDRESS) / 1e18;
     const totalBPTAmount = await BALANCER_SNX_REN_POOL.totalSupply() / 1e18;
     const totalSNXAmount = await BALANCER_SNX_REN_POOL.getBalance(SNX_TOKEN_ADDRESS) / 1e18;
-    const totalCrvRenWSBTCSupply = await crvRenWSBTC_TOKEN_CONTRACT.totalSupply() / 1e18;
+
     const totalStakedCrvRenWSBTCAmount = await crvRenWSBTC_TOKEN_CONTRACT.balanceOf(SYNTH_CRV_STAKING_POOL_ADDR) / 1e18;
     const totalRENAmount = await BALANCER_SNX_REN_POOL.getBalance(REN_ADDRESS) / 1e18;
 
@@ -48,10 +52,7 @@ async function main() {
     console.log("Finished reading smart contracts... Looking up prices... \n")
 
     // CoinGecko price lookup
-    const prices = await $.ajax({
-        url: "https://api.coingecko.com/api/v3/simple/price?ids=havven%2Crepublic-protocol%2Crenbtc%2Cwrapped-bitcoin%2Csbtc&vs_currencies=usd",
-        type: 'GET'
-    });
+    const prices = await lookUpPrices(["havven", "republic-protocol", "wrapped-bitcoin", "sbtc", "renbtc"]);
 
     const SNXprice = prices.havven.usd;
     const RENprice = prices["republic-protocol"].usd;
@@ -60,7 +61,7 @@ async function main() {
     const renBTCPrice = prices.renbtc.usd;
     const wBTCPrice = prices["wrapped-bitcoin"].usd;
     const SBTCPrice = prices.sbtc.usd;
-    const CRVprice = renBTCamount * renBTCPrice / 3 + wBTCamount * wBTCPrice / 3 + SBTCamount * SBTCPrice / 3;
+    const crvRenWSBTCPricePerToken = toFixed(renBTCamountPerToken * renBTCPrice + wBTCamountPerToken * wBTCPrice + sBTCamountPerToken * SBTCPrice, 2);
 
     console.log("========== PRICES ==========")
     console.log(`1 SNX = $${SNXprice}`);
@@ -70,13 +71,13 @@ async function main() {
 
     console.log(`1 renBTC = $${renBTCPrice}`);
     console.log(`1 wBTC = $${wBTCPrice}`);
-    console.log(`1 sBTC = $${SBTCPrice}\n`);
+    console.log(`1 sBTC = $${SBTCPrice}`);
 
     console.log("========= STAKING ==========")
     console.log(`There are total   : ${totalCrvRenWSBTCSupply} crvRenWSBTC given out by Curve.`);
     console.log(`There are total   : ${totalStakedCrvRenWSBTCAmount} crvRenWSBTC staked in Synthetix's pool. \n`);
     console.log(`You are staking   : ${stakedCRVAmount} crvRenWSBTC (${toFixed(100 * stakedCRVAmount / totalStakedCrvRenWSBTCAmount, 3)}% of the pool)`);
-    console.log(`                  ≈ $${toFixed(CRVprice, 2)} (Averaged)\n`);
+    console.log(`                  ≈ $${toFixed(crvRenWSBTCPricePerToken * stakedCRVAmount, 2)} (Averaged)\n`);
 
     console.log("====== SNX/REN REWARDS =====")
     console.log(`Claimable Rewards : ${earnedBPT} BPT`);
@@ -84,7 +85,8 @@ async function main() {
     console.log(`                  = $${toFixed(earnedBPT * BPTprice, 2)}\n`)
 
     console.log(`Weekly estimate   : ${rewardPerToken * stakedCRVAmount} BPT (out of total ${weekly_reward} BPT)`)
-    console.log(`                  = $${toFixed((rewardPerToken * stakedCRVAmount) * BPTprice , 2)}\n`)
+    console.log(`                  = $${toFixed((rewardPerToken * stakedCRVAmount) * BPTprice , 2)}`)
+    console.log(`Weekly ROI        : ${toFixed(rewardPerToken * BPTprice * 100 / crvRenWSBTCPricePerToken, 4)}%\n`)
 
     console.log("======== BAL REWARDS ========")
     console.log(`    Not distributed yet\n`);
@@ -92,24 +94,3 @@ async function main() {
     console.log("======== CRV REWARDS ========")
     console.log(`    Not distributed yet`);
 }
-
-
-(function () {
-    let logger = document.getElementById('log');
-    console.log = function () {
-        for (var i = 0; i < arguments.length; i++) {
-            if (typeof arguments[i] == 'object') {
-                logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
-            } else {
-                logger.innerHTML += arguments[i] + '<br />';
-            }
-        }
-    }
-
-    main().then().catch((e) => {
-        console.log(e);
-        console.error(e);
-        console.log("Oops something went wrong.")
-    });
-
-})();
