@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{ethers-5.0.esm, ethers-5.0.umd, jquery, web3}" />
+  </component>
+</project>
