@@ -1,4 +1,4 @@
-## yieldfarming
+## yieldfarming.info
 
 _It ain't much, but it's honest work_
 
@@ -8,12 +8,15 @@ App : https://yieldfarming.info
 
 Load up the [app](https://yieldfarming.info) with metamask enabled.
 
-Alternatively, you can append the url with addr parameter like below to specify an address.
+You can also append the url with `addr` parameter like below to specify an address that is not yours.
 
 `https://yieldfarming.info/sBTC/?addr=0xFadAFCE89EA2221fa33005640Acf2C923312F2b9`
 
 ### Supported yield pools
-* [SNX/USDC Balancer Pool Token Staking Pool](https://penandlim.github.io/yield-farming/snx-usdc/) yields SNX, BAL
-* [sBTC Curve Pool Token Staking Pool](https://penandlim.github.io/yield-farming/sBTC/) yields SNX, REN, BAL, CRV
-* [iETH Staking Pool](https://penandlim.github.io/yield-farming/ieth/) yields SNX
+* [Synthetix's Uniswap V1 sETH Pool Token Staking Pool](https://yieldfarming.info/seth/) yields SNX
+* [Synthetix's Uniswap V2 sXAU / USDC Pool Token Staking Pool](https://yieldfarming.info/sxau/) yields SNX
+* [Synthetix's Curve sUSD Pool Token Staking Pool](https://yieldfarming.info/ieth/) yields SNX, CRV
+* [Synthetix's Balancer SNX/USDC Pool Token Staking Pool](https://yieldfarming.info/snx-usdc/) yields SNX, BAL
+* [Synthetix's Curve sBTC Pool Token Staking Pool](https://yieldfarming.info/sBTC/) yields SNX, REN, BAL, CRV
+* [Synthetix's iETH Token Staking Pool](https://yieldfarming.info/ieth/) yields SNX
 
