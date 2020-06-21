@@ -1,7 +1,7 @@
 async function init_ethers() {
     const App = {};
 
-    const ETHEREUM_NODE_URL = 'https://eth-mainnet.zerion.io/';
+    const ETHEREUM_NODE_URL = "aHR0cHM6Ly9tYWlubmV0LmluZnVyYS5pby92My9mN2Q1YjkwMzY3MzY0YmFkYWNhZDI5Njg5OWYyMTMxYQ==";
 
     let askForAddress = false;
 
@@ -21,11 +21,12 @@ async function init_ethers() {
     else if (window.web3) {
         App.provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
     }
-    // If no injected web3 instance is detected, fall back to Ganache
+    // If no injected web3 instance is detected, fall back to backup node
     else {
-        App.provider = new ethers.providers.JsonRpcProvider(ETHEREUM_NODE_URL);
+        App.provider = new ethers.providers.JsonRpcProvider(atob(ETHEREUM_NODE_URL));
         askForAddress = true;
-        console.log("You don't have metamask installed! Falling back to Zerion node... (will likely to fail. Please install metamask extension).")
+        console.log("You don't have MetaMask installed! Falling back to backup node...\n (will likely to fail. Please install MetaMask extension).\n")
+        sleep(10);
     }
 
     App.YOUR_ADDRESS = getUrlParameter("addr");
