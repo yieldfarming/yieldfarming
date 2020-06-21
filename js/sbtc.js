@@ -1,9 +1,9 @@
-consoleInit();
-start(main);
+$(function() {
+    consoleInit();
+    start(main);
+});
 
 async function main() {
-
-    sleep(10);
 
     const App = await init_ethers();
 
@@ -11,7 +11,7 @@ async function main() {
     console.log("Reading smart contracts...");
 
     const CURVE_BTC_POOL = new ethers.Contract(CURVE_BTC_POOL_ADDR, CURVE_BTC_POOL_ABI, App.provider);
-    const SYNTH_CRV_POOL = new ethers.Contract(SYNTH_CRV_STAKING_POOL_ADDR, SYNTH_CRV_STAKING_POOL_ABI, App.provider);
+    const SYNTH_CRV_POOL = new ethers.Contract(SYNTH_crvRenWSBTC_STAKING_POOL_ADDR, SYNTH_crvRenWSBTC_STAKING_POOL_ABI, App.provider);
     const BALANCER_SNX_REN_POOL = new ethers.Contract(BALANCER_SNX_REN_POOL_ADDR, BALANCER_SNX_REN_POOL_ABI, App.provider);
     const SNX_REN_BPT_TOKEN_CONTRACT = new ethers.Contract(SNX_REN_BPT_TOKEN_ADDRESS, ERC20_ABI, App.provider);
     const crvRenWSBTC_TOKEN_CONTRACT = new ethers.Contract(crvRenWSBTC_TOKEN_ADDR, ERC20_ABI, App.provider);
@@ -34,14 +34,14 @@ async function main() {
     const totalBPTAmount = await BALANCER_SNX_REN_POOL.totalSupply() / 1e18;
     const totalSNXAmount = await BALANCER_SNX_REN_POOL.getBalance(SNX_TOKEN_ADDRESS) / 1e18;
 
-    const totalStakedCrvRenWSBTCAmount = await crvRenWSBTC_TOKEN_CONTRACT.balanceOf(SYNTH_CRV_STAKING_POOL_ADDR) / 1e18;
+    const totalStakedCrvRenWSBTCAmount = await crvRenWSBTC_TOKEN_CONTRACT.balanceOf(SYNTH_crvRenWSBTC_STAKING_POOL_ADDR) / 1e18;
     const totalRENAmount = await BALANCER_SNX_REN_POOL.getBalance(REN_ADDRESS) / 1e18;
 
     const SNXperBPT = totalSNXAmount / totalBPTAmount;
     const RENperBPT = totalRENAmount / totalBPTAmount;
 
     // Query the filter
-    const eventFilter = SNX_REN_BPT_TOKEN_CONTRACT.filters.Transfer(PDAO_ADDRESS, SYNTH_CRV_STAKING_POOL_ADDR);
+    const eventFilter = SNX_REN_BPT_TOKEN_CONTRACT.filters.Transfer(PDAO_ADDRESS, SYNTH_crvRenWSBTC_STAKING_POOL_ADDR);
     const current_block_num = App.provider.getBlockNumber();
     const logs = await SNX_REN_BPT_TOKEN_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
 

@@ -25,6 +25,7 @@ async function init_ethers() {
     else {
         App.provider = new ethers.providers.JsonRpcProvider(ETHEREUM_NODE_URL);
         askForAddress = true;
+        console.log("You don't have metamask installed! Falling back to Zerion node... (will likely to fail. Please install metamask extension).")
     }
 
     App.YOUR_ADDRESS = getUrlParameter("addr");
@@ -67,7 +68,7 @@ const toFixed = function(num, fixed) {
 
 
 const start = function (f) {
-    f().then().catch((e)=> {
+    f().catch((e)=> {
         console.log(e);
         console.error(e);
         console.log("Oops something went wrong. Try refreshing the page.")

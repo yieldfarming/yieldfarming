@@ -1,8 +1,9 @@
-consoleInit();
-start(main);
+$(function() {
+    consoleInit();
+    start(main);
+});
 
 async function main() {
-    sleep(10);
 
     const App = await init_ethers();
 
