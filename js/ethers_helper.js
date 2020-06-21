@@ -3,7 +3,7 @@ async function init_ethers() {
 
     const ETHEREUM_NODE_URL = "aHR0cHM6Ly9tYWlubmV0LmluZnVyYS5pby92My9mN2Q1YjkwMzY3MzY0YmFkYWNhZDI5Njg5OWYyMTMxYQ==";
 
-    let askForAddress = false;
+    let isMetaMaskInstalled = true;
 
     // Modern dapp browsers...
     if (window.ethereum) {
@@ -24,27 +24,35 @@ async function init_ethers() {
     // If no injected web3 instance is detected, fall back to backup node
     else {
         App.provider = new ethers.providers.JsonRpcProvider(atob(ETHEREUM_NODE_URL));
-        askForAddress = true;
+        isMetaMaskInstalled = false;
         console.log("You don't have MetaMask installed! Falling back to backup node...\n (will likely to fail. Please install MetaMask extension).\n")
         sleep(10);
     }
 
     App.YOUR_ADDRESS = getUrlParameter("addr");
 
+    // Cloud not load URL parameter
     if (!App.YOUR_ADDRESS) {
-        if (askForAddress) {
-            App.YOUR_ADDRESS = window.prompt("Enter your eth address.");
+        if (!isMetaMaskInstalled) {
+
+            if (localStorage.hasOwnProperty('addr')) {
+                App.YOUR_ADDRESS = localStorage.getItem('addr');
+            } else {
+                App.YOUR_ADDRESS = window.prompt("Enter your eth address.");
+            }
+
         } else {
             let accounts = await App.provider.listAccounts();
             App.YOUR_ADDRESS = accounts[0];
         }
     }
 
-    if (!App.YOUR_ADDRESS) {
-        throw "Could not initialize your address.";
+    if (!App.YOUR_ADDRESS || !ethers.utils.isAddress(App.YOUR_ADDRESS)) {
+        throw "Could not initialize your address. Make sure your address is checksum valid.";
     }
 
-    return App
+    localStorage.setItem('addr', App.YOUR_ADDRESS);
+    return App;
 }
 
 const getUrlParameter = function(sParam) {
@@ -104,3 +112,4 @@ const lookUpPrices = async function(id_array) {
         type: 'GET'
     });
 }
+
