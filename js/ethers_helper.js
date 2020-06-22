@@ -111,5 +111,27 @@ const lookUpPrices = async function(id_array) {
         url: "https://api.coingecko.com/api/v3/simple/price?ids=" + ids + "&vs_currencies=usd",
         type: 'GET'
     });
-}
+};
 
+const getBALEarnings = async function(addr) {
+
+    const bal_earnings = [];
+
+    for (let i = 0; i < BAL_DISTRIBUTION_WEEK ; i++) {
+        if (i === 0) {
+            bal_earnings.push(null);
+            continue;
+        }
+
+        const data = await $.getJSON(`../js/bal_rewards/week${i + 1}.json`);
+        const earning = parseFloat(data[addr.toLowerCase()]);
+
+        if (earning) {
+            bal_earnings.push(earning);
+        } else {
+            bal_earnings.push(0);
+        }
+    }
+
+    return bal_earnings;
+}

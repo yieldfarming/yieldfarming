@@ -71,7 +71,7 @@ async function main() {
 
     console.log(`1 renBTC = $${renBTCPrice}`);
     console.log(`1 wBTC = $${wBTCPrice}`);
-    console.log(`1 sBTC = $${SBTCPrice}`);
+    console.log(`1 sBTC = $${SBTCPrice}\n`);
 
     console.log("========= STAKING ==========")
     console.log(`There are total   : ${totalCrvRenWSBTCSupply} crvRenWSBTC given out by Curve.`);
@@ -89,7 +89,24 @@ async function main() {
     console.log(`Weekly ROI        : ${toFixed(rewardPerToken * BPTprice * 100 / crvRenWSBTCPricePerToken, 4)}%\n`)
 
     console.log("======== BAL REWARDS ========")
-    console.log(`    Not distributed yet\n`);
+    console.log(`WARNING: This is your total BAL rewards across all of your contribution to Balancer.`);
+    console.log(`WARNING: BAL is not distributed yet.\n`);
+
+    // Load BAL distribution
+    const bal_earnings = await getBALEarnings(App.YOUR_ADDRESS);
+
+    let total_bal = 0;
+
+    for (let i = 0; i < BAL_DISTRIBUTION_WEEK ; i++) {
+        if (bal_earnings[i]) {
+            console.log(`Week ${i + 1}: ${toFixed(bal_earnings[i], 5)} BAL`);
+            total_bal += bal_earnings[i];
+        } else {
+            console.log(`Week ${i + 1}: Data not available yet.`);
+        }
+    }
+    console.log(`--------------------`)
+    console.log(`Total : ${toFixed(total_bal, 5)} BAL\n`);
 
     console.log("======== CRV REWARDS ========")
     console.log(`    Not distributed yet`);

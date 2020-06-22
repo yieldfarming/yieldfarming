@@ -56,12 +56,30 @@ async function main() {
     console.log(`                  = [${SNXperBPT * stakedBPTAmount} SNX, ${USDCperBPT * stakedBPTAmount} USDC]`);
     console.log(`                  = $${toFixed(SNXperBPT * stakedBPTAmount * SNXprice + USDCperBPT * stakedBPTAmount * USDCprice, 2)}\n`);
 
+    // SNX REWARDS
     console.log("======== SNX REWARDS ========")
     console.log(`Claimable Rewards : ${toFixed(earnedSNX, 2)} SNX = $${toFixed(earnedSNX * SNXprice, 2)}`);
     console.log(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} SNX = $${toFixed(rewardPerToken * stakedBPTAmount * SNXprice, 2)} (out of total ${weekly_reward} SNX)`)
     console.log(`Weekly ROI in USD : ${toFixed((rewardPerToken * SNXprice) * 100 / (SNXperBPT * SNXprice + USDCperBPT * USDCprice), 4)}%\n`)
 
+    // BAL REWARDS
     console.log("======== BAL REWARDS ========")
-    console.log(`    Not distributed yet\n`);
+    console.log(`WARNING: This is your total BAL rewards across all of your contribution to Balancer.`);
+    console.log(`WARNING: BAL is not distributed yet.\n`);
 
+    // Load BAL distribution
+    const bal_earnings = await getBALEarnings(App.YOUR_ADDRESS);
+
+    let total_bal = 0;
+
+    for (let i = 0; i < BAL_DISTRIBUTION_WEEK ; i++) {
+        if (bal_earnings[i]) {
+            console.log(`Week ${i + 1}: ${toFixed(bal_earnings[i], 5)} BAL`);
+            total_bal += bal_earnings[i];
+        } else {
+            console.log(`Week ${i + 1}: Data not available yet.`);
+        }
+    }
+    console.log(`--------------------`)
+    console.log(`Total : ${toFixed(total_bal, 5)} BAL`);
 }
