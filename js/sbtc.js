@@ -90,4 +90,8 @@ async function main() {
 
     // BAL REWARDS
     await printBALRewards(App.YOUR_ADDRESS);
+
+    // CRV REWARDS
+    console.log("======== CRV REWARDS ========")
+    console.log(`    Not distributed yet`);
 }
