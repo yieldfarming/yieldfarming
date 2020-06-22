@@ -81,5 +81,5 @@ async function main() {
         }
     }
     console.log(`--------------------`)
-    console.log(`Total : ${toFixed(total_bal, 5)} BAL`);
+    console.log(`Total : ${toFixed(total_bal, 5)} BAL\n`);
 }
