@@ -13,7 +13,6 @@ async function main() {
     const CURVE_BTC_POOL = new ethers.Contract(CURVE_BTC_POOL_ADDR, CURVE_BTC_POOL_ABI, App.provider);
     const SYNTH_CRV_POOL = new ethers.Contract(SYNTH_crvRenWSBTC_STAKING_POOL_ADDR, SYNTH_crvRenWSBTC_STAKING_POOL_ABI, App.provider);
     const BALANCER_SNX_REN_POOL = new ethers.Contract(BALANCER_SNX_REN_POOL_ADDR, BALANCER_SNX_REN_POOL_ABI, App.provider);
-    const SNX_REN_BPT_TOKEN_CONTRACT = new ethers.Contract(SNX_REN_BPT_TOKEN_ADDRESS, ERC20_ABI, App.provider);
     const crvRenWSBTC_TOKEN_CONTRACT = new ethers.Contract(crvRenWSBTC_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     // Curve
@@ -40,13 +39,8 @@ async function main() {
     const SNXperBPT = totalSNXAmount / totalBPTAmount;
     const RENperBPT = totalRENAmount / totalBPTAmount;
 
-    // Query the filter
-    const eventFilter = SNX_REN_BPT_TOKEN_CONTRACT.filters.Transfer(PDAO_ADDRESS, SYNTH_crvRenWSBTC_STAKING_POOL_ADDR);
-    const current_block_num = App.provider.getBlockNumber();
-    const logs = await SNX_REN_BPT_TOKEN_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
-
-    const latest_log = logs[logs.length - 1];
-    const weekly_reward = latest_log.args[2] / 1e18;
+    // Find out reward rate
+    const weekly_reward = await get_synth_weekly_rewards(SYNTH_CRV_POOL);
     const rewardPerToken = weekly_reward / totalStakedCrvRenWSBTCAmount;
 
     console.log("Finished reading smart contracts... Looking up prices... \n")

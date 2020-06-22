@@ -13,7 +13,6 @@ async function main() {
     const CURVE_SUSD_POOL = new ethers.Contract(CURVE_SUSD_POOL_ADDR, CURVE_SUSD_POOL_ABI, App.provider);
     const SYNTH_crvPlain3andSUSD_POOL = new ethers.Contract(SYNTH_crvPlain3andSUSD_STAKING_POOL_ADDR, SYNTH_crvPlain3andSUSD_STAKING_POOL_ABI, App.provider);
     const crvPlain3andSUSD_TOKEN_CONTRACT = new ethers.Contract(crvPlain3andSUSD_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const SNX_CONTRACT = new ethers.Contract(SNX_TOKEN_ADDRESS, ERC20_ABI, App.provider);
 
     // SYNTH Staking pool
     const rawStakedCRVAmount = await SYNTH_crvPlain3andSUSD_POOL.balanceOf(App.YOUR_ADDRESS);
@@ -35,13 +34,8 @@ async function main() {
     const USDTPerToken = totalUSDTAmount / totalCrvPlain3andSUSDSupply;
     const sUSDPerToken = totalSUSDAmount / totalCrvPlain3andSUSDSupply;
 
-    // Query the filter
-    const eventFilter = SNX_CONTRACT.filters.Transfer(SYNTH_DISTRIBUTOR_ADDR, SYNTH_crvPlain3andSUSD_STAKING_POOL_ADDR);
-    const current_block_num = App.provider.getBlockNumber();
-    const logs = await SNX_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
-
-    const latest_log = logs[logs.length - 1];
-    const weekly_reward = latest_log.args[2] / 1e18;
+    // Find out reward rate
+    const weekly_reward = await get_synth_weekly_rewards(SYNTH_crvPlain3andSUSD_POOL);
     const rewardPerToken = weekly_reward / totalStakedCrvPlain3andSUSDAmount;
 
     console.log("Finished reading smart contracts... Looking up prices... \n")

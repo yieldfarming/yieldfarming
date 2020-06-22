@@ -155,4 +155,10 @@ const getBALEarnings = async function(addr) {
     }
 
     return bal_earnings;
-}
+};
+
+const get_synth_weekly_rewards = async function(synth_contract_instance) {
+    const rewardRate = await synth_contract_instance.rewardRate();
+    const duration = await synth_contract_instance.DURATION();
+    return Math.round((rewardRate / 1e18) * duration);
+};

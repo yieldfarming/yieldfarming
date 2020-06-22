@@ -13,7 +13,6 @@ async function main() {
     const SYNTH_UNIV2_SXAU_USDC_STAKING_POOL = new ethers.Contract(SYNTH_UNIV2_SXAU_STAKING_POOL_ADDR, SYNTH_UNIV2_SXAU_STAKING_POOL_ABI, App.provider);
     const UNISWAPV2_SXAU_USDC_POOL = new ethers.Contract(UNISWAP_SXAU_USDC_POOL_ADDR, UNISWAP_SXAU_USDC_POOL_ABI, App.provider);
     const SXAU_CONTRACT = new ethers.Contract(SXAU_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const SNX_CONTRACT = new ethers.Contract(SNX_TOKEN_ADDRESS, ERC20_ABI, App.provider);
     const USDC_CONTRACT = new ethers.Contract(USDC_ADDRESS, ERC20_ABI, App.provider);
 
     // SYNTH Staking Pool
@@ -31,13 +30,8 @@ async function main() {
     const SXAUPerToken = totalSXAUAmount / totalUniv2SXAUUSDCTokenSupply;
     const USDCPerToken = totalUSDCAmount / totalUniv2SXAUUSDCTokenSupply;
 
-    // Query the filter
-    const eventFilter = SNX_CONTRACT.filters.Transfer(PDAO_ADDRESS, SYNTH_UNIV2_SXAU_STAKING_POOL_ADDR);
-    const current_block_num = App.provider.getBlockNumber();
-    const logs = await SNX_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
-
-    const latest_log = logs[logs.length - 1];
-    const weekly_reward = latest_log.args[2] / 1e18;
+    // Find out reward rate
+    const weekly_reward = await get_synth_weekly_rewards(SYNTH_UNIV2_SXAU_USDC_STAKING_POOL);
     const rewardPerToken = weekly_reward / totalStakedUniv2SXAUUSDCTokenAmount;
 
     console.log("Finished reading smart contracts... Looking up prices... \n")

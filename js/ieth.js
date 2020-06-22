@@ -10,7 +10,6 @@ async function main() {
     console.log("Reading smart contracts...");
 
     const SYNTH_iETH_POOL = new ethers.Contract(SYNTH_iETH_STAKING_POOL_ADDR, SYNTH_iETH_STAKING_POOL_ABI, App.provider);
-    const SNX_CONTRACT = new ethers.Contract(SNX_TOKEN_ADDRESS, ERC20_ABI, App.provider);
     const iETH_CONTRACT = new ethers.Contract(iETH_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     const yourStakedIETHAmount = await SYNTH_iETH_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
@@ -18,13 +17,8 @@ async function main() {
     const totalIETHAmount = await iETH_CONTRACT.totalSupply() / 1e18;
     const totalStakedIETHAmount = await iETH_CONTRACT.balanceOf(SYNTH_iETH_STAKING_POOL_ADDR) / 1e18;
 
-    // Query the filter
-    const eventFilter = SNX_CONTRACT.filters.Transfer(PDAO_ADDRESS, SYNTH_iETH_STAKING_POOL_ADDR);
-    const current_block_num = App.provider.getBlockNumber();
-    const logs = await SNX_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
-
-    const latest_log = logs[logs.length - 1];
-    const weekly_reward = latest_log.args[2] / 1e18;
+    // Find out reward rate
+    const weekly_reward = await get_synth_weekly_rewards(SYNTH_iETH_POOL);
     const rewardPerToken = weekly_reward / totalStakedIETHAmount;
 
     console.log("Finished reading smart contracts... Looking up prices... \n")

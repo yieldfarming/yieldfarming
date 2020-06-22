@@ -13,7 +13,6 @@ async function main() {
     const SYNTH_UNIV1_SETH_STAKING_POOL = new ethers.Contract(SYNTH_UNIV1_SETH_STAKING_POOL_ADDR, SYNTH_UNIV1_SETH_STAKING_POOL_ABI, App.provider);
     const UNISWAPV1_SETH_ETH_POOL = new ethers.Contract(UNISWAP_SETH_ETH_POOL_ADDR, UNISWAP_SETH_ETH_POOL_ABI, App.provider);
     const SETH_CONTRACT = new ethers.Contract(SETH_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const SNX_CONTRACT = new ethers.Contract(SNX_TOKEN_ADDRESS, ERC20_ABI, App.provider);
 
     // SYNTH Staking Pool
     const yourStakedUniv1Amount = await SYNTH_UNIV1_SETH_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
@@ -30,13 +29,8 @@ async function main() {
     const sETHPerToken = totalSETHAmount / totalUniv1SethEthTokenSupply;
     const ETHPerToken = totalETHAmount  / totalUniv1SethEthTokenSupply;
 
-    // Query the filter
-    const eventFilter = SNX_CONTRACT.filters.Transfer(SYNTH_DISTRIBUTOR_ADDR, SYNTH_UNIV1_SETH_STAKING_POOL_ADDR);
-    const current_block_num = App.provider.getBlockNumber();
-    const logs = await SNX_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
-
-    const latest_log = logs[logs.length - 1];
-    const weekly_reward = latest_log.args[2] / 1e18;
+    // Find out reward rate
+    const weekly_reward = await get_synth_weekly_rewards(SYNTH_UNIV1_SETH_STAKING_POOL);
     const rewardPerToken = weekly_reward / totalStakedUniv1SethEthTokenAmount;
 
     console.log("Finished reading smart contracts... Looking up prices... \n")

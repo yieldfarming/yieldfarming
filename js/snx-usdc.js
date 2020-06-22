@@ -13,7 +13,6 @@ async function main() {
     const SYNTH_BPT_POOL = new ethers.Contract(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR, SYNTH_USDC_SNX_BPT_STAKING_POOL_ABI, App.provider);
     const SNX_USDC_BALANCER_POOL = new ethers.Contract(BALANCER_USDC_SNX_POOL_ADDRESS, BALANCER_USDC_SNX_POOL_ABI, App.provider);
     const SNX_USDC_BPT_TOKEN_CONTRACT = new ethers.Contract(SNX_USDC_BPT_ADDRESS, ERC20_ABI, App.provider);
-    const SNX_CONTRACT = new ethers.Contract(SNX_TOKEN_ADDRESS, ERC20_ABI, App.provider);
 
     const stakedBPTAmount = await SYNTH_BPT_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedSNX = await SYNTH_BPT_POOL.earned(App.YOUR_ADDRESS) / 1e18;
@@ -25,13 +24,8 @@ async function main() {
     const SNXperBPT = totalSNXAmount / totalBPTAmount;
     const USDCperBPT = totalUSDCAmount / totalBPTAmount;
 
-    // Query the filter
-    const eventFilter = SNX_CONTRACT.filters.Transfer(PDAO_ADDRESS, SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR);
-    const current_block_num = App.provider.getBlockNumber();
-    const logs = await SNX_CONTRACT.queryFilter(eventFilter, current_block_num - BLOCK_PER_DAY * 7, current_block_num);
-
-    const latest_log = logs[logs.length - 1];
-    const weekly_reward = latest_log.args[2] / 1e18;
+    // Find out reward rate
+    const weekly_reward = await get_synth_weekly_rewards(SYNTH_BPT_POOL);
     const rewardPerToken = weekly_reward / totalStakedBPTAmount;
 
     console.log("Finished reading smart contracts... Looking up prices... \n")
