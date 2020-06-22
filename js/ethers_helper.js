@@ -113,6 +113,27 @@ const lookUpPrices = async function(id_array) {
     });
 };
 
+const printBALRewards = async function(addr) {
+    console.log("======== BAL REWARDS ========")
+    console.log(`WARNING: This is your total BAL rewards across all of your contribution to Balancer.`);
+    console.log(`WARNING: BAL is not distributed yet.\n`);
+
+    const bal_earnings = await getBALEarnings(addr);
+    let total_bal = 0;
+
+    for (let i = 0; i < BAL_DISTRIBUTION_WEEK ; i++) {
+        if (bal_earnings[i]) {
+            console.log(`Week ${i + 1}: ${toFixed(bal_earnings[i], 6)} BAL`);
+            total_bal += bal_earnings[i];
+        } else {
+            console.log(`Week ${i + 1}: Data not available.`);
+        }
+    }
+
+    console.log(`--------------------`)
+    console.log(`Total : ${toFixed(total_bal, 6)} BAL\n`);
+};
+
 const getBALEarnings = async function(addr) {
 
     const bal_earnings = [];
