@@ -20,6 +20,9 @@ You can also append the url with `addr` parameter like below to specify an addre
 * [Synthetix's Curve sBTC Pool Token Staking Pool](https://yieldfarming.info/sBTC/) yields SNX, REN, BAL, CRV
 * [Synthetix's iETH Token Staking Pool](https://yieldfarming.info/ieth/) yields SNX
 
+### Troubleshooting
+Try opening the page in incognito and see if it works. If it does, its probably your browser caching old files.
+
 ### Donations
 If you'd like to support this project, feel free to send me some scrap tokens :) 
 
