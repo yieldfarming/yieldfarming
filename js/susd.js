@@ -7,8 +7,8 @@ async function main() {
 
     const App = await init_ethers();
 
-    console.log(`Initialized ${App.YOUR_ADDRESS}`);
-    console.log("Reading smart contracts...");
+    _print(`Initialized ${App.YOUR_ADDRESS}`);
+    _print("Reading smart contracts...");
 
     const CURVE_SUSD_POOL = new ethers.Contract(CURVE_SUSD_POOL_ADDR, CURVE_SUSD_POOL_ABI, App.provider);
     const SYNTH_crvPlain3andSUSD_POOL = new ethers.Contract(SYNTH_crvPlain3andSUSD_STAKING_POOL_ADDR, SYNTH_crvPlain3andSUSD_STAKING_POOL_ABI, App.provider);
@@ -38,7 +38,7 @@ async function main() {
     const weekly_reward = await get_synth_weekly_rewards(SYNTH_crvPlain3andSUSD_POOL);
     const rewardPerToken = weekly_reward / totalStakedCrvPlain3andSUSDAmount;
 
-    console.log("Finished reading smart contracts... Looking up prices... \n")
+    _print("Finished reading smart contracts... Looking up prices... \n")
 
     // CoinGecko price lookup
     const prices = await lookUpPrices(["havven", "dai", "usd-coin", "tether", "nusd"]);
@@ -55,28 +55,30 @@ async function main() {
         USDTPerToken * USDTPrice +
         sUSDPerToken * sUSDPrice, 2);
 
-    console.log("========== PRICES ==========")
-    console.log(`1 SNX  = $${SNXPrice}\n`);
+    _print("========== PRICES ==========")
+    _print(`1 SNX  = $${SNXPrice}\n`);
 
-    console.log(`1 DAI  = $${DAIPrice}`);
-    console.log(`1 USDC = $${USDCPrice}`);
-    console.log(`1 USDT = $${USDTPrice}`);
-    console.log(`1 sUSD = $${sUSDPrice}\n`);
+    _print(`1 DAI  = $${DAIPrice}`);
+    _print(`1 USDC = $${USDCPrice}`);
+    _print(`1 USDT = $${USDTPrice}`);
+    _print(`1 sUSD = $${sUSDPrice}\n`);
 
-    console.log("========= STAKING ==========")
-    console.log(`There are total   : ${totalCrvPlain3andSUSDSupply} crvPlain3andSUSD given out by Curve.`);
-    console.log(`There are total   : ${totalStakedCrvPlain3andSUSDAmount} crvPlain3andSUSD staked in Synthetix's pool. \n`);
-    console.log(`You are staking   : ${stakedCRVAmount} crvPlain3andSUSD (${toFixed(stakingPoolPercentage, 5)}% of the pool)`);
-    console.log(`                  ≈ $${toFixed(crvPlain3andSUSDPricePerToken * stakedCRVAmount, 2)} (Averaged)\n`);
+    _print("========= STAKING ==========")
+    _print(`There are total   : ${totalCrvPlain3andSUSDSupply} crvPlain3andSUSD given out by Curve.`);
+    _print(`There are total   : ${totalStakedCrvPlain3andSUSDAmount} crvPlain3andSUSD staked in Synthetix's pool. \n`);
+    _print(`You are staking   : ${stakedCRVAmount} crvPlain3andSUSD (${toFixed(stakingPoolPercentage, 5)}% of the pool)`);
+    _print(`                  ≈ $${toFixed(crvPlain3andSUSDPricePerToken * stakedCRVAmount, 2)} (Averaged)\n`);
 
-    console.log("======== SNX REWARDS =======")
-    console.log(`Claimable Rewards : ${earnedSNX} SNX`);
-    console.log(`                  = $${toFixed(earnedSNX * SNXPrice, 2)}\n`)
+    _print("======== SNX REWARDS =======")
+    _print(`Claimable Rewards : ${earnedSNX} SNX`);
+    _print(`                  = $${toFixed(earnedSNX * SNXPrice, 2)}\n`)
 
-    console.log(`Weekly estimate   : ${rewardPerToken * stakedCRVAmount} SNX (out of total ${weekly_reward} SNX)`)
-    console.log(`                  = $${toFixed((rewardPerToken * stakedCRVAmount) * SNXPrice , 2)}`)
-    console.log(`Weekly ROI        : ${toFixed(rewardPerToken * SNXPrice * 100 / crvPlain3andSUSDPricePerToken, 4)}%\n`)
+    _print(`Weekly estimate   : ${rewardPerToken * stakedCRVAmount} SNX (out of total ${weekly_reward} SNX)`)
+    _print(`                  = $${toFixed((rewardPerToken * stakedCRVAmount) * SNXPrice , 2)}`)
+    const SNXWeeklyROI = rewardPerToken * SNXPrice * 100 / crvPlain3andSUSDPricePerToken;
+    _print(`Weekly ROI in USD : ${toFixed(SNXWeeklyROI, 4)}%`)
+    _print(`APR (unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}% \n`)
 
-    console.log("======== CRV REWARDS ========")
-    console.log(`    Not distributed yet`);
+    _print("======== CRV REWARDS ========")
+    _print(`    Not distributed yet`);
 }

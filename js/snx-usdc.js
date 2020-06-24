@@ -7,8 +7,8 @@ async function main() {
 
     const App = await init_ethers();
 
-    console.log(`Initialized ${App.YOUR_ADDRESS}`);
-    console.log("Reading smart contracts...");
+    _print(`Initialized ${App.YOUR_ADDRESS}`);
+    _print("Reading smart contracts...");
 
     const SYNTH_BPT_POOL = new ethers.Contract(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR, SYNTH_USDC_SNX_BPT_STAKING_POOL_ABI, App.provider);
     const SNX_USDC_BALANCER_POOL = new ethers.Contract(BALANCER_USDC_SNX_POOL_ADDRESS, BALANCER_USDC_SNX_POOL_ABI, App.provider);
@@ -28,34 +28,51 @@ async function main() {
     const weekly_reward = await get_synth_weekly_rewards(SYNTH_BPT_POOL);
     const rewardPerToken = weekly_reward / totalStakedBPTAmount;
 
-    console.log("Finished reading smart contracts... Looking up prices... \n")
+    _print("Finished reading smart contracts... Looking up prices... \n")
 
     // Look up prices
-    const prices = await lookUpPrices(["havven", "usd-coin"]);
-    const SNXprice = prices.havven.usd;
-    const USDCprice = prices["usd-coin"].usd;
+    const prices = await lookUpPrices(["havven", "usd-coin", "balancer"]);
+    const SNXPrice = prices.havven.usd;
+    const USDCPrice = prices["usd-coin"].usd;
+    const BALPrice = prices.balancer.usd;
+
+    const BPTPrice = SNXperBPT * SNXPrice + USDCperBPT * USDCPrice;
 
     // Finished. Start printing
 
-    console.log("========== PRICES ==========")
-    console.log(`1 SNX = $${SNXprice}`);
-    console.log(`1 USDC = $${USDCprice}\n`);
-    console.log(`1 BPT = [${SNXperBPT} SNX, ${USDCperBPT} USDC]`);
-    console.log(`      = $${SNXperBPT * SNXprice + USDCperBPT * USDCprice}\n`);
+    _print("========== PRICES ==========")
+    _print(`1 SNX  = $${SNXPrice}`);
+    _print(`1 USDC = $${USDCPrice}\n`);
+    _print(`1 BPT  = [${SNXperBPT} SNX, ${USDCperBPT} USDC]`);
+    _print(`       = $${SNXperBPT * SNXPrice + USDCperBPT * USDCPrice}\n`);
+    _print(`1 BAL  = $${BALPrice}\n`)
 
-    console.log("========== STAKING =========")
-    console.log(`There are total   : ${totalBPTAmount} BPT in the Balancer Contract.`);
-    console.log(`There are total   : ${totalStakedBPTAmount} BPT staked in Synthetix's pool. \n`);
-    console.log(`You are staking   : ${stakedBPTAmount} BPT (${toFixed(stakedBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
-    console.log(`                  = [${SNXperBPT * stakedBPTAmount} SNX, ${USDCperBPT * stakedBPTAmount} USDC]`);
-    console.log(`                  = $${toFixed(SNXperBPT * stakedBPTAmount * SNXprice + USDCperBPT * stakedBPTAmount * USDCprice, 2)}\n`);
+    _print("========== STAKING =========")
+    _print(`There are total   : ${totalBPTAmount} BPT in the Balancer Contract.`);
+    _print(`There are total   : ${totalStakedBPTAmount} BPT staked in Synthetix's pool. \n`);
+    _print(`You are staking   : ${stakedBPTAmount} BPT (${toFixed(stakedBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
+    _print(`                  = [${SNXperBPT * stakedBPTAmount} SNX, ${USDCperBPT * stakedBPTAmount} USDC]`);
+    _print(`                  = $${toFixed(SNXperBPT * stakedBPTAmount * SNXPrice + USDCperBPT * stakedBPTAmount * USDCPrice, 2)}\n`);
 
     // SNX REWARDS
-    console.log("======== SNX REWARDS ========")
-    console.log(`Claimable Rewards : ${toFixed(earnedSNX, 2)} SNX = $${toFixed(earnedSNX * SNXprice, 2)}`);
-    console.log(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} SNX = $${toFixed(rewardPerToken * stakedBPTAmount * SNXprice, 2)} (out of total ${weekly_reward} SNX)`)
-    console.log(`Weekly ROI in USD : ${toFixed((rewardPerToken * SNXprice) * 100 / (SNXperBPT * SNXprice + USDCperBPT * USDCprice), 4)}%\n`)
+    _print("======== SNX REWARDS ========")
+    _print(`Claimable Rewards : ${toFixed(earnedSNX, 2)} SNX = $${toFixed(earnedSNX * SNXPrice, 2)}`);
+    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} SNX = $${toFixed(rewardPerToken * stakedBPTAmount * SNXPrice, 2)} (out of total ${weekly_reward} SNX)`)
+    const SNXWeeklyROI = (rewardPerToken * SNXPrice) * 100 / (BPTPrice);
+    _print(`Weekly ROI in USD : ${toFixed(SNXWeeklyROI, 4)}%`)
+    _print(`APR (unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}% \n`)
 
     // BAL REWARDS
-    await printBALRewards(App.YOUR_ADDRESS);
+    _print("======== BAL REWARDS ========")
+    _print("WARNING: This estimate is based on last week's reward and current pool liquidity amount.")
+    _print("       : **It will be MUCH higher than what you actually get at the end of this week.** \n")
+
+    const totalBALAmount = await getLatestTotalBALAmount(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR);
+    const BALPerToken = totalBALAmount * (1 / totalBPTAmount);
+    const yourBALEarnings = BALPerToken * stakedBPTAmount;
+
+    _print(`Weekly estimate   : ${toFixed(yourBALEarnings, 4)} BAL = $${toFixed(yourBALEarnings * BALPrice, 2)} (out of total ${toFixed(totalBALAmount, 4)} BAL)`);
+    const BALWeeklyROI = (BALPerToken * BALPrice) * 100 / BPTPrice;
+    _print(`Weekly ROI in USD : ${toFixed(BALWeeklyROI, 4)}%`);
+    _print(`APR (unstable)    : ${toFixed(BALWeeklyROI * 52, 4)}% \n`)
 }

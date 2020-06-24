@@ -25,7 +25,7 @@ async function init_ethers() {
     else {
         App.provider = new ethers.providers.JsonRpcProvider(atob(ETHEREUM_NODE_URL));
         isMetaMaskInstalled = false;
-        console.log("You don't have MetaMask installed! Falling back to backup node...\n (will likely to fail. Please install MetaMask extension).\n")
+        _print("You don't have MetaMask installed! Falling back to backup node...\n (will likely to fail. Please install MetaMask extension).\n")
         sleep(10);
     }
 
@@ -70,6 +70,7 @@ const getUrlParameter = function(sParam) {
     }
 };
 
+
 const toFixed = function(num, fixed) {
     const re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return num.toString().match(re)[0];
@@ -78,21 +79,28 @@ const toFixed = function(num, fixed) {
 
 const start = function (f) {
     f().catch((e)=> {
-        console.log(e);
+        _print(e);
         console.error(e);
-        console.log("Oops something went wrong. Try refreshing the page.")
+        _print("Oops something went wrong. Try refreshing the page.")
     });
 };
 
+let logger;
+
 const consoleInit = function() {
-    const logger = document.getElementById('log');
-    console.log = function () {
-        for (let i = 0; i < arguments.length; i++) {
-            if (typeof arguments[i] == 'object') {
-                logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
-            } else {
-                logger.innerHTML += arguments[i] + '<br />';
-            }
+    logger = document.getElementById('log');
+};
+
+const _print = function(message) {
+    if (!logger) {
+        logger = document.getElementById('log');
+    }
+
+    for (let i = 0; i < arguments.length; i++) {
+        if (typeof arguments[i] == 'object') {
+            logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+        } else {
+            logger.innerHTML += arguments[i] + '<br />';
         }
     }
 };
@@ -113,39 +121,33 @@ const lookUpPrices = async function(id_array) {
     });
 };
 
-const printBALRewards = async function(addr) {
-    console.log("======== BAL REWARDS ========")
-    console.log(`WARNING: This is your total BAL rewards across all of your contribution to Balancer.`);
-    console.log(`WARNING: BAL is not distributed yet.\n`);
+const printBALRewards = async function(synthStakingPoolAddr, BALPrice, percentageOfBalancerPool) {
 
-    const bal_earnings = await getBALEarnings(addr);
-    let total_bal = 0;
-
-    for (let i = 0; i < BAL_DISTRIBUTION_WEEK ; i++) {
-        if (bal_earnings[i]) {
-            console.log(`Week ${i + 1}: ${toFixed(bal_earnings[i], 6)} BAL`);
-            total_bal += bal_earnings[i];
-        } else {
-            console.log(`Week ${i + 1}: Data not available.`);
-        }
-    }
-
-    console.log(`--------------------`)
-    console.log(`Total : ${toFixed(total_bal, 6)} BAL\n`);
 };
 
-const getBALEarnings = async function(addr) {
+const getLatestTotalBALAmount = async function (addr) {
+    const bal_earnings = await getBALEarnings(addr, BAL_DISTRIBUTION_WEEK - 1);
+    return bal_earnings[0];
+};
+
+const safeParseFloat = function(str) {
+  let res = parseFloat(str);
+  return res ? res : 0;
+};
+
+const getBALEarnings = async function(addr, startWeek) {
+
+    // SNX-USDC Redirect
+    if (addr.toLowerCase() === "0xfbaedde70732540ce2b11a8ac58eb2dc0d69de10") {
+        addr = "0xEb3107117FEAd7de89Cd14D463D340A2E6917769";
+    }
 
     const bal_earnings = [];
 
-    for (let i = 0; i < BAL_DISTRIBUTION_WEEK ; i++) {
-        if (i === 0) {
-            bal_earnings.push(null);
-            continue;
-        }
-
+    for (let i = startWeek; i < BAL_DISTRIBUTION_WEEK ; i++) {
         const data = await $.getJSON(`../js/bal_rewards/week${i + 1}.json`);
-        const earning = parseFloat(data[addr.toLowerCase()]);
+        const earning_checksum = safeParseFloat(data[addr]);
+        const earning = safeParseFloat(data[addr.toLowerCase()]) + earning_checksum;
 
         if (earning) {
             bal_earnings.push(earning);
