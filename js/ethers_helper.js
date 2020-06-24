@@ -147,12 +147,13 @@ const getBALEarnings = async function(addr, startWeek) {
     for (let i = startWeek; i < BAL_DISTRIBUTION_WEEK ; i++) {
         const data = await $.getJSON(`../js/bal_rewards/week${i + 1}.json`);
         const earning_checksum = safeParseFloat(data[addr]);
-        const earning = safeParseFloat(data[addr.toLowerCase()]) + earning_checksum;
 
-        if (earning) {
+        if (earning_checksum === 0) {
+            const earning = safeParseFloat(data[addr.toLowerCase()]) + earning_checksum;
             bal_earnings.push(earning);
-        } else {
-            bal_earnings.push(0);
+        }
+        else {
+            bal_earnings.push(earning_checksum);
         }
     }
 
