@@ -124,6 +124,23 @@ const _print_bold = function(message) {
     }
 };
 
+const _print_link = function(message, onclickFunction) {
+    if (!logger) {
+        logger = document.getElementById('log');
+    }
+
+    const uuid = ID();
+
+    logger.innerHTML += '<a href="#" id=' + uuid + '>' + message + '</a><br />';
+
+    $(document).ready(function() {
+        $('#' + uuid).click(function(){
+            console.log("clicked");
+            onclickFunction();
+        });
+    });
+};
+
 const sleep = function(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -184,3 +201,14 @@ const get_synth_weekly_rewards = async function(synth_contract_instance) {
     const duration = await synth_contract_instance.DURATION();
     return Math.round((rewardRate / 1e18) * duration);
 };
+
+const ID = function () {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+function sleep_async(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
