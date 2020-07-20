@@ -94,3 +94,22 @@ const ERC20_ABI = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name"
 const e18 = BigInt("1000000000000000000");
 
 const BAL_DISTRIBUTION_WEEK = 3;
+
+const PROPOSAL_DESCRIPTION = {
+    "0" : "- Minting more $YFI - \n" +
+        "\n" +
+        "FOR     : Allows weekly distribution of YFI. A second proposal will be submitted to decide how much would be printed weekly." +
+        "\n" +
+        "AGAINST : No more YFI tokens will be distributed. Global supply is locked at 30000 YFI permanently.\n" +
+        "\n" +
+        "https://twitter.com/iearnfinance/status/1284454945614442499\n",
+    "1" : "- Burn $YFI for fees - \n" +
+        "\n" +
+        "yearn.finance is currently earning $60k/week in protocol fees, which can grow in the future with yearn.finance ecosystem growth and new products.\n" +
+        "\n" +
+        "FOR     : Will continue to with the current burn model." +
+        "\n" +
+        "AGAINST : Rewards will be claimed via a staking model instead.\n" +
+        "\n" +
+        "https://twitter.com/iearnfinance/status/1284531647078178816\n"
+}

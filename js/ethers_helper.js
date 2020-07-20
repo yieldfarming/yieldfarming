@@ -105,6 +105,20 @@ const _print = function(message) {
     }
 };
 
+const _print_bold = function(message) {
+    if (!logger) {
+        logger = document.getElementById('log');
+    }
+
+    for (let i = 0; i < arguments.length; i++) {
+        if (typeof arguments[i] == 'object') {
+            logger.innerHTML += '<b>' + (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '</b><br />';
+        } else {
+            logger.innerHTML += '<b>' + arguments[i] + '</b><br />';
+        }
+    }
+};
+
 const sleep = function(milliseconds) {
     const date = Date.now();
     let currentDate = null;
