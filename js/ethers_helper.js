@@ -141,6 +141,16 @@ const _print_link = function(message, onclickFunction) {
     });
 };
 
+const _print_href = function(message, href) {
+    if (!logger) {
+        logger = document.getElementById('log');
+    }
+
+    const uuid = ID();
+
+    logger.innerHTML += `<a href="#${href}" target="_blank" id="${uuid}">${message}</a><br />`;
+};
+
 const sleep = function(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -212,3 +222,10 @@ const ID = function () {
 function sleep_async(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
+const toDollar = formatter.format;

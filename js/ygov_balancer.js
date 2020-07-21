@@ -43,20 +43,20 @@ async function main() {
     _print(`1 YFI  = $${YFIPrice}`);
     _print(`1 DAI  = $${DAIPrice}\n`);
     _print(`1 BPT  = [${YFIPerBPT} YFI, ${DAIPerBPT} DAI]`);
-    _print(`       = $${YFIPerBPT * YFIPrice + DAIPerBPT * DAIPrice}\n`);
+    _print(`       = ${toDollar(YFIPerBPT * YFIPrice + DAIPerBPT * DAIPrice)}\n`);
 
     _print("========== STAKING =========")
     _print(`There are total   : ${totalBPTAmount} BPT issued by YFI DAI Balancer Pool.`);
     _print(`There are total   : ${totalStakedBPTAmount} BPT staked in Ygov's BPT staking pool.`);
-    _print(`                  = $${toFixed(totalStakedBPTAmount * BPTPrice, 2)}\n`);
+    _print(`                  = ${toDollar(totalStakedBPTAmount * BPTPrice)}\n`);
     _print(`You are staking   : ${stakedBPTAmount} BPT (${toFixed(stakedBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
     _print(`                  = [${YFIPerBPT * stakedBPTAmount} YFI, ${DAIPerBPT * stakedBPTAmount} DAI]`);
-    _print(`                  = $${toFixed(YFIPerBPT * stakedBPTAmount * YFIPrice + DAIPerBPT * stakedBPTAmount * DAIPrice, 2)}\n`);
+    _print(`                  = ${toDollar(YFIPerBPT * stakedBPTAmount * YFIPrice + DAIPerBPT * stakedBPTAmount * DAIPrice)}\n`);
 
     // YFI REWARDS
     _print("======== YFI REWARDS ========")
-    _print(`Claimable Rewards : ${toFixed(earnedYFI, 4)} YFI = $${toFixed(earnedYFI * YFIPrice, 2)}`);
-    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} YFI = $${toFixed(rewardPerToken * stakedBPTAmount * YFIPrice, 2)} (out of total ${weekly_reward} YFI)`)
+    _print(`Claimable Rewards : ${toFixed(earnedYFI, 4)} YFI = ${toDollar(earnedYFI * YFIPrice)}`);
+    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} YFI = ${toDollar(rewardPerToken * stakedBPTAmount * YFIPrice)} (out of total ${weekly_reward} YFI)`)
     const YFIWeeklyROI = (rewardPerToken * YFIPrice) * 100 / (BPTPrice);
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)

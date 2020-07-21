@@ -31,17 +31,18 @@ async function main() {
     // Finished. Start printing
 
     _print("========== PRICES ==========")
-    _print(`1 SNX = $${SNXprice}`);
-    _print(`1 iETH = $${iETHprice}\n`);
+    _print(`1 SNX = ${toDollar(SNXprice)}`);
+    _print(`1 iETH = ${toDollar(iETHprice)}\n`);
 
     _print("===== STAKING & REWARDS ====")
     _print(`There are total   : ${totalIETHAmount} iETH given out by Synthetix.`);
-    _print(`There are total   : ${totalStakedIETHAmount} iETH staked in Synthetix's pool. \n`);
+    _print(`There are total   : ${totalStakedIETHAmount} iETH staked in Synthetix's pool. `);
+    _print(`                  = ${toDollar(totalStakedIETHAmount * iETHprice)}\n`);
     _print(`You are staking   : ${yourStakedIETHAmount} iETH (${toFixed(yourStakedIETHAmount * 100 / totalStakedIETHAmount, 3)}% of the pool)`);
-    _print(`                  = $${toFixed(yourStakedIETHAmount * iETHprice, 2)}\n`);
+    _print(`                  = ${toDollar(yourStakedIETHAmount * iETHprice)}\n`);
 
     _print(`Claimable Rewards : ${toFixed(earnedSNX, 2)} SNX = $${toFixed(earnedSNX * SNXprice, 2)}`);
-    _print(`Weekly estimate   : ${toFixed(rewardPerToken * yourStakedIETHAmount, 2)} SNX = $${toFixed(rewardPerToken * yourStakedIETHAmount * SNXprice, 2)} (out of total ${weekly_reward} SNX)`)
+    _print(`Weekly estimate   : ${toFixed(rewardPerToken * yourStakedIETHAmount, 2)} SNX = ${toDollar(rewardPerToken * yourStakedIETHAmount * SNXprice)} (out of total ${weekly_reward} SNX)`)
     const SNXWeeklyROI = (rewardPerToken * SNXprice) * 100 / iETHprice;
     _print(`Weekly ROI        : ${toFixed(SNXWeeklyROI, 4)}%`)
     _print(`APR (Unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}%`)

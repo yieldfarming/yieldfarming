@@ -41,14 +41,14 @@ async function main() {
     _print("========== STAKING =========")
     _print(`There are total   : ${totalSupplyY} yCRV issued by Y Curve Pool.`);
     _print(`There are total   : ${totalStakedYAmount} yCRV staked in ygov's yCRV staking pool.`);
-    _print(`                  = $${toFixed(totalStakedYAmount * YVirtualPrice, 2)}\n`);
+    _print(`                  = ${toDollar(totalStakedYAmount * YVirtualPrice)}\n`);
     _print(`You are staking   : ${stakedYAmount} yCRV (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
-    _print(`                  = $${toFixed(stakedYAmount * YVirtualPrice, 2)}\n`);
+    _print(`                  = ${toDollar(stakedYAmount * YVirtualPrice)}\n`);
 
     // YFI REWARDS
     _print("======== YFI REWARDS ========")
     _print(`Claimable Rewards : ${toFixed(earnedYFI, 4)} YFI = $${toFixed(earnedYFI * YFIPrice, 2)}`);
-    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedYAmount, 2)} YFI = $${toFixed(rewardPerToken * stakedYAmount * YFIPrice, 2)} (out of total ${weekly_reward} YFI)`)
+    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedYAmount, 2)} YFI = ${toDollar(rewardPerToken * stakedYAmount * YFIPrice)} (out of total ${weekly_reward} YFI)`)
     const YFIWeeklyROI = (rewardPerToken * YFIPrice) * 100 / (YVirtualPrice);
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)

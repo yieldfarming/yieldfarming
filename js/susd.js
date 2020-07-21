@@ -65,16 +65,17 @@ async function main() {
 
     _print("========= STAKING ==========")
     _print(`There are total   : ${totalCrvPlain3andSUSDSupply} crvPlain3andSUSD given out by Curve.`);
-    _print(`There are total   : ${totalStakedCrvPlain3andSUSDAmount} crvPlain3andSUSD staked in Synthetix's pool. \n`);
+    _print(`There are total   : ${totalStakedCrvPlain3andSUSDAmount} crvPlain3andSUSD staked in Synthetix's pool.`);
+    _print(`                  = ${toDollar(totalStakedCrvPlain3andSUSDAmount * crvPlain3andSUSDPricePerToken)} \n`);
     _print(`You are staking   : ${stakedCRVAmount} crvPlain3andSUSD (${toFixed(stakingPoolPercentage, 5)}% of the pool)`);
-    _print(`                  ≈ $${toFixed(crvPlain3andSUSDPricePerToken * stakedCRVAmount, 2)} (Averaged)\n`);
+    _print(`                  ≈ ${toDollar(crvPlain3andSUSDPricePerToken * stakedCRVAmount)} (Averaged)\n`);
 
     _print("======== SNX REWARDS =======")
     _print(`Claimable Rewards : ${earnedSNX} SNX`);
-    _print(`                  = $${toFixed(earnedSNX * SNXPrice, 2)}\n`)
+    _print(`                  = ${toDollar(earnedSNX * SNXPrice)}\n`)
 
     _print(`Weekly estimate   : ${rewardPerToken * stakedCRVAmount} SNX (out of total ${weekly_reward} SNX)`)
-    _print(`                  = $${toFixed((rewardPerToken * stakedCRVAmount) * SNXPrice , 2)}`)
+    _print(`                  = ${toDollar((rewardPerToken * stakedCRVAmount) * SNXPrice)}`)
     const SNXWeeklyROI = rewardPerToken * SNXPrice * 100 / crvPlain3andSUSDPricePerToken;
     _print(`Weekly ROI in USD : ${toFixed(SNXWeeklyROI, 4)}%`)
     _print(`APR (unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}% \n`)

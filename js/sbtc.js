@@ -73,17 +73,18 @@ async function main() {
 
     _print("========= STAKING ==========")
     _print(`There are total   : ${totalCrvRenWSBTCSupply} crvRenWSBTC given out by Curve.`);
-    _print(`There are total   : ${totalStakedCrvRenWSBTCAmount} crvRenWSBTC staked in Synthetix's pool. \n`);
+    _print(`There are total   : ${totalStakedCrvRenWSBTCAmount} crvRenWSBTC staked in Synthetix's pool.`);
+    _print(`                  = ${toDollar(totalStakedCrvRenWSBTCAmount * crvRenWSBTCPricePerToken)}\n`);
     _print(`You are staking   : ${stakedCRVAmount} crvRenWSBTC (${toFixed(100 * stakedCRVAmount / totalStakedCrvRenWSBTCAmount, 3)}% of the pool)`);
-    _print(`                  ≈ $${toFixed(crvRenWSBTCPricePerToken * stakedCRVAmount, 2)} (Averaged)\n`);
+    _print(`                  ≈ ${toDollar(crvRenWSBTCPricePerToken * stakedCRVAmount)} (Averaged)\n`);
 
     _print("====== SNX/REN REWARDS =====")
     _print(`Claimable Rewards : ${earnedBPT} BPT`);
     _print(`                  = [${earnedBPT * SNXperBPT} SNX + ${earnedBPT * RENperBPT} REN]`);
-    _print(`                  = $${toFixed(earnedBPT * BPTPrice, 2)}\n`)
+    _print(`                  = ${toDollar(earnedBPT * BPTPrice)}\n`)
 
     _print(`Weekly estimate   : ${rewardPerToken * stakedCRVAmount} BPT (out of total ${weekly_reward} BPT)`)
-    _print(`                  = $${toFixed((rewardPerToken * stakedCRVAmount) * BPTPrice , 2)}`)
+    _print(`                  = ${toDollar((rewardPerToken * stakedCRVAmount) * BPTPrice)}`)
     const SNXWeeklyROI = rewardPerToken * BPTPrice * 100 / crvRenWSBTCPricePerToken;
     _print(`Weekly ROI        : ${toFixed(SNXWeeklyROI, 4)}%`)
     _print(`APR (Unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}%\n`)
@@ -98,7 +99,7 @@ async function main() {
     const yourBALEarnings = BALPerToken * rewardPerToken * stakedCRVAmount;
     const crvRenWSBTCPerDollar = (1 / crvRenWSBTCPricePerToken);
 
-    _print(`Weekly estimate   : ${toFixed(yourBALEarnings, 4)} BAL = $${toFixed(yourBALEarnings * BALPrice, 2)} (out of total ${toFixed(totalBALAmount, 4)} BAL)`);
+    _print(`Weekly estimate   : ${toFixed(yourBALEarnings, 4)} BAL = ${toDollar(yourBALEarnings * BALPrice)} (out of total ${toFixed(totalBALAmount, 4)} BAL)`);
     const BALWeeklyROI = (BALPerToken * BALPrice) * 100 * (rewardPerToken * crvRenWSBTCPerDollar);
     _print(`Weekly ROI in USD : ${toFixed(BALWeeklyROI, 4)}%`);
     _print(`APR (Unstable)    : ${toFixed(BALWeeklyROI * 52, 4)}%\n`);

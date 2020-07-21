@@ -57,23 +57,23 @@ async function main() {
     // Finished. Start printing
 
     _print("========== PRICES ==========")
-    _print(`1 YFI  = $${YFIPrice}`);
-    _print(`1 yCRV = $${YVirtualPrice}`);
+    _print(`1 YFI  = ${toDollar(YFIPrice)}`);
+    _print(`1 yCRV = ${toDollar(YVirtualPrice)}`);
     _print(`1 BPT  = [${YFIPerBPT} YFI, ${YPerBPT} yCRV]`);
-    _print(`       = $${YFIPerBPT * YFIPrice + YPerBPT * YVirtualPrice}\n`);
+    _print(`       = ${toDollar(YFIPerBPT * YFIPrice + YPerBPT * YVirtualPrice)}\n`);
 
     _print("========== STAKING =========")
     _print(`There are total   : ${totalBPTAmount} BPT issued by YFI-yCRV Balancer Pool.`);
     _print(`There are total   : ${totalStakedBPTAmount} BPT staked in Ygov's BPT staking pool. `);
-    _print(`                  = $${toFixed(totalStakedBPTAmount * BPTPrice, 2)}\n`);
+    _print(`                  = ${toDollar(totalStakedBPTAmount * BPTPrice)}\n`);
     _print(`You are staking   : ${stakedBPTAmount} BPT (${toFixed(stakedBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
     _print(`                  = [${YFIPerBPT * stakedBPTAmount} YFI, ${YPerBPT * stakedBPTAmount} yCRV]`);
-    _print(`                  = $${toFixed(YFIPerBPT * stakedBPTAmount * YFIPrice + YPerBPT * stakedBPTAmount * YVirtualPrice, 2)}\n`);
+    _print(`                  = ${toDollar(YFIPerBPT * stakedBPTAmount * YFIPrice + YPerBPT * stakedBPTAmount * YVirtualPrice)}\n`);
 
     // YFI REWARDS
     _print("======== YFI REWARDS ========")
     _print(`Claimable Rewards : ${toFixed(earnedYFI, 4)} YFI = $${toFixed(earnedYFI * YFIPrice, 2)}`);
-    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} YFI = $${toFixed(rewardPerToken * stakedBPTAmount * YFIPrice, 2)} (out of total ${weekly_reward} YFI)`)
+    _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} YFI = ${toDollar(rewardPerToken * stakedBPTAmount * YFIPrice)} (out of total ${weekly_reward} YFI)`)
     const YFIWeeklyROI = (rewardPerToken * YFIPrice) * 100 / (BPTPrice);
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
@@ -89,18 +89,18 @@ async function main() {
 
     // CRV REWARDS
     _print("======== yCRV REWARDS ========")
-    _print_bold("Requirements :")
+    _print_href("Official UI", "https://ygov.finance/")
+    _print_bold("\nRequirements :")
     _print_bold(`    1. You must have voted in proposals.`);
     _print_bold(`    2. You must have at least 1000 BPT staked in this pool.`);
-    _print_bold(`    3. You must stake YFI in the rewards pool.\n`);
 
     _print(`There are total   : ${totalStakedYFIAmount} YFI staked in Ygov's BPT staking pool. `);
-    _print(`                  = $${toFixed(totalStakedYFIAmount * YFIPrice, 2)}\n`);
+    _print(`                  = ${toDollar(totalStakedYFIAmount * YFIPrice)}\n`);
     _print(`You are staking   : ${stakedYFIAmount} YFI (${toFixed(stakedYFIAmount * 100 / totalStakedYFIAmount, 3)}% of the pool)`);
-    _print(`                  = $${toFixed(stakedYFIAmount * YFIPrice, 2)}\n`);
+    _print(`                  = ${toDollar(stakedYFIAmount * YFIPrice)}\n`);
 
-    _print(`Claimable Rewards : ${toFixed(earnedYCRV, 4)} yCRV = $${toFixed(earnedYCRV * YVirtualPrice, 2)}`);
-    _print(`Weekly estimate   : ${toFixed(yCRVRewardPerToken * stakedYFIAmount, 2)} yCRV = $${toFixed(yCRVRewardPerToken * stakedYFIAmount * YVirtualPrice, 2)} (out of total ${weekly_yCRV_reward} yCRV)`)
+    _print(`Claimable Rewards : ${toFixed(earnedYCRV, 4)} yCRV = ${toDollar(earnedYCRV * YVirtualPrice)}`);
+    _print(`Weekly estimate   : ${toFixed(yCRVRewardPerToken * stakedYFIAmount, 2)} yCRV = ${toDollar(yCRVRewardPerToken * stakedYFIAmount * YVirtualPrice)} (out of total ${weekly_yCRV_reward} yCRV)`)
     const YCRVWeeklyROI = (yCRVRewardPerToken * YVirtualPrice) * 100 / (YFIPrice);
     _print(`Weekly ROI in USD : ${toFixed(YCRVWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YCRVWeeklyROI * 52, 4)}% \n`)
