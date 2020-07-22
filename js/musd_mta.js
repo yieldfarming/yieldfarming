@@ -24,7 +24,7 @@ async function main() {
 
     // Find out reward rate
     const weekly_reward = 75000;
-    const MTARewardPerBPT = weekly_reward / totalBPTAmount;
+    const MTARewardPerBPT = weekly_reward / (totalBPTAmount - 100);
 
     _print("Finished reading smart contracts... Looking up prices... \n")
 
@@ -52,6 +52,8 @@ async function main() {
 
     // MTA REWARDS
     _print("======== MTA REWARDS ========")
+    _print("** Initial seeding of this pool (100 BPT) will not be considered for the MTA rewards.")
+    _print("** Therefore total eligible BPTs are total supply - 100 .\n")
     _print(`Weekly estimate   : ${toFixed(MTARewardPerBPT * yourBPTAmount, 2)} MTA = ${toDollar(MTARewardPerBPT * yourBPTAmount * MTAPrice)} (out of total ${weekly_reward} MTA)`)
     const YFIWeeklyROI = (MTARewardPerBPT * MTAPrice) * 100 / (BPTPrice);
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
