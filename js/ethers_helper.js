@@ -148,7 +148,7 @@ const _print_href = function(message, href) {
 
     const uuid = ID();
 
-    logger.innerHTML += `<a href="#${href}" target="_blank" id="${uuid}">${message}</a><br />`;
+    logger.innerHTML += `<a href="${href}" target="_blank" id="${uuid}">${message}</a><br />`;
 };
 
 const sleep = function(milliseconds) {
@@ -209,7 +209,7 @@ const safeParseFloat = function(str) {
 
 const getBALEarnings = async function(addr, startWeek) {
 
-    // SNX-USDC Redirect
+    // SNX-usdc Redirect
     if (addr.toLowerCase() === "0xfbaedde70732540ce2b11a8ac58eb2dc0d69de10") {
         addr = "0xEb3107117FEAd7de89Cd14D463D340A2E6917769";
     }
@@ -217,7 +217,7 @@ const getBALEarnings = async function(addr, startWeek) {
     const bal_earnings = [];
 
     for (let i = startWeek; i < BAL_DISTRIBUTION_WEEK ; i++) {
-        const data = await $.getJSON(`../js/bal_rewards/week${i + 1}.json`);
+        const data = await $.getJSON(`../../js/bal_rewards/week${i + 1}.json`);
         const earning_checksum = safeParseFloat(data[addr]);
 
         if (earning_checksum === 0) {

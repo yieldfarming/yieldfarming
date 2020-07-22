@@ -1,3 +1,14 @@
 body {
     font-family: monospace;
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #272727;
+        color: #dddddd;
+    }
+
+    a {
+        color: #eeeeee;
+    }
+}

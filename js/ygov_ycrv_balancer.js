@@ -40,7 +40,7 @@ async function main() {
         _print_BPTLocked = _print_bold;
     }
 
-    // yCRV rewards
+    // ycrv rewards
     const stakedYFIAmount = await YFI_TOKEN_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const totalStakedYFIAmount = await YFI_TOKEN_CONTRACT.balanceOf(YFI_STAKING_POOL_ADDR) / 1e18;
     const earnedYCRV = await YFI_TOKEN_STAKING_POOL.earned(App.YOUR_ADDRESS) / 1e18;
@@ -102,7 +102,7 @@ async function main() {
     _print(`    Not distributed yet\n`);
 
     // CRV REWARDS
-    _print("======== yCRV REWARDS ========")
+    _print("======== ycrv REWARDS ========")
     _print_href("Official UI", "https://ygov.finance/")
     _print_bold("\nRequirements :")
     _print_bold(`    1. You must have voted in proposals.`);
