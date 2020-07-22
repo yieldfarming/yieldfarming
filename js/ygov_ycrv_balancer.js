@@ -11,8 +11,8 @@ async function main() {
     _print("Reading smart contracts...");
 
     const YGOV_2_BPT_POOL = new ethers.Contract(YGOV_BPT_2_STAKING_POOL_ADDR, YGOV_BPT_2_STAKING_POOL_ABI, App.provider);
-    const Y_DAI_BALANCER_POOL = new ethers.Contract(Y_DAI_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
-    const Y_DAI_BPT_TOKEN_CONTRACT = new ethers.Contract(Y_DAI_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const YFI_YCRV_BALANCER_POOL = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
+    const YFI_YCRV_BPT_TOKEN_CONTRACT = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const YFI_TOKEN_CONTRACT = new ethers.Contract(YFI_TOKEN_ADDR, ERC20_ABI, App.provider);
     const YFI_TOKEN_STAKING_POOL = new ethers.Contract(YFI_STAKING_POOL_ADDR, YFI_STAKING_POOL_ABI, App.provider);
@@ -22,10 +22,23 @@ async function main() {
     const earnedYFI_raw = await YGOV_2_BPT_POOL.earned(App.YOUR_ADDRESS);
 
     const earnedYFI = earnedYFI_raw / 1e18;
-    const totalBPTAmount = await Y_DAI_BALANCER_POOL.totalSupply() / 1e18;
-    const totalStakedBPTAmount = await Y_DAI_BPT_TOKEN_CONTRACT.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR) / 1e18;
-    const totalYFIAmount = await Y_DAI_BALANCER_POOL.getBalance(YFI_TOKEN_ADDR) / 1e18;
-    const totalYAmount = await Y_DAI_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const totalBPTAmount = await YFI_YCRV_BALANCER_POOL.totalSupply() / 1e18;
+    const totalStakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR) / 1e18;
+    const totalYFIAmount = await YFI_YCRV_BALANCER_POOL.getBalance(YFI_TOKEN_ADDR) / 1e18;
+    const totalYAmount = await YFI_YCRV_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const voteLockBlock = await YGOV_2_BPT_POOL.voteLock(App.YOUR_ADDRESS);
+    const currentBlock = await App.provider.getBlockNumber();
+    const currentBlockTime = await getBlockTime();
+
+    const isBPTLocked = voteLockBlock > currentBlock;
+
+    let BPTLockedMessage = "NO";
+    let _print_BPTLocked = _print;
+    if (isBPTLocked) {
+        let timeUntilFree = forHumans((voteLockBlock - currentBlock) * currentBlockTime);
+        BPTLockedMessage = "YES - locked for approx. " + timeUntilFree;
+        _print_BPTLocked = _print_bold;
+    }
 
     // yCRV rewards
     const stakedYFIAmount = await YFI_TOKEN_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
@@ -69,6 +82,7 @@ async function main() {
     _print(`You are staking   : ${stakedBPTAmount} BPT (${toFixed(stakedBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
     _print(`                  = [${YFIPerBPT * stakedBPTAmount} YFI, ${YPerBPT * stakedBPTAmount} yCRV]`);
     _print(`                  = ${toDollar(YFIPerBPT * stakedBPTAmount * YFIPrice + YPerBPT * stakedBPTAmount * YVirtualPrice)}\n`);
+    _print_BPTLocked(`Is BPT locked?    : ${BPTLockedMessage}\n`);
 
     // YFI REWARDS
     _print("======== YFI REWARDS ========")

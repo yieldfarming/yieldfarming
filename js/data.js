@@ -92,11 +92,12 @@ const YGOV_BPT_2_STAKING_POOL_ABI = [{"anonymous":false,"inputs":[{"indexed":tru
 // Balancer Pools
 const BPT_SNX_REN_TOKEN_ADDR = "0x330416C863f2acCE7aF9C9314B422d24c672534a";
 const YFI_DAI_BPT_TOKEN_ADDR = "0x60626db611a9957C1ae4Ac5b7eDE69e24A3B76c5";
-const Y_DAI_BPT_TOKEN_ADDR = "0x95C4B6C7CfF608c0CA048df8b81a484aA377172B";
+const YFI_YCRV_BPT_TOKEN_ADDR = "0x95C4B6C7CfF608c0CA048df8b81a484aA377172B";
 
 // UTIL
 
 const ERC20_ABI = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}];
+const BLOCK_TIME = 13.4581790123457;
 const e18 = BigInt("1000000000000000000");
 
 const BAL_DISTRIBUTION_WEEK = 3;
@@ -108,7 +109,7 @@ const PROPOSAL_DESCRIPTION = {
         "\n" +
         "AGAINST : No more YFI tokens will be distributed. Global supply is locked at 30000 YFI permanently.\n" +
         "\n" +
-        "https://twitter.com/iearnfinance/status/1284454945614442499\n",
+        "https://gov.yearn.finance/t/proposal-0-yfi-supply/24/78\n",
     "1" : "- Burn $YFI for fees - \n" +
         "\n" +
         "yearn.finance is currently earning $60k/week in protocol fees, which can grow in the future with yearn.finance ecosystem growth and new products.\n" +
@@ -117,5 +118,5 @@ const PROPOSAL_DESCRIPTION = {
         "\n" +
         "AGAINST : Rewards will be claimed via a staking model instead.\n" +
         "\n" +
-        "https://twitter.com/iearnfinance/status/1284531647078178816\n"
+        "https://gov.yearn.finance/t/proposal-1-yfi-fee-collection/25/2\n"
 }

@@ -167,6 +167,32 @@ const lookUpPrices = async function(id_array) {
     });
 };
 
+const getBlockTime = function() {
+    _print("Fetching current block time...");
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "https://etherchain.org/api/basic_stats",
+            type: 'GET',
+            success: function (data, text) {
+                if (data["currentStats"] && data["currentStats"]["block_time"]) {
+                    resolve(data["currentStats"]["block_time"]);
+                    return;
+                }
+
+                _print(`Etherchain basic stats is invalid. ${data}`);
+                _print("Using backup data...");
+                resolve(BLOCK_TIME);
+            },
+            error: function (request, status, error) {
+                _print("Could not get etherchain basic stats.");
+                _print(request.responseText);
+                _print("Using backup data...");
+                resolve(BLOCK_TIME);
+            }
+        })
+    })
+}
+
 const printBALRewards = async function(synthStakingPoolAddr, BALPrice, percentageOfBalancerPool) {
 
 };
@@ -227,5 +253,29 @@ const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
+
+/**
+ * Translates seconds into human readable format of seconds, minutes, hours, days, and years
+ *
+ * @param  {number} seconds The number of seconds to be processed
+ * @return {string}         The phrase describing the the amount of time
+ */
+const forHumans = function ( seconds ) {
+    const levels = [
+        [Math.floor(seconds / 31536000), 'years'],
+        [Math.floor((seconds % 31536000) / 86400), 'days'],
+        [Math.floor(((seconds % 31536000) % 86400) / 3600), 'hours'],
+        [Math.floor((((seconds % 31536000) % 86400) % 3600) / 60), 'minutes'],
+        [Math.floor((((seconds % 31536000) % 86400) % 3600) % 60), 'seconds'],
+    ];
+    let returntext = '';
+
+    for (var i = 0, max = levels.length; i < max; i++) {
+        if ( levels[i][0] === 0 ) continue;
+        returntext += ' ' + levels[i][0] + ' ' + (levels[i][0] === 1 ? levels[i][1].substr(0, levels[i][1].length-1): levels[i][1]);
+    }
+
+    return returntext.trim();
+};
 
 const toDollar = formatter.format;

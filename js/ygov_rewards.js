@@ -11,8 +11,8 @@ async function main() {
     _print("Reading smart contracts...");
 
     const YGOV_2_BPT_POOL = new ethers.Contract(YGOV_BPT_2_STAKING_POOL_ADDR, YGOV_BPT_2_STAKING_POOL_ABI, App.provider);
-    const Y_DAI_BALANCER_POOL = new ethers.Contract(Y_DAI_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
-    const Y_DAI_BPT_TOKEN_CONTRACT = new ethers.Contract(Y_DAI_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const Y_DAI_BALANCER_POOL = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
+    const Y_DAI_BPT_TOKEN_CONTRACT = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const YFI_TOKEN_CONTRACT = new ethers.Contract(YFI_TOKEN_ADDR, ERC20_ABI, App.provider);
 

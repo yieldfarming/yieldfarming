@@ -11,6 +11,11 @@ async function main() {
     _print("Reading smart contracts...");
 
     const YGOV_VOTING_POOL = new ethers.Contract(YGOV_BPT_2_STAKING_POOL_ADDR, YGOV_BPT_2_STAKING_POOL_ABI, App.provider);
+    const YFI_YCRV_BPT_TOKEN_CONTRACT = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
+
+    const currentBlockTime = await getBlockTime();
+    const currentBlockNumber = await App.provider.getBlockNumber();
+    const currentTotalStakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR) / 1e18;
 
     const proposalCount = await YGOV_VOTING_POOL.proposalCount();
     let proposals = {};
@@ -26,30 +31,83 @@ async function main() {
     for(let i = 0; i < proposalCount; i++) {
         _print_bold(`====== PROPOSAL #${i} ======`);
 
+
         if (PROPOSAL_DESCRIPTION.hasOwnProperty(i)) {
             _print(PROPOSAL_DESCRIPTION[i])
         } else {
-            _print("No description yet. Please check @iearnfinance twitter for latest update.\n")
+            _print_href("No description yet. Please check gov.yearn.finance for latest update.", "https://gov.yearn.finance/");
+            _print("");
         }
 
+        const proposedBy = proposals[i][1];
         const forVotes = proposals[i][2] / 1e18;
         const againstVotes = proposals[i][3] / 1e18;
+        const startBlock = proposals[i][4];
+        const endBlock = proposals[i][5];
 
         const totalVotes = forVotes + againstVotes;
+        const timeUntilEndBlock =  (endBlock - currentBlockNumber ) * currentBlockTime;
 
+        let readableTimeUntilEndBlock;
+        let totalStakedBPTAmount;
+        let status, isQuorumMet, isVotingPeriodOver;
+
+        if (timeUntilEndBlock <= 0) {
+            isVotingPeriodOver = true;
+            const endBlockTimestamp = (await App.provider.getBlock(parseInt(endBlock))).timestamp;
+            readableTimeUntilEndBlock = forHumans((Date.now() / 1000) - endBlockTimestamp) + " ago";
+            totalStakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR, {blockTag : parseInt(endBlock)}) / 1e18;
+        } else {
+            isVotingPeriodOver = false;
+            readableTimeUntilEndBlock = "in " + forHumans(timeUntilEndBlock);
+            totalStakedBPTAmount = currentTotalStakedBPTAmount;
+        }
+
+        const quorumPercentage = toFixed((totalVotes * 100) / totalStakedBPTAmount, 2);
+        isQuorumMet = quorumPercentage > 33;
+
+
+        if (isVotingPeriodOver) {
+            status = "Voting period ended. ";
+            if (!isQuorumMet) {
+                status += "Quorum percentage (33%) was not met. "
+            } else {
+                if (forVotes > againstVotes) {
+                    status += "FOR has won."
+                } else if (againstVotes > forVotes) {
+                    status += "AGAINST has won."
+                } else {
+                    status += "FOR and AGAINST have exactly the same amount of votes... Re-proposal recommended."
+                }
+            }
+            _print_bold(`Status              : ${status}\n`);
+        } else {
+            status = "Pending..."
+            _print(`Status              : ${status}\n`);
+        }
+
+
+        let _print_quorum = _print;
         let _print_for = _print;
         let _print_against = _print;
 
-        if (forVotes > againstVotes) {
-            _print_for = _print_bold;
-        } else if (againstVotes > forVotes) {
-            _print_against = _print_bold;
+        if (isVotingPeriodOver) {
+            if (isQuorumMet) {
+                if (forVotes > againstVotes) {
+                    _print_for = _print_bold;
+                } else if (againstVotes > forVotes) {
+                    _print_against = _print_bold;
+                }
+            } else {
+                _print_quorum = _print_bold;
+            }
         }
 
-        _print(`Proposed by         : ${proposals[i][1]}`);
-        _print_for(`Total for votes     : ${forVotes} (${toFixed( forVotes * 100 / totalVotes, 2)}%)`);
-        _print_against(`Total against votes : ${againstVotes} (${toFixed( againstVotes * 100 / totalVotes, 2)}%)`);
-        _print(`Start block         : ${proposals[i][4]}`);
-        _print(`End block           : ${proposals[i][5]}\n`);
+        _print(`Proposed by         : ${proposedBy}`);
+        _print_for(`Total for votes     : ${toFixed(forVotes, 4)} (${toFixed( forVotes * 100 / totalVotes, 2)}%)`);
+        _print_against(`Total against votes : ${toFixed(againstVotes, 4)} (${toFixed( againstVotes * 100 / totalVotes, 2)}%)`);
+        _print_quorum(`Quorum              : ${quorumPercentage}% ${parseFloat(quorumPercentage) > 33 ? "✅" : "❌"}`)
+        _print(`Start block         : ${startBlock}`);
+        _print(`End block           : ${endBlock} (${readableTimeUntilEndBlock})\n`);
     }
 }
