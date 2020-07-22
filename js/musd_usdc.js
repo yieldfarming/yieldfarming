@@ -16,7 +16,7 @@ async function main() {
     const totalBPTAmount = await MUSD_USDC_BALANCER_POOL.totalSupply() / 1e18;
     const yourBPTAmount = await MUSD_USDC_BPT_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
-    const totalUSDCAmount = await MUSD_USDC_BALANCER_POOL.getBalance(USDC_ADDRESS) / 1e18;
+    const totalUSDCAmount = await MUSD_USDC_BALANCER_POOL.getBalance(USDC_ADDRESS) / 1e6;
     const totalMUSDAmount = await MUSD_USDC_BALANCER_POOL.getBalance(MUSD_TOKEN_ADDR) / 1e18;
 
     const USDCPerBPT = totalUSDCAmount / totalBPTAmount;
