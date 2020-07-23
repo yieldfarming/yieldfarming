@@ -25,19 +25,12 @@ async function main() {
     }
 
     // PROPOSALS
+    let wasVotingPeriodOver = true;
 
     _print(``);
 
     for(let i = 0; i < proposalCount; i++) {
-        _print_bold(`====== PROPOSAL #${i} ======`);
 
-
-        if (PROPOSAL_DESCRIPTION.hasOwnProperty(i)) {
-            _print(PROPOSAL_DESCRIPTION[i])
-        } else {
-            _print_href("No description yet. Please check gov.yearn.finance for latest update.", "https://gov.yearn.finance/");
-            _print("");
-        }
 
         const proposedBy = proposals[i][1];
         const forVotes = proposals[i][2] / 1e18;
@@ -66,26 +59,42 @@ async function main() {
         const quorumPercentage = toFixed((totalVotes * 100) / totalStakedBPTAmount, 2);
         isQuorumMet = quorumPercentage > 33;
 
+        let _print_status = _print;
 
+        status = "";
         if (isVotingPeriodOver) {
-            status = "Voting period ended. ";
             if (!isQuorumMet) {
-                status += "Quorum percentage (33%) was not met. "
+                status += "🏳 DECLINED: Quorum percentage (33%) was not met."
             } else {
                 if (forVotes > againstVotes) {
-                    status += "FOR has won."
+                    status += "✅ PASSED"
                 } else if (againstVotes > forVotes) {
-                    status += "AGAINST has won."
+                    status += "❌ REJECTED"
                 } else {
-                    status += "FOR and AGAINST have exactly the same amount of votes... Re-proposal recommended."
+                    status += "⚠️ TIED"
                 }
             }
-            _print_bold(`Status              : ${status}\n`);
+            _print_status = _print_bold;
         } else {
-            status = "Pending..."
-            _print(`Status              : ${status}\n`);
+            status = "⌛ ON GOING"
         }
 
+        if (wasVotingPeriodOver && !isVotingPeriodOver) {
+            _print(`\n=============================================================`)
+            _print(`==================== ON GOING PROPOSALS =====================`)
+            _print(`=============================================================\n\n`)
+        }
+
+        _print_bold(`====== PROPOSAL #${i} ======`);
+
+        if (PROPOSAL_DESCRIPTION.hasOwnProperty(i)) {
+            _print(PROPOSAL_DESCRIPTION[i])
+        } else {
+            _print_href("No description yet. Please check gov.yearn.finance for latest update.", "https://gov.yearn.finance/");
+            _print("");
+        }
+
+        _print_status(`Status              : ${status}\n`);
 
         let _print_quorum = _print;
         let _print_for = _print;
@@ -106,8 +115,10 @@ async function main() {
         _print(`Proposed by         : ${proposedBy}`);
         _print_for(`Total for votes     : ${toFixed(forVotes, 4)} (${toFixed( forVotes * 100 / totalVotes, 2)}%)`);
         _print_against(`Total against votes : ${toFixed(againstVotes, 4)} (${toFixed( againstVotes * 100 / totalVotes, 2)}%)`);
-        _print_quorum(`Quorum              : ${quorumPercentage}% ${parseFloat(quorumPercentage) > 33 ? "✅" : "❌"}`)
+        _print_quorum(`Quorum              : ${quorumPercentage}% ${parseFloat(quorumPercentage) > 33 ? "✔" : "𐄂"}`)
         _print(`Start block         : ${startBlock}`);
         _print(`End block           : ${endBlock} (${readableTimeUntilEndBlock})\n`);
+
+        wasVotingPeriodOver = isVotingPeriodOver;
     }
 }

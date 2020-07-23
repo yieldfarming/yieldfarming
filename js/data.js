@@ -127,5 +127,10 @@ const PROPOSAL_DESCRIPTION = {
         "\n" +
         "AGAINST : Rewards will be claimed via a staking model instead.\n" +
         "\n" +
-        "https://gov.yearn.finance/t/proposal-1-yfi-fee-collection/25/2\n"
+        "https://gov.yearn.finance/t/proposal-1-yfi-fee-collection/25/2\n",
+    "2" : "Invalid proposal",
+    "3" : "Invalid proposal",
+    "4" : "Invalid proposal",
+    "5" : "https://gov.yearn.finance/t/proposal-5-reducing-yfi-weekly-supply/110",
+    "8" : "https://gov.yearn.finance/t/proposal-8-halving-yfi-weekly-supply-the-same-as-bitcoin/263/8"
 }
