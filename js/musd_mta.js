@@ -23,7 +23,7 @@ async function main() {
     const MUSDPerBPT = totalMUSDAmount / totalBPTAmount;
 
     // Find out reward rate
-    const weekly_reward = 75000;
+    const weekly_reward = 50000;
     const MTARewardPerBPT = weekly_reward / (totalBPTAmount - 100);
 
     _print("Finished reading smart contracts... Looking up prices... \n")
