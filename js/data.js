@@ -132,5 +132,18 @@ const PROPOSAL_DESCRIPTION = {
     "3" : "Invalid proposal",
     "4" : "Invalid proposal",
     "5" : "https://gov.yearn.finance/t/proposal-5-reducing-yfi-weekly-supply/110",
-    "8" : "https://gov.yearn.finance/t/proposal-8-halving-yfi-weekly-supply-the-same-as-bitcoin/263/8"
+    "8" : "- Halving YFI weekly supply the same as bitcoin -\n\n" +
+        "https://gov.yearn.finance/t/proposal-8-halving-yfi-weekly-supply-the-same-as-bitcoin/263/ \n\n" +
+        "FOR     : Support the new issuance model\n" +
+        "AGAINST : Do not support the new issuance model\n",
+    "10" : "- Transitionary YFI Only Voting -\n\n" +
+        "https://gov.yearn.finance/t/yip-10-transitionary-yfi-only-voting/481/14" +
+        "https://iearn-finance.github.io/YIPS/YIPS/yip-10\n\n" +
+        "The current yEarn governance mechanism puts the protocol at risk of a hostile takeover. The best immediate \n" +
+        "course of action would be to temporarily transition the protocol to a new voting contract recently deployed by Andre" +
+        "\n\n" +
+        "FOR     : Governance moves to newly deployed YFI only voting contract" +
+        "\n" +
+        "AGAINST : No governance changes" +
+        "\n",
 }
