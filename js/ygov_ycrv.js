@@ -20,7 +20,9 @@ async function main() {
     const totalStakedYAmount = await Y_TOKEN.balanceOf(Y_STAKING_POOL_ADDR) / 1e18;
 
     // Find out reward rate
-    const weekly_reward = await get_synth_weekly_rewards(Y_STAKING_POOL);
+    // const weekly_reward = await get_synth_weekly_rewards(Y_STAKING_POOL);
+    const weekly_reward = 0;
+
     const rewardPerToken = weekly_reward / totalStakedYAmount;
 
     // Find out underlying assets of Y
@@ -46,7 +48,7 @@ async function main() {
     _print(`                  = ${toDollar(stakedYAmount * YVirtualPrice)}\n`);
 
     // YFI REWARDS
-    _print("======== YFI REWARDS ========")
+    _print("======== YFI REWARDS ========  (Temporarily paused until further emission model is voted by the community)")
     _print(`Claimable Rewards : ${toFixed(earnedYFI, 4)} YFI = $${toFixed(earnedYFI * YFIPrice, 2)}`);
     _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedYAmount, 2)} YFI = ${toDollar(rewardPerToken * stakedYAmount * YFIPrice)} (out of total ${weekly_reward} YFI)`)
     const YFIWeeklyROI = (rewardPerToken * YFIPrice) * 100 / (YVirtualPrice);
