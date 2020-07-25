@@ -13,12 +13,17 @@ You can also append the url with `addr` parameter like below to specify an addre
 `https://yieldfarming.info/sBTC/?addr=0xFadAFCE89EA2221fa33005640Acf2C923312F2b9`
 
 ### Supported yield pools
-* [Synthetix's Curve sUSD Pool Token Staking Pool](https://yieldfarming.info/ieth/) yields SNX, CRV
-* [Synthetix's Curve sBTC Pool Token Staking Pool](https://yieldfarming.info/sBTC/) yields SNX, REN, BAL, CRV
-* [Synthetix's iETH Token Staking Pool](https://yieldfarming.info/ieth/) yields SNX
-* [yearn.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/ieth/) yields CRV, YFI
-* [yearn.finance's Balancer (2% YFI - 98% DAI) Token Staking Pool](https://yieldfarming.info/ieth/) yields BAL, YFI
-* [yearn.finance's Balancer (2% YFI - 98% Curve Y Pool Token) Token Staking Pool](https://yieldfarming.info/ieth/) yields BAL, CRV, YFI, yCRV
+* [Synthetix's Curve sUSD Pool Token Staking Pool](https://yieldfarming.info/synthetix/susd/) yields SNX, CRV
+* [Synthetix's Curve sBTC Pool Token Staking Pool](https://yieldfarming.info/synthetix/sBTC/) yields SNX, REN, BAL, CRV
+* [Synthetix's iETH Token Staking Pool](https://yieldfarming.info/synthetix/ieth/) yields SNX
+* [Synthetix's iBTC Token Staking Pool](https://yieldfarming.info/synthetix/ibtc/) yields SNX
+* [yearn.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yearn/ycrv/) yields CRV, YFI
+* [yearn.finance's Balancer (2% YFI - 98% DAI) Token Staking Pool](https://yieldfarming.info/yearn/yfi_dai/) yields BAL, YFI
+* [yearn.finance's Balancer (2% YFI - 98% Curve Y Pool Token) Token Staking Pool](https://yieldfarming.info/yearn/yfi_ycrv) yields BAL, CRV, YFI, yCRV
+* [mStable's Balancer (50% mUSD - 50% USDC) Pool](https://yieldfarming.info/mstable/usdc) yields BAL, CRV, YFI, yCRV
+* [mStable's Balancer (50% mUSD - 50% WETH) Pool](https://yieldfarming.info/mstable/weth) yields BAL, CRV, YFI, yCRV
+* [mStable's Balancer (20% mUSD - 80% MTA) Pool](https://yieldfarming.info/mstable/mta) yields BAL, CRV, YFI, yCRV
+
 ### Troubleshooting
 Try opening the page in incognito and see if it works. If it does, its probably your browser caching old files.
 

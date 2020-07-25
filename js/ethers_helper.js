@@ -234,7 +234,18 @@ const getBALEarnings = async function(addr, startWeek) {
 
 const get_synth_weekly_rewards = async function(synth_contract_instance) {
     const rewardRate = await synth_contract_instance.rewardRate();
-    const duration = await synth_contract_instance.DURATION();
+
+    let duration = 0;
+
+    try {
+        duration = await synth_contract_instance.DURATION();
+    } catch {
+        try {
+            duration = await synth_contract_instance.rewardsDuration();
+        } catch {
+            _print("Could not find duration of the rewards.");
+        }
+    }
     return Math.round((rewardRate / 1e18) * duration);
 };
 
