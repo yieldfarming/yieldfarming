@@ -233,20 +233,22 @@ const getBALEarnings = async function(addr, startWeek) {
 };
 
 const get_synth_weekly_rewards = async function(synth_contract_instance) {
-    const rewardRate = await synth_contract_instance.rewardRate();
-
-    let duration = 0;
-
-    try {
-        duration = await synth_contract_instance.DURATION();
-    } catch {
-        try {
-            duration = await synth_contract_instance.rewardsDuration();
-        } catch {
-            _print("Could not find duration of the rewards.");
-        }
+    if (await isRewardPeriodOver(synth_contract_instance)) {
+        return 0;
     }
-    return Math.round((rewardRate / 1e18) * duration);
+
+    const rewardRate = await synth_contract_instance.rewardRate();
+    return Math.round((rewardRate / 1e18) * 604800);
+};
+
+const isRewardPeriodOver = async function(reward_contract_instance) {
+    const now = Date.now() / 1000;
+    const periodFinish = await reward_period_end(reward_contract_instance);
+    return (periodFinish < now);
+};
+
+const reward_period_end = async function (reward_contract_instance) {
+    return await reward_contract_instance.periodFinish();
 };
 
 const ID = function () {
