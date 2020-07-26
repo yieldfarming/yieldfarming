@@ -152,4 +152,14 @@ const PROPOSAL_DESCRIPTION = {
         "\n" +
         "AGAINST : No governance changes" +
         "\n",
+    "12" : "- Lowering the quorum threshold for accepting proposal -\n\n" +
+        "https://gov.yearn.finance/t/yip-12-reducing-the-quorum-for-accepting-proposal/578 " +
+        "https://yips.yearn.finance/YIPS/yip-12\n\n" +
+        "At the moment, it is difficult for the yEarn governance mechanism to achieve a quorum of 33%. For the\n" +
+        "control system to function, the threshold must be lowered so that at least some decisions can be made." +
+        "\n\n" +
+        "FOR     : The threshold for accepting the proposal drops to 20%" +
+        "\n" +
+        "AGAINST : No change for threshold" +
+        "\n",
 }
