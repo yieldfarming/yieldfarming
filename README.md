@@ -20,9 +20,9 @@ You can also append the url with `addr` parameter like below to specify an addre
 * [yearn.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yearn/ycrv/) yields CRV, YFI
 * [yearn.finance's Balancer (2% YFI - 98% DAI) Token Staking Pool](https://yieldfarming.info/yearn/yfi_dai/) yields BAL, YFI
 * [yearn.finance's Balancer (2% YFI - 98% Curve Y Pool Token) Token Staking Pool](https://yieldfarming.info/yearn/yfi_ycrv) yields BAL, CRV, YFI, yCRV
-* [mStable's Balancer (50% mUSD - 50% USDC) Pool](https://yieldfarming.info/mstable/usdc) yields BAL, CRV, YFI, yCRV
-* [mStable's Balancer (50% mUSD - 50% WETH) Pool](https://yieldfarming.info/mstable/weth) yields BAL, CRV, YFI, yCRV
-* [mStable's Balancer (20% mUSD - 80% MTA) Pool](https://yieldfarming.info/mstable/mta) yields BAL, CRV, YFI, yCRV
+* [mStable's Balancer (50% mUSD - 50% USDC) Pool](https://yieldfarming.info/mstable/usdc) yields BAL, MTA
+* [mStable's Balancer (50% mUSD - 50% WETH) Pool](https://yieldfarming.info/mstable/weth) yields BAL, MTA
+* [mStable's Balancer (20% mUSD - 80% MTA) Pool](https://yieldfarming.info/mstable/mta) yields BAL, MTA
 
 ### Troubleshooting
 Try opening the page in incognito and see if it works. If it does, its probably your browser caching old files.
