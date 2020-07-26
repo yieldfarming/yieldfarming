@@ -55,6 +55,7 @@ async function main() {
 
     // YFI REWARDS
     _print("======== YFI REWARDS ========")
+    _print(" (Temporarily paused until further emission model is voted by the community) ");
     _print(`Claimable Rewards : ${toFixed(earnedYFI, 4)} YFI = ${toDollar(earnedYFI * YFIPrice)}`);
     _print(`Weekly estimate   : ${toFixed(rewardPerToken * stakedBPTAmount, 2)} YFI = ${toDollar(rewardPerToken * stakedBPTAmount * YFIPrice)} (out of total ${weekly_reward} YFI)`)
     const YFIWeeklyROI = (rewardPerToken * YFIPrice) * 100 / (BPTPrice);
