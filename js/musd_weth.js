@@ -42,14 +42,14 @@ async function main() {
     _print(`1 MTA  = $${MTAPrice}`);
     _print(`1 mUSD = $${MUSDPrice}`);
     _print(`1 WETH = $${WETHPrice}\n`);
-    _print(`1 BPT  = [${MUSDPerBPT} MUSD, ${WETHPerBPT} WETH]`);
+    _print(`1 BPT  = [${MUSDPerBPT} mUSD, ${WETHPerBPT} WETH]`);
     _print(`       = ${toDollar(BPTPrice)}\n`);
 
     _print("========== STAKING =========")
     _print(`There are total   : ${totalBPTAmount} BPT issued by mUSD-WETH Balancer Pool.`);
     _print(`                  = ${toDollar(totalBPTAmount * BPTPrice)}\n`);
     _print(`You are holding   : ${yourBPTAmount} BPT (${toFixed(yourBPTAmount * 100 / totalBPTAmount, 3)}% of the pool)`);
-    _print(`                  = [${WETHPerBPT * yourBPTAmount} MTA, ${MUSDPerBPT * yourBPTAmount} mUSD]`);
+    _print(`                  = [${WETHPerBPT * yourBPTAmount} WETH, ${MUSDPerBPT * yourBPTAmount} mUSD]`);
     _print(`                  = ${toDollar(yourBPTAmount * BPTPrice)}\n`);
 
     // MTA REWARDS
