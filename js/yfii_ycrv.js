@@ -44,7 +44,7 @@ async function main() {
 
     _print("========== PRICES ==========")
     _print(`1 YFII  = $${YFIIPrice}`);
-    _print(`1 yCRV  = $${YVirtualPrice}`);
+    _print(`1 yCRV  = $${YVirtualPrice}\n`);
 
     _print("========== STAKING =========")
     _print(`There are total   : ${totalSupplyY} yCRV issued by Y Curve Pool.`);
