@@ -13,6 +13,8 @@ async function main() {
     const Y_STAKING_POOL = new ethers.Contract(YFII_STAKING_POOL_ADDR, Y_STAKING_POOL_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const Y_TOKEN = new ethers.Contract(Y_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const YFI_DAI_BALANCER_POOL = new ethers.Contract(YFII_DAI_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
+
 
     const stakedYAmount = await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedYFI = await Y_STAKING_POOL.earned(App.YOUR_ADDRESS) / 1e18;
@@ -31,8 +33,10 @@ async function main() {
     _print("Finished reading smart contracts... Looking up prices... \n")
 
     // Look up prices
-    const prices = await lookUpPrices(["yearn-finance"]);
-    const YFIPrice = prices["yearn-finance"].usd;
+    // const prices = await lookUpPrices(["yearn-finance"]);
+    // const YFIPrice = prices["yearn-finance"].usd;
+    const YFIPrice = await YFI_DAI_BALANCER_POOL.getSpotPrice(DAI_TOKEN_ADDR,YFII_TOKEN_ADDR) / 1e18;
+
 
     // Finished. Start printing
 
@@ -42,7 +46,7 @@ async function main() {
 
     _print("========== STAKING =========")
     _print(`There are total   : ${totalSupplyY} yCRV issued by Y Curve Pool.`);
-    _print(`There are total   : ${totalStakedYAmount} yCRV staked in ygov's yCRV staking pool.`);
+    _print(`There are total   : ${totalStakedYAmount} yCRV staked in YFII's yCRV staking pool.`);
     _print(`                  = ${toDollar(totalStakedYAmount * YVirtualPrice)}\n`);
     _print(`You are staking   : ${stakedYAmount} yCRV (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
     _print(`                  = ${toDollar(stakedYAmount * YVirtualPrice)}\n`);
