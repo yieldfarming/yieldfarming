@@ -23,6 +23,8 @@ You can also append the url with `addr` parameter like below to specify an addre
 * [mStable's Balancer (50% mUSD - 50% USDC) Pool](https://yieldfarming.info/mstable/usdc) yields BAL, MTA
 * [mStable's Balancer (50% mUSD - 50% WETH) Pool](https://yieldfarming.info/mstable/weth) yields BAL, MTA
 * [mStable's Balancer (20% mUSD - 80% MTA) Pool](https://yieldfarming.info/mstable/mta) yields BAL, MTA
+* [UMA Project's Balancer (50% yUSDSEP20 - 50% USDC) Pool](https://yieldfarming.info/uma/yusd) yields BAL, UMA
+
 
 ### Troubleshooting
 Try opening the page in incognito and see if it works. If it does, its probably your browser caching old files.
