@@ -52,9 +52,9 @@ async function main() {
     _print(`                  = [${YUSDSEP20PerBPT * yourBPTAmount} yUSD, ${USDCPerBPT * yourBPTAmount} USDC]`);
     _print(`                  = ${toDollar(yourBPTAmount * BPTPrice)}\n`);
 
-    // MTA REWARDS
+    // UMA REWARDS
     _print("======== UMA REWARDS ========")
-    _print(`Weekly estimate   : ${toFixed(UMARewardPerBPT * yourBPTAmount, 2)} MTA = ${toDollar(UMARewardPerBPT * yourBPTAmount * UMAPrice)} (out of total ${weekly_reward} MTA)`)
+    _print(`Weekly estimate   : ${toFixed(UMARewardPerBPT * yourBPTAmount, 2)} UMA = ${toDollar(UMARewardPerBPT * yourBPTAmount * UMAPrice)} (out of total ${weekly_reward} UMA)`)
     const UMAWeeklyROI = (UMARewardPerBPT * UMAPrice) * 100 / (BPTPrice);
     _print(`Weekly ROI in USD : ${toFixed(UMAWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(UMAWeeklyROI * 52, 4)}% \n`)
