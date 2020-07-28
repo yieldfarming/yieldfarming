@@ -32,10 +32,10 @@ async function main() {
     _print("Finished reading smart contracts... Looking up prices... \n")
 
     // Look up prices
-    const prices = await lookUpPrices(["yearn-finance", "dai"]);
+    const prices = await lookUpPrices(["dai"]);
     // const YFIPrice = prices["yearn-finance"].usd;
     const DAIPrice = prices["dai"].usd;
-    console.log(YFIPrice,DAIPrice)
+    // console.log(YFIPrice,DAIPrice)
 
     const BPTPrice = YFIPerBPT * YFIPrice + DAIPerBPT * DAIPrice;
 
