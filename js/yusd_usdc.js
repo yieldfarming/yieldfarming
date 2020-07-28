@@ -40,6 +40,7 @@ async function main() {
     // Finished. Start printing
 
     _print("========== PRICES ==========")
+    _print(`1 UMA         = $${UMAPrice}`);
     _print(`1 yUSD-SEP20  = $${YUSDSEP20Price}`);
     _print(`1 USDC        = $${USDCPrice}\n`);
     _print(`1 BPT         = [${YUSDSEP20PerBPT} yUSD-SEP20, ${USDCPerBPT} USDC]`);
