@@ -81,6 +81,7 @@ async function main() {
         }
 
         if (currentTEND > 0) {
+            showLoading();
             allow.then(async function() {
                 WEEBTEND_TOKEN.mint(currentTEND).then(function(t) {
                     App.provider.waitForTransaction(t.hash).then(function() {
