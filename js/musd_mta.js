@@ -62,4 +62,7 @@ async function main() {
     // BAL REWARDS
     _print("======== BAL REWARDS ========")
     _print_href(`Check http://www.predictions.exchange/balancer/ for accurate %`, "https://www.predictions.exchange/balancer/")
+
+    hideLoading();
+
 }

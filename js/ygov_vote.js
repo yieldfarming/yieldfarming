@@ -121,4 +121,7 @@ async function main() {
 
         wasVotingPeriodOver = isVotingPeriodOver;
     }
+
+    hideLoading();
+
 }

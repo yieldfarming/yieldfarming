@@ -59,4 +59,7 @@ async function main() {
     // CRV REWARDS
     _print("======== CRV REWARDS ========")
     _print(`    Not distributed yet`);
+
+    hideLoading();
+
 }

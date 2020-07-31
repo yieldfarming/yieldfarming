@@ -66,4 +66,7 @@ async function main() {
     _print("======= BAL REWARDS ? =======")
     _print(`    Not whitelisted yet?`);
     _print(`    Check http://www.predictions.exchange/balancer/ for latest update \n`)
+
+    hideLoading();
+
 }

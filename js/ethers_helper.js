@@ -293,4 +293,12 @@ const forHumans = function ( seconds ) {
     return returntext.trim();
 };
 
+const showLoading = function() {
+    $('.loader--1').eq(0).show();
+};
+
+const hideLoading = function() {
+    $('.loader--1').eq(0).hide();
+}
+
 const toDollar = formatter.format;

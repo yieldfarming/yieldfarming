@@ -63,7 +63,10 @@ async function main() {
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
 
     // BAL REWARDS
-    _print("======= BAL REWARDS ? =======")
+    _print("======= BAL REWARDS ? =======");
     _print(`    Not whitelisted yet?`);
-    _print(`    Check http://www.predictions.exchange/balancer/ for latest update \n`)
+    _print(`    Check http://www.predictions.exchange/balancer/ for latest update \n`);
+
+    hideLoading();
+
 }

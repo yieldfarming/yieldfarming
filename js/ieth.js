@@ -46,4 +46,7 @@ async function main() {
     const SNXWeeklyROI = (rewardPerToken * SNXprice) * 100 / iETHprice;
     _print(`Weekly ROI        : ${toFixed(SNXWeeklyROI, 4)}%`)
     _print(`APR (Unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}%`)
+
+    hideLoading();
+
 }

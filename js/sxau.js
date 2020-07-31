@@ -69,4 +69,7 @@ async function main() {
     const SNXWeeklyROI = rewardPerToken * SNXPrice * 100 / Univ2SXAUUSDCTokenPrice;
     _print(`Weekly ROI in USD : ${toFixed(SNXWeeklyROI, 4)}%`)
     _print(`APR (unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}% \n`)
+
+    hideLoading();
+
 }

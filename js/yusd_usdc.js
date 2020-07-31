@@ -61,6 +61,9 @@ async function main() {
     _print(`APY (unstable)    : ${toFixed(UMAWeeklyROI * 52, 4)}% \n`)
 
     // BAL REWARDS
-    _print("======== BAL REWARDS ========")
-    _print_href(`Check http://www.predictions.exchange/balancer/ for accurate %`, "https://www.predictions.exchange/balancer/")
+    _print("======== BAL REWARDS ========");
+    _print_href(`Check http://www.predictions.exchange/balancer/ for accurate %`, "https://www.predictions.exchange/balancer/");
+
+    hideLoading();
+
 }

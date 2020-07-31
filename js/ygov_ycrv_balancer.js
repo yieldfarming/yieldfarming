@@ -166,4 +166,7 @@ async function main() {
 
     _print_link(`Claim ${toFixed(earnedYFI, 4)} YFI and stake`, claimYFIAndStake);
     _print_link(`Stake ${toFixed(currentYFI / 1e18, 4)} YFI in your wallet`, approveYFIAndStake);
+
+    hideLoading();
+
 }
