@@ -23,7 +23,7 @@ async function main() {
     try {
      weebTendPricePerFullShare = await WEEBTEND_TOKEN.getPricePerFullShare();
     } catch {}
-    const weebTendTotalSupply = await WEEBTEND_TOKEN.totalSupply();
+    const weebTendTotalSupply = await WEEBTEND_TOKEN.totalSupply() / 1e18;
     const yourStakedTEND = yourWeebTendAmount * weebTendPricePerFullShare / 1e18;
 
     const unclaimedReward = await TEND_TOKEN.unclaimedRewards(WEEBTEND_TOKEN_ADDR);
