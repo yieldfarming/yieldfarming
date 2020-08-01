@@ -59,9 +59,9 @@ async function main() {
     _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} YFFI = ${toDollar(earnedYFFI * YFFIPrice)}`);
     const YFFIWeeklyEstimate = rewardPerToken * stakedBPTAmount;
 
-    _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (7 * 24), 4)} YFFI = ${toDollar((YFFIWeeklyEstimate / (7 * 24)) * YFFIPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} YFII)`)
-    _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 4)} YFFI = ${toDollar((YFFIWeeklyEstimate / 7) * YFFIPrice)} (out of total  ${toFixed(weekly_reward / 7, 2)} YFII)`)
-    _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 4)} YFFI = ${toDollar(YFFIWeeklyEstimate * YFFIPrice)} (out of total ${weekly_reward} YFII)`)
+    _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (7 * 24), 4)} YFFI = ${toDollar((YFFIWeeklyEstimate / (7 * 24)) * YFFIPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} YFFI)`)
+    _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 4)} YFFI = ${toDollar((YFFIWeeklyEstimate / 7) * YFFIPrice)} (out of total  ${toFixed(weekly_reward / 7, 2)} YFFI)`)
+    _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 4)} YFFI = ${toDollar(YFFIWeeklyEstimate * YFFIPrice)} (out of total ${weekly_reward} YFFI)`)
     const YFFIWeeklyROI = (rewardPerToken * YFFIPrice) * 100 / (BPTPrice);
 
     _print(`\nHourly ROI in USD : ${toFixed((YFFIWeeklyROI / 7) / 24, 4)}%`);
