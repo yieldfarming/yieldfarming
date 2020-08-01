@@ -196,8 +196,11 @@ async function main() {
     }
 
     _print_link(`Stake ${toFixed(currentTEND / 1e18, 4)} TEND and mint weebTEND-V2`, approveTENDAndStake);
-    _print_link(`Burn ${toFixed(yourWeebTendV2Amount, 4)} weebTEND-V2`, unstakeWeebTEND);
-    _print("");
+    _print_link(`Burn ${toFixed(yourWeebTendV2Amount, 4)} weebTEND-V2 and unstake ${toFixed(yourStakedTEND * 0.9995, 2)} TEND`, unstakeWeebTEND);
+
+    _print("\nBy staking your TEND, you get weebTEND-V2 as a proof of staking. You can always \n" +
+        "burn this token to get back your original TEND + bonus TEND the pool has been collecting. \n");
+
     _print_link(`Grill ${toFixed(grillAmount / 1e18, 4)} TEND and deposit ${toFixed(grillAmount * 0.01 / 1e18, 4)} into the community pool`, grill);
     _print_link(`Claim ${toFixed(unclaimedReward / 1e18, 4)} TEND for the pool`, claim);
 
