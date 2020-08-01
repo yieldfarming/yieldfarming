@@ -175,7 +175,7 @@ async function main() {
         if (currentWeebTENDV1 > 0) {
             showLoading();
             allow.then(async function() {
-                WEEBTEND_V2_TOKEN.convert(currentWeebTENDV1).then(function(t) {
+                WEEBTEND_V2_TOKEN.convert(currentWeebTENDV1, {gasLimit: 353346}).then(function(t) {
                     App.provider.waitForTransaction(t.hash).then(function() {
                         hideLoading();
                     });
