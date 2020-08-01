@@ -189,7 +189,9 @@ async function main() {
     };
 
     if (yourWeebTendV1Amount > 0) {
+        _print("Looking for your v1 tokens? You can convert it to weebTEND-V2, which accures TEND much faster than V1.");
         _print_link(`Convert your ${toFixed(yourWeebTendV1Amount / 1e18, 4)} weebTEND to weebTEND-V2`, convert);
+        _print_href("Link to v1 pool", "https://yieldfarming.info/funzone/tendies/old.html/");
         _print("")
     }
 
