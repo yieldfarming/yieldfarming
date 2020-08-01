@@ -14,9 +14,9 @@ async function main() {
     const YFI_YCRV_BALANCER_POOL = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
     const YFI_YCRV_BPT_TOKEN_CONTRACT = new ethers.Contract(YFI_YCRV_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
-    const YFI_TOKEN_CONTRACT = new ethers.Contract(YFI_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const YFI_TOKEN_STAKING_POOL = new ethers.Contract(YFI_STAKING_POOL_ADDR, YFI_STAKING_POOL_ABI, App.provider);
-    const Y_TOKEN_CONTRACT = new ethers.Contract(Y_TOKEN_ADDR, ERC20_ABI, App.provider);
+    // const YFI_TOKEN_CONTRACT = new ethers.Contract(YFI_TOKEN_ADDR, ERC20_ABI, App.provider);
+    // const YFI_TOKEN_STAKING_POOL = new ethers.Contract(YFI_STAKING_POOL_ADDR, YFI_STAKING_POOL_ABI, App.provider);
+    // const Y_TOKEN_CONTRACT = new ethers.Contract(Y_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     const stakedBPTAmount = await YGOV_2_BPT_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedYFI_raw = await YGOV_2_BPT_POOL.earned(App.YOUR_ADDRESS);
@@ -41,16 +41,16 @@ async function main() {
     }
 
     // ycrv rewards
-    const stakedYFIAmount = await YFI_TOKEN_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
-    const totalStakedYFIAmount = await YFI_TOKEN_CONTRACT.balanceOf(YFI_STAKING_POOL_ADDR) / 1e18;
-    const earnedYCRV = await YFI_TOKEN_STAKING_POOL.earned(App.YOUR_ADDRESS) / 1e18;
-    const weekly_yCRV_reward = await get_synth_weekly_rewards(YFI_TOKEN_STAKING_POOL);
-    const yCRVRewardPerToken = weekly_yCRV_reward / totalStakedYFIAmount;
+    // const stakedYFIAmount = await YFI_TOKEN_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    //const totalStakedYFIAmount = await YFI_TOKEN_CONTRACT.balanceOf(YFI_STAKING_POOL_ADDR) / 1e18;
+    // const earnedYCRV = await YFI_TOKEN_STAKING_POOL.earned(App.YOUR_ADDRESS) / 1e18;
+    // const weekly_yCRV_reward = await get_synth_weekly_rewards(YFI_TOKEN_STAKING_POOL);
+    // const yCRVRewardPerToken = weekly_yCRV_reward / totalStakedYFIAmount;
 
     const YFIPerBPT = totalYFIAmount / totalBPTAmount;
     const YPerBPT = totalYAmount / totalBPTAmount;
 
-    const currentYFI = await YFI_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS);
+    // const currentYFI = await YFI_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS);
 
     // Find out reward rate
     const weekly_reward = await get_synth_weekly_rewards(YGOV_2_BPT_POOL);

@@ -55,9 +55,9 @@ async function main() {
 
     _print("========== PRICES ==========")
     _print(`1 YFFI  = ${toDollar(YFFIPrice)}`);
-    _print(`1 yCRV = ${toDollar(YVirtualPrice)}`);
-    _print(`1 BPT  = [${YFFIPerBPT} YFFI, ${YPerBPT} yCRV]`);
-    _print(`       = ${toDollar(YFFIPerBPT * YFFIPrice + YPerBPT * YVirtualPrice)}\n`);
+    _print(`1 yCRV  = ${toDollar(YVirtualPrice)}`);
+    _print(`1 BPT   = [${YFFIPerBPT} YFFI, ${YPerBPT} yCRV]`);
+    _print(`        = ${toDollar(YFFIPerBPT * YFFIPrice + YPerBPT * YVirtualPrice)}\n`);
 
     _print("========== STAKING =========")
     _print(`There are total   : ${totalBPTAmount} BPT issued by YFFI-yCRV Balancer Pool.`);
