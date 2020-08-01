@@ -26,6 +26,8 @@ async function main() {
 
     // Find out reward rate
     const weekly_reward = await get_synth_weekly_rewards(YGOV_BPT_POOL);
+    const nextHalving = await getPeriodFinishForReward(YGOV_BPT_POOL);
+
     const rewardPerToken = weekly_reward / totalStakedBPTAmount;
 
     _print("Finished reading smart contracts... Looking up prices... \n")
@@ -61,6 +63,10 @@ async function main() {
     const YFIWeeklyROI = (rewardPerToken * YFIIPrice) * 100 / (BPTPrice);
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
+
+    const timeTilHalving = nextHalving - (Date.now() / 1000);
+
+    _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
 
     // BAL REWARDS
     _print("======= BAL REWARDS ? =======")

@@ -23,6 +23,8 @@ async function main() {
 
     // Find out reward rate
     const weekly_reward = await get_synth_weekly_rewards(Y_STAKING_POOL);
+    const nextHalving = await getPeriodFinishForReward(Y_STAKING_POOL);
+
     // const weekly_reward = 0;
 
     const rewardPerToken = weekly_reward / totalStakedYAmount;
@@ -61,6 +63,9 @@ async function main() {
     const YFIWeeklyROI = (rewardPerToken * YFIIPrice) * 100 / (YVirtualPrice);
     _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
     _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
+
+    const timeTilHalving = nextHalving - (Date.now() / 1000);
+    _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
 
     // CRV REWARDS
     _print("======== CRV REWARDS ========")

@@ -10,12 +10,12 @@ async function main() {
     _print(`Initialized ${App.YOUR_ADDRESS}`);
     _print("Reading smart contracts...");
 
-    const YGOV_BPT_POOL = new ethers.Contract(YFFI_POOL_2_ADDR, YGOV_BPT_STAKING_POOL_ABI, App.provider);
+    const YFFI_POOL_2 = new ethers.Contract(YFFI_POOL_2_ADDR, YGOV_BPT_STAKING_POOL_ABI, App.provider);
     const YFFI_DAI_BALANCER_POOL = new ethers.Contract(YFFI_DAI_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
     const YFFI_DAI_BPT_TOKEN_CONTRACT = new ethers.Contract(YFFI_DAI_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
 
-    const stakedBPTAmount = await YGOV_BPT_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
-    const earnedYFFI = await YGOV_BPT_POOL.earned(App.YOUR_ADDRESS) / 1e18;
+    const stakedBPTAmount = await YFFI_POOL_2.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const earnedYFFI = await YFFI_POOL_2.earned(App.YOUR_ADDRESS) / 1e18;
     const totalBPTAmount = await YFFI_DAI_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await YFFI_DAI_BPT_TOKEN_CONTRACT.balanceOf(YFFI_POOL_2_ADDR) / 1e18;
     const totalYFFIAmount = await YFFI_DAI_BALANCER_POOL.getBalance(YFFI_TOKEN_ADDR) / 1e18;
@@ -25,7 +25,8 @@ async function main() {
     const DAIPerBPT = totalDAIAmount / totalBPTAmount;
 
     // Find out reward rate
-    const weekly_reward = await get_synth_weekly_rewards(YGOV_BPT_POOL);
+    const weekly_reward = await get_synth_weekly_rewards(YFFI_POOL_2);
+    const nextHalving = await getPeriodFinishForReward(YFFI_POOL_2);
     const rewardPerToken = weekly_reward / totalStakedBPTAmount;
 
     _print("Finished reading smart contracts... Looking up prices... \n")
@@ -68,6 +69,10 @@ async function main() {
     _print(`Daily ROI in USD  : ${toFixed(YFFIWeeklyROI / 7, 4)}%`);
     _print(`Weekly ROI in USD : ${toFixed(YFFIWeeklyROI, 4)}%`);
     _print(`APY (unstable)    : ${toFixed(YFFIWeeklyROI * 52, 4)}% \n`);
+
+    const timeTilHalving = nextHalving - (Date.now() / 1000);
+
+    _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
 
     // BAL REWARDS
     _print("======= BAL REWARDS ? =======")

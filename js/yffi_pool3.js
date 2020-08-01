@@ -32,6 +32,7 @@ async function main() {
 
     // Find out reward rate
     const weekly_reward = await get_synth_weekly_rewards(YFFI_POOL_3);
+    const nextHalving = await getPeriodFinishForReward(YFFI_POOL_3);
     const rewardPerToken = weekly_reward / totalStakedBPTAmount;
 
     // Find out underlying assets of Y
@@ -85,6 +86,10 @@ async function main() {
     _print(`Daily ROI in USD  : ${toFixed(YFFIWeeklyROI / 7, 4)}%`);
     _print(`Weekly ROI in USD : ${toFixed(YFFIWeeklyROI, 4)}%`);
     _print(`APY (unstable)    : ${toFixed(YFFIWeeklyROI * 52, 4)}% \n`);
+
+    const timeTilHalving = nextHalving - (Date.now() / 1000);
+
+    _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
 
     // BAL REWARDS
     _print("======= BAL REWARDS ? =======")
