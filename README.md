@@ -24,14 +24,17 @@ You can also append the url with `addr` parameter like below to specify an addre
 * [mStable's Balancer (50% mUSD - 50% WETH) Pool](https://yieldfarming.info/mstable/weth) yields BAL, MTA
 * [mStable's Balancer (20% mUSD - 80% MTA) Pool](https://yieldfarming.info/mstable/mta) yields BAL, MTA
 * [UMA Project's Balancer (50% yUSDSEP20 - 50% USDC) Pool](https://yieldfarming.info/uma/yusd) yields BAL, UMA
-* [yfii.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yfii/ycrv/) yields CRV, YFI
-* [yfii.finance's Balancer (2% YFII - 98% DAI) Token Staking Pool](https://yieldfarming.info/yfii/yfii_dai/) yields BAL?, YFI
+* [yfii.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yfii/ycrv/) yields CRV, YFII
+* [yfii.finance's Balancer (2% YFII - 98% DAI) Token Staking Pool](https://yieldfarming.info/yfii/yfii_dai/) yields BAL?, YFII
+* [yffi.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yffi/pool1/) yields CRV, YFFI
+* [yffi.finance's Balancer (2% YFII - 98% DAI) Token Staking Pool](https://yieldfarming.info/yffi/pool2/) yields BAL?, YFFI
+* [yffi.finance's Balancer (2% YFI - 98% Curve Y Pool Token) Token Staking Pool](https://yieldfarming.info/yffi/pool_3) yields BAL?, CRV?, YFFI, yCRV
 
 ### Troubleshooting
 Try opening the page in incognito and see if it works. If it does, its probably your browser caching old files.
 
 ### Donations
-If you'd like to support this project, feel free to send me some scrap tokens :) 
+If you'd like to support this project, feel free to send me some scrap tokens :)
 
 https://gitcoin.co/grants/1005/yieldfarminginfo
 
