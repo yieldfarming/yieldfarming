@@ -11,7 +11,7 @@ async function main() {
     _print("Reading smart contracts...");
 
     const YFFI_POOL_3 = new ethers.Contract(YFFI_POOL_3_ADDR, YFFI_REWARD_CONTRACT_ABI, App.provider);
-    const YFI_YCRV_BALANCER_POOL = new ethers.Contract(YFFI_YCRV_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
+    const YFFI_YCRV_BALANCER_POOL = new ethers.Contract(YFFI_YCRV_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
     const YFI_YCRV_BPT_TOKEN_CONTRACT = new ethers.Contract(YFFI_YCRV_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const YFFI_DAI_BALANCER_POOL = new ethers.Contract(YFFI_DAI_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
@@ -22,10 +22,12 @@ async function main() {
     const startTime = await YFFI_POOL_3.starttime();
 
     const earnedYFFI = earnedYFFI_raw / 1e18;
-    const totalBPTAmount = await YFI_YCRV_BALANCER_POOL.totalSupply() / 1e18;
+    const totalBPTAmount = await YFFI_YCRV_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(YFFI_POOL_3_ADDR) / 1e18;
-    const totalYFFIAmount = await YFI_YCRV_BALANCER_POOL.getBalance(YFFI_TOKEN_ADDR) / 1e18;
-    const totalYAmount = await YFI_YCRV_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const totalYFFIAmount = await YFFI_YCRV_BALANCER_POOL.getBalance(YFFI_TOKEN_ADDR) / 1e18;
+    const totalYAmount = await YFFI_YCRV_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+
+    // const yourUnstakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     const YFFIPerBPT = totalYFFIAmount / totalBPTAmount;
     const YPerBPT = totalYAmount / totalBPTAmount;
@@ -44,7 +46,9 @@ async function main() {
     const prices = await lookUpPrices(["dai"]);
     const DAIPrice = prices.dai.usd;
 
+
     const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(DAI_TOKEN_ADDR,YFFI_TOKEN_ADDR) / 1e18) * DAIPrice;
+    const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(Y_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
 
     const BPTPrice = YFFIPerBPT * YFFIPrice + YPerBPT * YVirtualPrice;
 
@@ -54,7 +58,7 @@ async function main() {
     // Finished. Start printing
 
     _print("========== PRICES ==========")
-    _print(`1 YFFI  = ${toDollar(YFFIPrice)}`);
+    _print(`1 YFFI  = ${toDollar(YFFIPrice)} or ${toDollar(YFFIPrice2)} in yCRV pool.` );
     _print(`1 yCRV  = ${toDollar(YVirtualPrice)}`);
     _print(`1 BPT   = [${YFFIPerBPT} YFFI, ${YPerBPT} yCRV]`);
     _print(`        = ${toDollar(YFFIPerBPT * YFFIPrice + YPerBPT * YVirtualPrice)}\n`);
@@ -92,7 +96,7 @@ async function main() {
     _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
 
     // BAL REWARDS
-    _print("======= BAL REWARDS ? =======")
+    _print("\n======= BAL REWARDS ? =======")
     _print(`    Not whitelisted yet?`);
     _print(`    Check http://www.predictions.exchange/balancer/ for latest update \n`)
 

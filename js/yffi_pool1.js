@@ -63,7 +63,7 @@ async function main() {
 
 
     _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} YFFI = ${toDollar((YFFIWeeklyEstimate / (24 * 7)) * YFFIPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} YFFI)`)
-    _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} YFII = ${toDollar((YFFIWeeklyEstimate / 7) * YFFIPrice)} (out of total ${toFixed(weekly_reward / 7, 2)} YFFI)`)
+    _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} YFFI = ${toDollar((YFFIWeeklyEstimate / 7) * YFFIPrice)} (out of total ${toFixed(weekly_reward / 7, 2)} YFFI)`)
     _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 2)} YFFI = ${toDollar(YFFIWeeklyEstimate * YFFIPrice)} (out of total ${weekly_reward} YFFI)`)
     const YFIWeeklyROI = (rewardPerToken * YFFIPrice) * 100 / (YVirtualPrice);
 

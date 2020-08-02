@@ -13,6 +13,9 @@ async function main() {
     const YFFI_POOL_2 = new ethers.Contract(YFFI_POOL_2_ADDR, YGOV_BPT_STAKING_POOL_ABI, App.provider);
     const YFFI_DAI_BALANCER_POOL = new ethers.Contract(YFFI_DAI_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
     const YFFI_DAI_BPT_TOKEN_CONTRACT = new ethers.Contract(YFFI_DAI_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const YFFI_YCRV_BALANCER_POOL = new ethers.Contract(YFFI_YCRV_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
+    const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
+
 
     const stakedBPTAmount = await YFFI_POOL_2.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedYFFI = await YFFI_POOL_2.earned(App.YOUR_ADDRESS) / 1e18;
@@ -29,19 +32,24 @@ async function main() {
     const nextHalving = await getPeriodFinishForReward(YFFI_POOL_2);
     const rewardPerToken = weekly_reward / totalStakedBPTAmount;
 
+    const YVirtualPrice = await CURVE_Y_POOL.get_virtual_price() / 1e18;
+
+
     _print("Finished reading smart contracts... Looking up prices... \n")
 
     // Look up prices
     const prices = await lookUpPrices(["dai"]);
     const DAIPrice = prices["dai"].usd;
     const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(DAI_TOKEN_ADDR,YFFI_TOKEN_ADDR) / 1e18) * DAIPrice;
+    const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(Y_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
+
 
     const BPTPrice = YFFIPerBPT * YFFIPrice + DAIPerBPT * DAIPrice;
 
     // Finished. Start printing
 
     _print("========== PRICES ==========")
-    _print(`1 YFFI  = $${YFFIPrice}`);
+    _print(`1 YFFI  = ${toDollar(YFFIPrice)} or ${toDollar(YFFIPrice2)} in yCRV pool.` );
     _print(`1 DAI   = $${DAIPrice}\n`);
     _print(`1 BPT   = [${YFFIPerBPT} YFII, ${DAIPerBPT} DAI]`);
     _print(`        = ${toDollar(YFFIPerBPT * YFFIPrice + DAIPerBPT * DAIPrice)}\n`);
