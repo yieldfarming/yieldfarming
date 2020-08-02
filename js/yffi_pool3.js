@@ -82,7 +82,7 @@ async function main() {
     const weeklyEstimate = rewardPerToken * stakedBPTAmount;
 
     _print(`Hourly estimate   : ${toFixed(weeklyEstimate / (24 * 7), 2)} YFFI = ${toDollar((weeklyEstimate / (24 * 7)) * YFFIPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} YFFI)`)
-    _print(`Daily estimate   : ${toFixed(weeklyEstimate / 7, 2)} YFFI = ${toDollar(weeklyEstimate * YFFIPrice / 7)} (out of total ${toFixed(weekly_reward / 7, 2)} YFFI)`)
+    _print(`Daily estimate    : ${toFixed(weeklyEstimate / 7, 2)} YFFI = ${toDollar(weeklyEstimate * YFFIPrice / 7)} (out of total ${toFixed(weekly_reward / 7, 2)} YFFI)`)
     _print(`Weekly estimate   : ${toFixed(weeklyEstimate, 2)} YFFI = ${toDollar(weeklyEstimate * YFFIPrice)} (out of total ${weekly_reward} YFFI)`)
     const YFFIWeeklyROI = (rewardPerToken * YFFIPrice) * 100 / (BPTPrice);
 
