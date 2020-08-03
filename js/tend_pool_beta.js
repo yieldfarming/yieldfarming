@@ -9,6 +9,9 @@ async function main() {
 
     _print(`Initialized ${App.YOUR_ADDRESS}`);
     _print("Reading smart contracts...");
+    _print_href("TEND Holders list", "https://etherscan.io/token/0x1453dbb8a29551ade11d89825ca812e05317eaeb#balances");
+    _print_href("weebTEND-V2 Etherscan", "https://etherscan.io/address/0xaa567ec215c286784f4349610da20b518b466198#readContract")
+    _print("");
 
     const TEND_TOKEN = new ethers.Contract(TEND_TOKEN_ADDR, TEND_TOKEN_ABI, App.provider);
     const WEEBTEND_V1_TOKEN = new ethers.Contract(WEEBTEND_TOKEN_ADDR, WEEBTEND_TOKEN_ABI, App.provider);
@@ -34,6 +37,8 @@ async function main() {
 
     const currentTEND = await TEND_TOKEN.balanceOf(App.YOUR_ADDRESS);
 
+    const slaveCount = await WEEBTEND_V2_TOKEN.slaveCount();
+
     _print("Finished reading smart contracts... Looking up prices... \n")
 
     // CoinGecko price lookup
@@ -48,7 +53,7 @@ async function main() {
 
     _print("========= STAKING ==========")
     _print(`There are total   : ${totalTENDSupply / 1e18} TEND in the world`);
-    _print(`There are total   : ${totalStakedTEND} TEND staked in the community pool.`);
+    _print(`There are total   : ${totalStakedTEND} TEND staked in the community pool (split to ${slaveCount} contracts)`);
     _print(`                  = ${toDollar(totalStakedTEND * TENDPrice)} \n`);
     _print(`You are staking   : ${yourWeebTendV2Amount} weebTEND-V2 = (${toFixed(yourWeebTendV2Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
     _print(`                  = ${yourStakedTEND} TEND`);
