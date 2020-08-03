@@ -16,7 +16,6 @@ async function main() {
     const MTA_TOKEN = new ethers.Contract(MTA_TOKEN_ADDR, ERC20_ABI, App.provider);
     const BPT_STAKING_POOL = new ethers.Contract(MTA_WETH_UNI_TOKEN_STAKING_ADDR, MSTABLE_REWARDS_POOL_ABI, App.provider);
 
-
     const totalBPTAmount = await MUSD_WETH_UNISWAP_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await MUSD_WETH_UNI_TOKEN_CONTRACT.balanceOf(MTA_WETH_UNI_TOKEN_STAKING_ADDR) / 1e18;
     const yourBPTAmount = await BPT_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
