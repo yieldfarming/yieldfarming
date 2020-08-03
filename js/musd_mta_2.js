@@ -10,12 +10,12 @@ async function main() {
     _print(`Initialized ${App.YOUR_ADDRESS}`);
     _print("Reading smart contracts...");
 
-    const MUSD_MTA_BALANCER_POOL = new ethers.Contract(MUSD_MTA_BPT_TOKEN_ADDR, BALANCER_POOL_ABI, App.provider);
-    const MUSD_MTA_BPT_TOKEN_CONTRACT = new ethers.Contract(MUSD_MTA_BPT_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const BPT_STAKING_POOL = new ethers.Contract(MUSD_MTA_BPT_TOKEN_STAKING_ADDR, MSTABLE_REWARDS_POOL_ABI, App.provider);
+    const MUSD_MTA_BALANCER_POOL = new ethers.Contract(MUSD_MTA_BPT_TOKEN_2_ADDR, BALANCER_POOL_ABI, App.provider);
+    const MUSD_MTA_BPT_TOKEN_CONTRACT = new ethers.Contract(MUSD_MTA_BPT_TOKEN_2_ADDR, ERC20_ABI, App.provider);
+    const BPT_STAKING_POOL = new ethers.Contract(MUSD_MTA_BPT_TOKEN_2_STAKING_ADDR, MSTABLE_REWARDS_POOL_ABI, App.provider);
 
     const totalBPTAmount = await MUSD_MTA_BALANCER_POOL.totalSupply() / 1e18;
-    const totalStakedBPTAmount = await MUSD_MTA_BPT_TOKEN_CONTRACT.balanceOf(MUSD_MTA_BPT_TOKEN_STAKING_ADDR) / 1e18;
+    const totalStakedBPTAmount = await MUSD_MTA_BPT_TOKEN_CONTRACT.balanceOf(MUSD_MTA_BPT_TOKEN_2_STAKING_ADDR) / 1e18;
     const yourBPTAmount = await MUSD_MTA_BPT_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     const totalMTAAmount = await MUSD_MTA_BALANCER_POOL.getBalance(MTA_TOKEN_ADDR) / 1e18;
@@ -45,8 +45,8 @@ async function main() {
     _print(`1 BPT  = [${MTAPerBPT} MTA, ${MUSDPerBPT} mUSD]`);
     _print(`       = ${toDollar(BPTPrice)}\n`);
 
-    _print("========== STAKING =========");
-    _print(`There are total   : ${totalBPTAmount} BPT issued by mUSD-MTA (20/80) Balancer Pool.`);
+    _print("========== STAKING =========")
+    _print(`There are total   : ${totalBPTAmount} BPT issued by mUSD-MTA (95/5) Balancer Pool.`);
     _print(`                  = ${toDollar(totalBPTAmount * BPTPrice)}`);
     _print(`There are total   : ${totalStakedBPTAmount} BPT staked.`);
     _print(`                  = ${toDollar(totalStakedBPTAmount * BPTPrice)}\n`);
