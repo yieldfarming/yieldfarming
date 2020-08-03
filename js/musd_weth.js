@@ -17,7 +17,7 @@ async function main() {
 
     const totalBPTAmount = await MUSD_WETH_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await MUSD_WETH_BPT_TOKEN_CONTRACT.balanceOf(MUSD_WETH_BPT_TOKEN_STAKING_ADDR) / 1e18;
-    const yourBPTAmount = await MUSD_WETH_BPT_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const yourBPTAmount = await BPT_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     const totalWETHAmount = await MUSD_WETH_BALANCER_POOL.getBalance(WETH_TOKEN_ADDR) / 1e18;
     const totalMUSDAmount = await MUSD_WETH_BALANCER_POOL.getBalance(MUSD_TOKEN_ADDR) / 1e18;

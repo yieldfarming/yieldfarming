@@ -19,7 +19,7 @@ async function main() {
 
     const totalBPTAmount = await MUSD_WETH_UNISWAP_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await MUSD_WETH_UNI_TOKEN_CONTRACT.balanceOf(MTA_WETH_UNI_TOKEN_STAKING_ADDR) / 1e18;
-    const yourBPTAmount = await MUSD_WETH_UNI_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const yourBPTAmount = await BPT_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     const totalWETHAmount = await WETH_TOKEN.balanceOf(MTA_WETH_UNI_TOKEN_ADDR) / 1e18;
     const totalMTAAmount = await MTA_TOKEN.balanceOf(MTA_WETH_UNI_TOKEN_ADDR) / 1e18;
