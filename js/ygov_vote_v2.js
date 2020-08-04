@@ -7,7 +7,7 @@ async function main() {
 
     const App = await init_ethers();
 
-    _print_link("Ygov voting V1", "https://yieldfarming.info/yearn/vote/old.html");
+    _print_href("Ygov voting V1", "https://yieldfarming.info/yearn/vote/old.html");
     _print("");
 
     _print(`Initialized ${App.YOUR_ADDRESS}`);
@@ -92,7 +92,14 @@ async function main() {
 
         _print_bold(`====== PROPOSAL #${i} ======`);
 
-        _print_href(`${hash}`, hash);
+        const info = await $.ajax({
+            url: hash,
+            type: 'GET'
+        });
+
+        _print(info);
+
+        // _print_href(`${hash}`, hash);
         _print("");
 
         _print_status(`Status              : ${status}\n`);
