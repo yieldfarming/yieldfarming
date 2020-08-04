@@ -92,7 +92,7 @@ async function main() {
 
         _print_bold(`====== PROPOSAL #${i} ======`);
 
-        _print_link(`${hash}`, hash);
+        _print_href(`${hash}`, hash);
         _print("");
 
         _print_status(`Status              : ${status}\n`);
