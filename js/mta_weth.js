@@ -49,11 +49,11 @@ async function main() {
     _print(`         = ${toDollar(BPTPrice)}\n`);
 
     _print("========== STAKING =========")
-    _print(`There are total   : ${totalBPTAmount} BPT issued by MTA-WETH Uniswap Pool.`);
+    _print(`There are total   : ${totalBPTAmount} UNI-V2 issued by MTA-WETH Uniswap Pool.`);
     _print(`                  = ${toDollar(totalBPTAmount * BPTPrice)}`);
-    _print(`There are total   : ${totalStakedBPTAmount} BPT staked.`);
+    _print(`There are total   : ${totalStakedBPTAmount} UNI-V2 staked.`);
     _print(`                  = ${toDollar(totalStakedBPTAmount * BPTPrice)}\n`);
-    _print(`You are staking   : ${yourBPTAmount} BPT (${toFixed(yourBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
+    _print(`You are staking   : ${yourBPTAmount} UNI-V2 (${toFixed(yourBPTAmount * 100 / totalStakedBPTAmount, 3)}% of the pool)`);
     _print(`                  = [${WETHPerBPT * yourBPTAmount} WETH, ${MTAPerBPT * yourBPTAmount} MTA]`);
     _print(`                  = ${toDollar(yourBPTAmount * BPTPrice)}\n`);
 
