@@ -18,6 +18,7 @@ async function main() {
 
     const currentBlockTime = await getBlockTime();
     const currentBlockNumber = await App.provider.getBlockNumber();
+    console.log(currentBlockNumber);
     // const currentTotalStakedBPTAmount = await YFI_TOKEN.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR) / 1e18;
 
     const proposalCount = await YGOV_VOTING_POOL.proposalCount();
@@ -44,18 +45,17 @@ async function main() {
         const totalVotesAvailable = proposals[i][8];
         const quorum = proposals[i][9];
         const quorumRequired = proposals[i][10];
-        const isVotingPeriodOver = !proposals[i][11];
+        const isOnGoing = endBlock > currentBlockNumber ? proposals[i][11] : false;
 
         const totalVotes = forVotes + againstVotes;
         const timeUntilEndBlock = (endBlock - currentBlockNumber) * currentBlockTime;
 
-        const isQuorumMet = quorum > quorumRequired;
-
+        const isQuorumMet = quorum.toNumber() > quorumRequired.toNumber();
 
         let readableTimeUntilEndBlock;
         let status;
 
-        if (isVotingPeriodOver) {
+        if (!isOnGoing) {
             const endBlockTimestamp = (await App.provider.getBlock(parseInt(endBlock))).timestamp;
             readableTimeUntilEndBlock = forHumans((Date.now() / 1000) - endBlockTimestamp) + " ago";
         } else {
@@ -67,7 +67,7 @@ async function main() {
         let _print_status = _print;
 
         status = "";
-        if (isVotingPeriodOver) {
+        if (!isOnGoing) {
             if (!isQuorumMet) {
                 status += `🏳 DECLINED: Quorum percentage (${quorumPercentage}%) was not met.`
             } else {
@@ -84,7 +84,7 @@ async function main() {
             status = "⌛ ON GOING"
         }
 
-        if (wasVotingPeriodOver && !isVotingPeriodOver) {
+        if (wasVotingPeriodOver && isOnGoing) {
             _print(`\n=============================================================`)
             _print(`==================== ON GOING PROPOSALS =====================`)
             _print(`=============================================================\n\n`)
@@ -92,14 +92,14 @@ async function main() {
 
         _print_bold(`====== PROPOSAL #${i} ======`);
 
-        const info = await $.ajax({
-            url: hash,
-            type: 'GET'
-        });
+        // const info = await $.ajax({
+        //     url: hash,
+        //     type: 'GET'
+        // });
 
         //_print(info);
 
-        _print_href(`${hash}`, hash);
+        _print_href(`https://yips.yearn.finance/YIPS/yip-${i}`, `https://yips.yearn.finance/YIPS/yip-${i}`);
         _print("");
 
         _print_status(`Status              : ${status}\n`);
@@ -108,7 +108,7 @@ async function main() {
         let _print_for = _print;
         let _print_against = _print;
 
-        if (isVotingPeriodOver) {
+        if (!isOnGoing) {
             if (isQuorumMet) {
                 if (forVotes > againstVotes) {
                     _print_for = _print_bold;
@@ -127,7 +127,7 @@ async function main() {
         _print(`Start block         : ${startBlock}`);
         _print(`End block           : ${endBlock} (${readableTimeUntilEndBlock})\n`);
 
-        wasVotingPeriodOver = isVotingPeriodOver;
+        wasVotingPeriodOver = !isOnGoing;
     }
 
     hideLoading();
