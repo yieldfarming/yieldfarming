@@ -21,11 +21,14 @@ const WEEBTEND_TOKEN_ADDR = "0x171aabea00881d7f424a11d070dc98767f4f5ed6";
 const WEEBTEND_V2_TOKEN_ADDR = "0xAA567EC215c286784F4349610Da20B518b466198";
 const YFFI_TOKEN_ADDR = "0xCee1d3c3A02267e37E6B373060F79d5d7b9e1669";
 const SIMP_TOKEN_ADDR = "0xdc1253088b29c4d14135638f0d77a63f0420a289";
+const YFL_TOKEN_ADDR = "0x28cb7e841ee97947a86b06fa4090c8451f64c0be";
+const ALINK_TOKEN_ADDR = "0xA64BD6C70Cb9051F6A9ba1F163Fdc07E0DfB5F84";
 
 
 const YFI_TOKEN_ABI = [{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"constant":false,"inputs":[{"internalType":"address","name":"_minter","type":"address"}],"name":"addMinter","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"governance","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"minters","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"_minter","type":"address"}],"name":"removeMinter","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"_governance","type":"address"}],"name":"setGovernance","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 
 const DAI_TOKEN_ADDR = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+const LINK_TOKEN_ADDR = "0x514910771af9ca656af840dff83e8264ecf986ca";
 const Y_TOKEN_ADDR = "0xdF5e0e81Dff6FAF3A7e52BA697820c5e32D806A8";
 
 // PDAO DISTRIBUTOR
@@ -131,10 +134,21 @@ const SIMP_POOL_2_ADDR= "0x994b4592C9B0D59bDF109f214323899121B10543";
 
 const SIMP_DAI_BPT_TOKEN_ADDR = "0xFAB25bD82510a7BCf9AADc21afD5A46D623b31DE";
 
+// YFLINK
+
+const YFL_POOL_0_ADDR = "0x2bee9fd7d942be58004400da26c9155f6abd8fe9";
+const YFL_POOL_1_ADDR = "0x85cb8bdc86a2f1ce8d8d54ebc4d4ebf760c5ef31";
+const YFL_POOL_2_ADDR = "0x16f7724cBEd8338021D414D7e5745f7E6Bc39871";
+const YFL_POOL_3_ADDR = "0x5D916fdEc8e93Ce279a75a355089b3cd9c0B64FC";
+const YFL_GOVREW_ADDR = "0xe8bc8738e9d746e6b4551b9b5dbd9ec84ce277c5";
+
 // Balancer Pools
 const BPT_SNX_REN_TOKEN_ADDR = "0x330416C863f2acCE7aF9C9314B422d24c672534a";
 const YFI_DAI_BPT_TOKEN_ADDR = "0x60626db611a9957C1ae4Ac5b7eDE69e24A3B76c5";
 const YFII_DAI_BPT_TOKEN_ADDR = "0x16cAC1403377978644e78769Daa49d8f6B6CF565";
+const YFL_LINK_BPT_TOKEN_ADDR = "0xc7062D899dd24b10BfeD5AdaAb21231a1e7708fE";
+const YFL_YCRV_BPT_TOKEN_ADDR = "0x8194EFab90A290b987616F687Bc380b041A2Cc25";
+const YFL_ALINK_BPT_TOKEN_ADDR = "0x08aC64EC9902635D18204a1a75DF0173Aea00057";
 const YFI_YCRV_BPT_TOKEN_ADDR = "0x95C4B6C7CfF608c0CA048df8b81a484aA377172B";
 
 // mStable
