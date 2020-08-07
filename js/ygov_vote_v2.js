@@ -97,9 +97,9 @@ async function main() {
             type: 'GET'
         });
 
-        _print(info);
+        //_print(info);
 
-        // _print_href(`${hash}`, hash);
+        _print_href(`${hash}`, hash);
         _print("");
 
         _print_status(`Status              : ${status}\n`);
