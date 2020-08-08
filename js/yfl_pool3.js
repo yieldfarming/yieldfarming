@@ -17,7 +17,7 @@ async function main() {
     const stakedBPTAmount = await YFL_POOL3.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedYFL = await YFL_POOL3.earned(App.YOUR_ADDRESS) / 1e18;
     const totalBPTAmount = await YFL_ALINK_BALANCER_POOL.totalSupply() / 1e18;
-    const totalStakedBPTAmount = await YFL_ALINK_BPT_TOKEN_CONTRACT.balanceOf(YFL_POOL_1_ADDR) / 1e18;
+    const totalStakedBPTAmount = await YFL_ALINK_BPT_TOKEN_CONTRACT.balanceOf(YFL_POOL_3_ADDR) / 1e18;
     const totalYFLAmount = await YFL_ALINK_BALANCER_POOL.getBalance(YFL_TOKEN_ADDR) / 1e18;
     const totalALINKAmount = await YFL_ALINK_BALANCER_POOL.getBalance(ALINK_TOKEN_ADDR) / 1e18;
 
