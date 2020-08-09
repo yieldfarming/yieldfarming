@@ -23,6 +23,8 @@ You can also append the url with `addr` parameter like below to specify an addre
 * [mStable's Balancer (50% mUSD - 50% USDC) Pool](https://yieldfarming.info/mstable/usdc) yields BAL, MTA
 * [mStable's Balancer (50% mUSD - 50% WETH) Pool](https://yieldfarming.info/mstable/weth) yields BAL, MTA
 * [mStable's Balancer (20% mUSD - 80% MTA) Pool](https://yieldfarming.info/mstable/mta) yields BAL, MTA
+* [mStable's Balancer (95% mUSD - 5% MTA) Pool](https://yieldfarming.info/mstable/mta_5) yields BAL, MTA
+* [mStable's Uniswap (50% MTA - 50% WETH) Pool](https://yieldfarming.info/mstable/weth_uniswap) yields MTA
 * [UMA Project's Balancer (50% yUSDSEP20 - 50% USDC) Pool](https://yieldfarming.info/uma/yusd) yields BAL, UMA
 * [yfii.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yfii/ycrv/) yields CRV, YFII
 * [yfii.finance's Balancer (2% YFII - 98% DAI) Token Staking Pool](https://yieldfarming.info/yfii/yfii_dai/) yields BAL?, YFII
