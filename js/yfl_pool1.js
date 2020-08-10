@@ -71,13 +71,6 @@ async function main() {
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-    _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
-
-    // BAL REWARDS
-    _print("======= BAL REWARDS ? =======")
-    _print(`    Not whitelisted yet?`);
-    _print(`    Check http://www.predictions.exchange/balancer/ for latest update \n`)
-
+    _print(`Minting ceases    : in ${forHumans(timeTilHalving)} \n`)
     hideLoading();
-
 }

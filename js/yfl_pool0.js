@@ -63,7 +63,7 @@ async function main() {
 
   const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-  _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`)
+  _print(`Minting ceases    : in ${forHumans(timeTilHalving)} \n`)
 
   hideLoading();
 
