@@ -31,6 +31,10 @@ You can also append the url with `addr` parameter like below to specify an addre
 * [yffi.finance's Curve Y Pool Token Staking Pool](https://yieldfarming.info/yffi/pool1/) yields CRV, YFFI
 * [yffi.finance's Balancer (2% YFFI - 98% DAI) Token Staking Pool](https://yieldfarming.info/yffi/pool2/) yields BAL?, YFFI
 * [yffi.finance's Balancer (2% YFFI - 98% Curve Y Pool Token) Token Staking Pool](https://yieldfarming.info/yffi/pool_3) yields BAL?, CRV?, YFFI, yCRV
+* [YFLINK's Genesis LINK Token Staking Pool](https://yieldfarming.info/yflink/pool0/) yields YFL
+* [YFLINK's's Balancer (2% YFLINK - 98% LINK) Token Staking Pool](https://yieldfarming.info/yflink/pool1/) yields BAL?, YFL
+* [YFLINK's's Balancer (2% YFLINK - 98% yCRV) Token Staking Pool](https://yieldfarming.info/yflink/pool2/) yields BAL?, YFL
+* [YFLINK's's Balancer (2% YFLINK - 98% aLINK) Token Staking Pool](https://yieldfarming.info/yflink/pool3/) yields BAL?, YFL
 
 ### Troubleshooting
 Try opening the page in incognito and see if it works. If it does, its probably your browser caching old files.
