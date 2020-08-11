@@ -47,7 +47,7 @@ async function main() {
     const unstakedY = await Y_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     const ethAmount = await WETH_TOKEN.balanceOf(AMPL_WETH_UNI_TOKEN_ADDR) / 1e18;
-    const amplAmount = await AMPL_TOKEN.balanceOf(AMPL_WETH_UNI_TOKEN_ADDR)  / 1e18;
+    const amplAmount = await AMPL_TOKEN.balanceOf(AMPL_WETH_UNI_TOKEN_ADDR)  / 1e9;
     const totalUNIV2Amount = await AMPL_WETH_UNI_TOKEN.totalSupply()  / 1e18;
 
     _print("Finished reading smart contracts... Looking up prices... \n")
