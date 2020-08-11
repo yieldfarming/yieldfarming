@@ -317,7 +317,7 @@ const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, A
 
         if ((allowedTEND / 1e18) < (currentTEND / 1e18)) {
             showLoading();
-            allow = TEND_TOKEN.approve(rewardPoolAddr, currentTEND * 1e10)
+            allow = TEND_TOKEN.approve(rewardPoolAddr, currentTEND)
                 .then(function(t) {
                     return App.provider.waitForTransaction(t.hash);
                 }).catch(function() {
