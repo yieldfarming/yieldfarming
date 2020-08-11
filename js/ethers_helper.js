@@ -328,7 +328,7 @@ const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, A
         if ((currentTEND / 1e18) > 0) {
             showLoading();
             allow.then(async function() {
-                WEEBTEND_V2_TOKEN.stake(currentTEND).then(function(t) {
+                WEEBTEND_V2_TOKEN.stake(currentTEND, {gasLimit : 200000}).then(function(t) {
                     App.provider.waitForTransaction(t.hash).then(function() {
                         hideLoading();
                     });
