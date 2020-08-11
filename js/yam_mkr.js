@@ -4,7 +4,9 @@ $(function() {
 });
 
 async function main() {
-    
+    print_warning();
+
+
     const stakingTokenAddr = MKR_TOKEN_ADDR;
     const stakingTokenTicker = "MKR";
     const rewardPoolAddr = "0xcFe1E539AcB2D489a651cA011a6eB93d32f97E23";

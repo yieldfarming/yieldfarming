@@ -4,7 +4,10 @@ $(function() {
 });
 
 async function main() {
-    
+
+    print_warning();
+
+
     const stakingTokenAddr = COMP_TOKEN_ADDR;
     const stakingTokenTicker = "COMP";
     const rewardPoolAddr = "0x8538E5910c6F80419CD3170c26073Ff238048c9E";

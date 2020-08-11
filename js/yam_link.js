@@ -4,7 +4,9 @@ $(function() {
 });
 
 async function main() {
-    
+    print_warning();
+
+
     const stakingTokenAddr = LINK_TOKEN_ADDR;
     const stakingTokenTicker = "LINK";
     const rewardPoolAddr = "0xFDC28897A1E32B595f1f4f1D3aE0Df93B1eee452";

@@ -4,7 +4,10 @@ $(function() {
 });
 
 async function main() {
-    
+    print_warning();
+
+
+
     const stakingTokenAddr = LEND_TOKEN_ADDR;
     const stakingTokenTicker = "LEND";
     const rewardPoolAddr = "0x6009A344C7F993B16EBa2c673fefd2e07f9be5FD";

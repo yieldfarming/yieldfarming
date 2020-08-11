@@ -4,6 +4,8 @@ $(function() {
 });
 
 async function main() {
+
+    print_warning();
     
     const stakingTokenAddr = AMPL_WETH_UNI_TOKEN_ADDR;
     const stakingTokenTicker = "UNIV2";

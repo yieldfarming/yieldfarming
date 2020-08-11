@@ -4,7 +4,9 @@ $(function() {
 });
 
 async function main() {
-    
+    print_warning();
+
+
     const stakingToken = WETH_TOKEN_ADDR;
     const stakingTokenTicker = "WETH";
     const rewardPoolAddr = "0x587A07cE5c265A38Dd6d42def1566BA73eeb06F5";

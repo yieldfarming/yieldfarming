@@ -4,7 +4,9 @@ $(function() {
 });
 
 async function main() {
-    
+    print_warning();
+
+
     const stakingTokenAddr = YFI_TOKEN_ADDR;
     const stakingTokenTicker = "YFI";
     const rewardPoolAddr = "0xc5B6488c7D5BeD173B76Bd5DCA712f45fB9EaEaB";

@@ -4,7 +4,9 @@ $(function() {
 });
 
 async function main() {
-    
+    print_warning();
+
+
     const stakingToken = SNX_TOKEN_ADDRESS;
     const stakingTokenTicker = "SNX";
     const rewardPoolAddr = "0x6c3FC1FFDb14D92394f40eeC91D9Ce8B807f132D";
