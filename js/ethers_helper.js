@@ -397,5 +397,5 @@ const rewardsContract_claim = async function(rewardPoolAddr, App) {
 };
 
 const print_warning = function() {
-  _print_bold("\nWARNING: THIS CONTRACT IS NOT AUDITED. I DO NOT OWN THE CONTRACT. DO NOT USE THIS WEBSITE UNLESS YOU HAVE REVIEWED THE CONTRACTS.\n")
+  _print_bold("WARNING: THIS CONTRACT IS NOT AUDITED. I DO NOT OWN THE CONTRACT. DO NOT USE THIS WEBSITE UNLESS YOU HAVE REVIEWED THE CONTRACTS.\n")
 };
