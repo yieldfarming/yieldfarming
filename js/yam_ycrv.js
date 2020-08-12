@@ -96,6 +96,10 @@ async function main() {
 
     _print(`Reward ending      : in ${forHumans(timeTilHalving)} \n`);
 
+    const resetApprove = async function() {
+       return rewardsContract_resetApprove(stakingTokenAddr, rewardPoolAddr, App);
+    };
+
     const approveTENDAndStake = async function () {
         return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
     };
@@ -114,6 +118,7 @@ async function main() {
 
     print_warning();
 
+    _print_link(`Reset approval to 0`, resetApprove);
     _print_link(`Stake ${unstakedY} ${stakingTokenTicker}`, approveTENDAndStake);
     _print_link(`Unstake ${stakedYAmount} ${stakingTokenTicker}`, unstake);
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);

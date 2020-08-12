@@ -303,6 +303,22 @@ const hideLoading = function() {
 
 const toDollar = formatter.format;
 
+const rewardsContract_resetApprove = async function(stakingTokenAddr, rewardPoolAddr, App) {
+
+    const signer = App.provider.getSigner();
+
+    const STAKING_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, signer);
+
+    showLoading();
+
+    STAKING_TOKEN.approve(rewardPoolAddr, 0)
+        .then(function(t) {
+            return App.provider.waitForTransaction(t.hash);
+        }).catch(function() {
+            hideLoading();
+        });
+};
+
 const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, App) {
 
         const signer = App.provider.getSigner();
