@@ -25,7 +25,7 @@ async function main() {
 
     const Y_TOKEN = new ethers.Contract(Y_TOKEN_ADDR, ERC20_ABI, App.provider);
 
-    const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
 
     const totalYCRVInUniswapPair = await Y_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
     const totalYAMInUniswapPair = await YAM_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
@@ -36,7 +36,7 @@ async function main() {
     const totalStakedYAmount = await STAKING_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
     // Find out reward rate
-    const weekly_reward = await get_synth_weekly_rewards(REWARD_POOL);
+    const weekly_reward = (await get_synth_weekly_rewards(REWARD_POOL)) * await YAM_TOKEN.yamsScalingFactor() / 1e18;
     const nextHalving = await getPeriodFinishForReward(REWARD_POOL);
 
     const startTime = await REWARD_POOL.starttime();

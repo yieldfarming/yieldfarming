@@ -24,11 +24,9 @@ async function main() {
     const Y_STAKING_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, App.provider);
     const AMPL_TOKEN = new ethers.Contract(AMPL_TOKEN_ADDR, ERC20_ABI, App.provider);
     const AMPL_WETH_UNI_TOKEN = new ethers.Contract(AMPL_WETH_UNI_TOKEN_ADDR, UNISWAP_V2_PAIR_ABI, App.provider);
-    const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const Y_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider);
-    const YFFI_DAI_BALANCER_POOL = new ethers.Contract(balancerPoolTokenAddr, BALANCER_POOL_ABI, App.provider);
 
-    const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
     const WETH_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     const stakedYAmount = await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
@@ -37,7 +35,7 @@ async function main() {
     const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
     // Find out reward rate
-    const weekly_reward = await get_synth_weekly_rewards(Y_STAKING_POOL);
+    const weekly_reward = (await get_synth_weekly_rewards(Y_STAKING_POOL)) * await YAM_TOKEN.yamsScalingFactor() / 1e18;
     const nextHalving = await getPeriodFinishForReward(Y_STAKING_POOL);
 
     // const weekly_reward = 0;
