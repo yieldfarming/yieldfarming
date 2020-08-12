@@ -337,7 +337,7 @@ const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, A
                 });
             });
         } else {
-            alert("You have no TEND!!");
+            alert("You have no tokens to stake!!");
         }
 };
 

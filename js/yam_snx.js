@@ -51,11 +51,11 @@ async function main() {
     // Look up prices
     // const prices = await lookUpPrices(["yearn-finance"]);
     // const YFIPrice = prices["yearn-finance"].usd;
-    const prices = await lookUpPrices(["havven", "ethereum"]);
+    const prices = await lookUpPrices(["havven", "ethereum", "yam"]);
     const stakingTokenPrice = prices["havven"].usd;
 
     // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
-    const rewardTokenPrice = (prices["ethereum"].usd * (await WETH_TOKEN.balanceOf(YAM_WETH_UNI_TOKEN_ADDR) / 1e18)) / (await YAM_TOKEN.balanceOf(YAM_WETH_UNI_TOKEN_ADDR) / 1e18);
+    const rewardTokenPrice = prices["yam"].usd;
 
     // Finished. Start printing
 
