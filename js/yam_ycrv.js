@@ -4,7 +4,6 @@ $(function() {
 });
 
 async function main() {
-    print_warning();
 
     const stakingTokenAddr = YAM_YCRV_UNI_TOKEN_ADDR;
     const stakingTokenTicker = "UNIV2";
@@ -112,6 +111,8 @@ async function main() {
     const exit = async function() {
         return rewardsContract_exit(rewardPoolAddr, App);
     };
+
+    print_warning();
 
     _print_link(`Stake ${unstakedY} ${stakingTokenTicker}`, approveTENDAndStake);
     _print_link(`Unstake ${stakedYAmount} ${stakingTokenTicker}`, unstake);
