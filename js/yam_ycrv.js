@@ -58,7 +58,8 @@ async function main() {
     // Finished. Start printing
 
     _print("========== PRICES ==========")
-    _print(`1 ${rewardTokenTicker}   = $${rewardTokenPrice}`);
+    _print(`1 ${rewardTokenTicker}    = $${rewardTokenPrice}`);
+    _print(`1 yCRV   = $${YVirtualPrice}`);
     _print(`1 ${stakingTokenTicker}  = $${stakingTokenPrice}\n`);
 
     _print("========== STAKING =========")
@@ -113,11 +114,6 @@ async function main() {
     _print_link(`Unstake ${stakedYAmount} ${stakingTokenTicker}`, unstake);
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
-
-
-    // CRV REWARDS
-    _print("\n======== CRV REWARDS ========")
-    _print(`    Not distributed yet`);
 
     hideLoading();
 

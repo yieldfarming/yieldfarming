@@ -112,11 +112,6 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-
-    // CRV REWARDS
-    _print("\n======== CRV REWARDS ========")
-    _print(`    Not distributed yet`);
-
     hideLoading();
 
 }
