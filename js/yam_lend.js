@@ -30,10 +30,13 @@ async function main() {
     const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
     const WETH_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider);
 
+    const yamScale = await YAM_TOKEN.yamsScalingFactor() / 1e18;
+
     const stakedYAmount = await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
-    const earnedYFFI = (await Y_STAKING_POOL.earned(App.YOUR_ADDRESS)) / 1e18;
+    const earnedYFFI = yamScale * (await Y_STAKING_POOL.earned(App.YOUR_ADDRESS)) / 1e18;
     const totalSupplyY = await Y_TOKEN.totalSupply() / 1e18;
     const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
+
 
     // Find out reward rate
     const weekly_reward = (await get_synth_weekly_rewards(Y_STAKING_POOL)) * await YAM_TOKEN.yamsScalingFactor() / 1e18;

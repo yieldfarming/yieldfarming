@@ -30,8 +30,10 @@ async function main() {
     const totalYCRVInUniswapPair = await Y_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
     const totalYAMInUniswapPair = await YAM_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
 
+    const yamScale = await YAM_TOKEN.yamsScalingFactor() / 1e18;
+
     const stakedYAmount = await REWARD_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
-    const earnedYFFI = await REWARD_POOL.earned(App.YOUR_ADDRESS) / 1e18;
+    const earnedYFFI = yamScale * await REWARD_POOL.earned(App.YOUR_ADDRESS) / 1e18;
     const totalSupplyOfStakingToken = await STAKING_TOKEN.totalSupply() / 1e18;
     const totalStakedYAmount = await STAKING_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
