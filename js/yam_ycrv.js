@@ -23,14 +23,17 @@ async function main() {
     const REWARD_POOL = new ethers.Contract(rewardPoolAddr, YFFI_REWARD_CONTRACT_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
     const STAKING_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider);
-    const YFFI_DAI_BALANCER_POOL = new ethers.Contract(balancerPoolTokenAddr, BALANCER_POOL_ABI, App.provider);
+
+    const Y_TOKEN = new ethers.Contract(Y_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const WETH_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider);
+
+    const totalYCRVInUniswapPair = await Y_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
+    const totalYAMInUniswapPair = await YAM_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
 
     const stakedYAmount = await REWARD_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
     const earnedYFFI = await REWARD_POOL.earned(App.YOUR_ADDRESS) / 1e18;
-    const totalSupplyY = await STAKING_TOKEN.totalSupply() / 1e18;
+    const totalSupplyOfStakingToken = await STAKING_TOKEN.totalSupply() / 1e18;
     const totalStakedYAmount = await STAKING_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
     // Find out reward rate
@@ -50,7 +53,7 @@ async function main() {
 
     // Look up prices
     const prices = await lookUpPrices(["yearn-finance", "ethereum", "yam"]);
-    const stakingTokenPrice = prices["yearn-finance"].usd;
+    const stakingTokenPrice = (totalYAMInUniswapPair * prices["yam"].usd + totalYCRVInUniswapPair * YVirtualPrice) / totalSupplyOfStakingToken;
 
     // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
     const rewardTokenPrice = prices["yam"].usd;
@@ -63,7 +66,7 @@ async function main() {
     _print(`1 ${stakingTokenTicker}  = $${stakingTokenPrice}\n`);
 
     _print("========== STAKING =========")
-    _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`);
+    _print(`There are total   : ${totalSupplyOfStakingToken} ${stakingTokenTicker}.`);
     _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
     _print(`                  = ${toDollar(totalStakedYAmount * stakingTokenPrice)}\n`);
     _print(`You are staking   : ${stakedYAmount} ${stakingTokenTicker} (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
