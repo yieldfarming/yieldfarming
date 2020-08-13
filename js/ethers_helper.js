@@ -333,11 +333,12 @@ const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, A
 
         if ((allowedTEND / 1e18) < (currentTEND / 1e18)) {
             showLoading();
-            allow = TEND_TOKEN.approve(rewardPoolAddr, currentTEND)
+            allow = TEND_TOKEN.approve(rewardPoolAddr, ethers.constants.MaxUint256)
                 .then(function(t) {
                     return App.provider.waitForTransaction(t.hash);
                 }).catch(function() {
                     hideLoading();
+                    alert("Try resetting your approval to 0 first");
                 });
         }
 
@@ -350,7 +351,11 @@ const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, A
                     });
                 }).catch(function() {
                     hideLoading();
+                    _print("Something went wrong. Try resetting your approval to 0 first.");
                 });
+            }).catch(function () {
+                hideLoading();
+                _print("Something went wrong. Try resetting your approval to 0 first.");
             });
         } else {
             alert("You have no tokens to stake!!");
