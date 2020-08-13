@@ -345,17 +345,17 @@ const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, A
         if ((currentTEND / 1e18) > 0) {
             showLoading();
             allow.then(async function() {
-                WEEBTEND_V2_TOKEN.stake(currentTEND, {gasLimit : 200000}).then(function(t) {
+                WEEBTEND_V2_TOKEN.stake(currentTEND, {gasLimit : 250000}).then(function(t) {
                     App.provider.waitForTransaction(t.hash).then(function() {
                         hideLoading();
                     });
                 }).catch(function() {
                     hideLoading();
-                    _print("Something went wrong. Try resetting your approval to 0 first.");
+                    _print("Something went wrong.");
                 });
             }).catch(function () {
                 hideLoading();
-                _print("Something went wrong. Try resetting your approval to 0 first.");
+                _print("Something went wrong.");
             });
         } else {
             alert("You have no tokens to stake!!");
@@ -371,7 +371,7 @@ const rewardsContract_unstake = async function(rewardPoolAddr, App) {
 
     if (earnedYFFI > 0) {
         showLoading();
-        REWARD_POOL.withdraw(currentStakedAmount)
+        REWARD_POOL.withdraw(currentStakedAmount, {gasLimit: 250000})
             .then(function(t) {
                 return App.provider.waitForTransaction(t.hash);
             }).catch(function() {
@@ -408,7 +408,7 @@ const rewardsContract_claim = async function(rewardPoolAddr, App) {
 
     if (earnedYFFI > 0) {
         showLoading();
-        WEEBTEND_V2_TOKEN.getReward({gasLimit: 200000})
+        WEEBTEND_V2_TOKEN.getReward({gasLimit: 250000})
             .then(function(t) {
                 return App.provider.waitForTransaction(t.hash);
             }).catch(function() {

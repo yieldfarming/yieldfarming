@@ -92,7 +92,7 @@ async function main() {
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-    _print(`Reward ending      : in ${forHumans(timeTilHalving)} \n`);
+    _print(`Reward halving    : in ${forHumans(timeTilHalving)} \n`);
 
     const resetApprove = async function() {
         return rewardsContract_resetApprove(stakingTokenAddr, rewardPoolAddr, App);
