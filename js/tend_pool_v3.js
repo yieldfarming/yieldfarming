@@ -25,12 +25,12 @@ async function main() {
 
     const yourWeebTendV2Amount = await WEEBTEND_V2_TOKEN.balanceOf(App.YOUR_ADDRESS);
 
-    let weebTendV2PricePerFullShare = 0;
+    let weebTendV3PricePerFullShare = 0;
     try {
-        weebTendV2PricePerFullShare = await WEEBTEND_V3_TOKEN.getPricePerFullShare();
+        weebTendV3PricePerFullShare = await WEEBTEND_V3_TOKEN.getPricePerFullShare();
     } catch {}
     const weebTendV2TotalSupply = await WEEBTEND_V3_TOKEN.totalSupply() / 1e18;
-    const yourStakedTEND = yourWeebTendV3Amount * weebTendV2PricePerFullShare / 1e18;
+    const yourStakedTEND = yourWeebTendV3Amount * weebTendV3PricePerFullShare / 1e18;
 
     const unclaimedReward = await WEEBTEND_V3_TOKEN.getTotalAvailableReward();
 
@@ -44,11 +44,11 @@ async function main() {
     const prices = await lookUpPrices(["tendies"]);
 
     const TENDPrice = prices.tendies.usd;
-    const WEEBTENDPrice = TENDPrice * weebTendV2PricePerFullShare / 1e18;
+    const WEEBTENDPrice = TENDPrice * weebTendV3PricePerFullShare / 1e18;
 
     _print("========== PRICES ==========")
     _print(`1 TEND            = $${TENDPrice}`);
-    _print(`1 weebTEND-V2     = $${WEEBTENDPrice}\n`);
+    _print(`1 weebTEND-V3     = $${WEEBTENDPrice}\n`);
 
     _print("========= STAKING ==========")
     _print(`There are total   : ${totalTENDSupply / 1e18} TEND in the world`);
