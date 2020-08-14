@@ -184,9 +184,7 @@ async function main() {
     _print("\nBy staking your TEND, you get weebTEND-V3 as a proof of staking. You can always \n" +
         "burn this token to get back your original TEND + bonus TEND the pool has been collecting. \n");
 
-    if ((unclaimedReward / 1e18) > 0) {
-        _print_link(`Claim ${toFixed(unclaimedReward / 1e18, 4)} TEND for the pool`, harvest);
-    }
+    _print_link(`Harvest ${toFixed(unclaimedReward / 1e18, 4)} TEND for the pool`, harvest);
 
     _print("\n============== ARCHIVE =============");
     _print_href("Link to v2 pool", "https://yieldfarming.info/funzone/tendies/v2.html");
