@@ -42,7 +42,7 @@ async function main() {
 
     const slaveCount = await WEEBTEND_V3_TOKEN.slaveCount();
 
-    const burned_precheck = await RESOLVE.getDidBurn(App.YOUR_ADDRESS);
+    let burned_precheck = await RESOLVE.getDidBurn(App.YOUR_ADDRESS);
 
     _print("Finished reading smart contracts... Looking up prices... \n")
 
@@ -122,24 +122,21 @@ async function main() {
 
         let allow = RESOLVE.recordBurn()
             .then(function(t) {
-                return App.provider.waitForTransaction(t.hash);
+                if (!burned_precheck) {
+                    WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount.div(2), {gasLimit: 393346}).then(function (t) {
+                        App.provider.waitForTransaction(t.hash).then(function () {
+                            hideLoading();
+                        });
+                        burned_precheck = true;
+                    }).catch(function (e) {
+                        hideLoading();
+                        console.log(e);
+                    });
+                }
             }).catch(function() {
                 hideLoading();
                 return Promise.reject();
             });
-
-        allow.then(async function() {
-            if (!burned_precheck) {
-                WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount.div(2), {gasLimit: 393346}).then(function (t) {
-                    App.provider.waitForTransaction(t.hash).then(function () {
-                        hideLoading();
-                    });
-                }).catch(function (e) {
-                    hideLoading();
-                    console.log(e);
-                });
-            }
-        });
     };
 
     const harvest = async function() {
