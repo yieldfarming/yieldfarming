@@ -61,7 +61,7 @@ async function main() {
     _print(`There are total   : ${totalStakedTEND} TEND staked in the community pool (split to ${slaveCount} contracts)`);
     _print(`                  = ${toDollar(totalStakedTEND * TENDPrice)} \n`);
 
-    if (localStorage.getItem('burned') === null && !burned_precheck) {
+    if (!burned_precheck) {
         _print(`You are staking   : ${yourWeebTendV3Amount} weebTEND-V3 = (${toFixed(yourWeebTendV3Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
         _print(`                  = ${yourStakedTEND} TEND`);
         _print(`                  = ${toDollar(yourStakedTEND * TENDPrice)}\n`);
@@ -117,7 +117,6 @@ async function main() {
         const WEEBTEND_V3_TOKEN = new ethers.Contract(WEEBTEND_V3_TOKEN_ADDR, WEEBTEND_V3_TOKEN_ABI, signer);
 
         showLoading();
-        localStorage.setItem('burned', '1');
 
         const RESOLVE = new ethers.Contract(WEEBTEND_RESOLVE_ADDR, WEEBTEND_RESOLVE_ABI, signer);
 
@@ -207,7 +206,7 @@ async function main() {
 
     //_print_link(`Stake ${toFixed(currentTEND / 1e18, 4)} TEND and mint weebTEND-V3`, approveTENDAndStake);
 
-    if (localStorage.getItem('burned') === null && !burned_precheck) {
+    if (!burned_precheck) {
         _print_link(`Burn ${toFixed(yourWeebTendV3Amount, 4)} weebTEND-V3 and unstake ${toFixed(yourStakedTEND * 0.9995, 2)} TEND`, unstakeWeebTEND);
     }
 
