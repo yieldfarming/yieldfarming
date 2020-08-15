@@ -54,9 +54,9 @@ async function main() {
     _print(`There are total   : ${totalTENDSupply / 1e18} TEND in the world`);
     _print(`There are total   : ${totalStakedTEND} TEND staked in the community pool (split to ${slaveCount} contracts)`);
     _print(`                  = ${toDollar(totalStakedTEND * TENDPrice)} \n`);
-    _print(`You are staking   : ${yourWeebTendV3Amount} weebTEND-V3 = (${toFixed(yourWeebTendV3Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
-    _print(`                  = ${yourStakedTEND} TEND`);
-    _print(`                  = ${toDollar(yourStakedTEND * TENDPrice)}\n`);
+    // _print(`You are staking   : ${yourWeebTendV3Amount} weebTEND-V3 = (${toFixed(yourWeebTendV3Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
+    // _print(`                  = ${yourStakedTEND} TEND`);
+    // _print(`                  = ${toDollar(yourStakedTEND * TENDPrice)}\n`);
 
     let signer = null;
 
