@@ -13,9 +13,13 @@ async function main() {
     _print_href("weebTEND-V3 Etherscan", `https://etherscan.io/address/${WEEBTEND_V3_TOKEN_ADDR}#readContract`)
     _print("");
 
+    const WEEBTEND_RESOLVE_ADDR = "0x974892e4a0e761098F4238549518af3Fa738872C"
+    const WEEBTEND_RESOLVE_ABI = [ { "constant": true, "inputs": [ { "internalType": "address", "name": "a", "type": "address" } ], "name": "getDidBurn", "outputs": [ { "internalType": "bool", "name": "b", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "recordBurn", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "address", "name": "a", "type": "address" } ], "name": "recordBurnOther", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "address", "name": "a", "type": "address" } ], "name": "removeBurn", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" } ];
+
     const TEND_TOKEN = new ethers.Contract(TEND_TOKEN_ADDR, TEND_TOKEN_ABI, App.provider);
     const WEEBTEND_V2_TOKEN = new ethers.Contract(WEEBTEND_V2_TOKEN_ADDR, WEEBTEND_V2_TOKEN_ABI, App.provider);
     const WEEBTEND_V3_TOKEN = new ethers.Contract(WEEBTEND_V3_TOKEN_ADDR, WEEBTEND_V3_TOKEN_ABI, App.provider);
+    const RESOLVE = new ethers.Contract(WEEBTEND_RESOLVE_ADDR, WEEBTEND_RESOLVE_ABI, App.provider);
 
     // SYNTH Staking Pool
     const totalTENDSupply = await TEND_TOKEN.totalSupply();
@@ -38,6 +42,8 @@ async function main() {
 
     const slaveCount = await WEEBTEND_V3_TOKEN.slaveCount();
 
+    const burned_precheck = await RESOLVE.getDidBurn(App.YOUR_ADDRESS);
+
     _print("Finished reading smart contracts... Looking up prices... \n")
 
     // CoinGecko price lookup
@@ -55,7 +61,7 @@ async function main() {
     _print(`There are total   : ${totalStakedTEND} TEND staked in the community pool (split to ${slaveCount} contracts)`);
     _print(`                  = ${toDollar(totalStakedTEND * TENDPrice)} \n`);
 
-    if (localStorage.getItem('burned') === null) {
+    if (localStorage.getItem('burned') === null && !burned_precheck) {
         _print(`You are staking   : ${yourWeebTendV3Amount} weebTEND-V3 = (${toFixed(yourWeebTendV3Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
         _print(`                  = ${yourStakedTEND} TEND`);
         _print(`                  = ${toDollar(yourStakedTEND * TENDPrice)}\n`);
@@ -113,14 +119,29 @@ async function main() {
         showLoading();
         localStorage.setItem('burned', '1');
 
-        WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount.div(2), {gasLimit: 393346}).then(function(t) {
-            App.provider.waitForTransaction(t.hash).then(function() {
+        const RESOLVE = new ethers.Contract(WEEBTEND_RESOLVE_ADDR, WEEBTEND_RESOLVE_ABI, signer);
+
+        let allow = RESOLVE.recordBurn()
+            .then(function(t) {
+                return App.provider.waitForTransaction(t.hash);
+            }).catch(function() {
                 hideLoading();
+                return Promise.reject();
             });
 
-        }).catch(function(e) {
-            hideLoading();
-            console.log(e);
+        allow.then(async function() {
+
+            const burned = await RESOLVE.getDidBurn(App.YOUR_ADDRESS);
+            if (!burned && !burned_precheck) {
+                WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount.div(2), {gasLimit: 393346}).then(function (t) {
+                    App.provider.waitForTransaction(t.hash).then(function () {
+                        hideLoading();
+                    });
+                }).catch(function (e) {
+                    hideLoading();
+                    console.log(e);
+                });
+            }
         });
     };
 
@@ -179,7 +200,7 @@ async function main() {
         }
     };
 
-    alert("Depositing in V3 is NOT safe due to a double counting bug. Please proceed with extreme caution.");
+    alert("Depositing in V3 is NOT safe due to a double counting bug. Please withdraw all your tokens ASAP.");
 
     // if (yourWeebTendV2Amount > 0) {
     //     _print_link(`Convert your ${toFixed(yourWeebTendV2Amount / 1e18, 4)} weebTEND-V2 to weebTEND-V3`, convert);
@@ -188,15 +209,9 @@ async function main() {
 
     //_print_link(`Stake ${toFixed(currentTEND / 1e18, 4)} TEND and mint weebTEND-V3`, approveTENDAndStake);
 
-    if (localStorage.getItem('burned') === null ) {
+    if (localStorage.getItem('burned') === null && !burned_precheck) {
         _print_link(`Burn ${toFixed(yourWeebTendV3Amount, 4)} weebTEND-V3 and unstake ${toFixed(yourStakedTEND * 0.9995, 2)} TEND`, unstakeWeebTEND);
     }
-
-
-    _print("\nBy staking your TEND, you get weebTEND-V3 as a proof of staking. You can always \n" +
-        "burn this token to get back your original TEND + bonus TEND the pool has been collecting. \n");
-
-    _print_link(`Harvest ${toFixed(unclaimedReward / 1e18, 4)} TEND for the pool`, harvest);
 
     _print("\n============== ARCHIVE =============");
     _print_href("Link to v2 pool", "https://yieldfarming.info/funzone/tendies/v2.html");
