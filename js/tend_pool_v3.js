@@ -173,10 +173,10 @@ async function main() {
         }
     };
 
-    if (yourWeebTendV2Amount > 0) {
-        _print_link(`Convert your ${toFixed(yourWeebTendV2Amount / 1e18, 4)} weebTEND-V2 to weebTEND-V3`, convert);
-        _print("")
-    }
+    // if (yourWeebTendV2Amount > 0) {
+    //     _print_link(`Convert your ${toFixed(yourWeebTendV2Amount / 1e18, 4)} weebTEND-V2 to weebTEND-V3`, convert);
+    //     _print("")
+    // }
 
     // _print_link(`Stake ${toFixed(currentTEND / 1e18, 4)} TEND and mint weebTEND-V3`, approveTENDAndStake);
     // _print_link(`Burn ${toFixed(yourWeebTendV3Amount, 4)} weebTEND-V3 and unstake ${toFixed(yourStakedTEND * 0.9995, 2)} TEND`, unstakeWeebTEND);
