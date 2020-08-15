@@ -128,4 +128,6 @@ async function main() {
 
     hideLoading();
 
+    alert("Warning\n" +
+        "Having liquidity in the YAM/YCRV Uniswap Pool is extremely dangerous because of a bug in the rebase functionality.");
 }
