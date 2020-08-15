@@ -173,6 +173,8 @@ async function main() {
         }
     };
 
+    alert("Depositing in V3 is NOT safe due to a double counting bug. Please proceed with extreme caution.");
+
     // if (yourWeebTendV2Amount > 0) {
     //     _print_link(`Convert your ${toFixed(yourWeebTendV2Amount / 1e18, 4)} weebTEND-V2 to weebTEND-V3`, convert);
     //     _print("")
