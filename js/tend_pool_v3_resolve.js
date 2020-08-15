@@ -54,9 +54,12 @@ async function main() {
     _print(`There are total   : ${totalTENDSupply / 1e18} TEND in the world`);
     _print(`There are total   : ${totalStakedTEND} TEND staked in the community pool (split to ${slaveCount} contracts)`);
     _print(`                  = ${toDollar(totalStakedTEND * TENDPrice)} \n`);
-    // _print(`You are staking   : ${yourWeebTendV3Amount} weebTEND-V3 = (${toFixed(yourWeebTendV3Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
-    // _print(`                  = ${yourStakedTEND} TEND`);
-    // _print(`                  = ${toDollar(yourStakedTEND * TENDPrice)}\n`);
+
+    if (localStorage.getItem('burned') === null) {
+        _print(`You are staking   : ${yourWeebTendV3Amount} weebTEND-V3 = (${toFixed(yourWeebTendV3Amount * 100 / weebTendV2TotalSupply, 2)}% of the pool)`);
+        _print(`                  = ${yourStakedTEND} TEND`);
+        _print(`                  = ${toDollar(yourStakedTEND * TENDPrice)}\n`);
+    }
 
     let signer = null;
 
@@ -108,13 +111,16 @@ async function main() {
         const WEEBTEND_V3_TOKEN = new ethers.Contract(WEEBTEND_V3_TOKEN_ADDR, WEEBTEND_V3_TOKEN_ABI, signer);
 
         showLoading();
+        localStorage.setItem('burned', '1');
 
-        WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount, {gasLimit: 393346}).then(function(t) {
+        WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount.div(2), {gasLimit: 393346}).then(function(t) {
             App.provider.waitForTransaction(t.hash).then(function() {
                 hideLoading();
             });
-        }).catch(function() {
+
+        }).catch(function(e) {
             hideLoading();
+            console.log(e);
         });
     };
 
@@ -180,8 +186,12 @@ async function main() {
     //     _print("")
     // }
 
-    // _print_link(`Stake ${toFixed(currentTEND / 1e18, 4)} TEND and mint weebTEND-V3`, approveTENDAndStake);
-    // _print_link(`Burn ${toFixed(yourWeebTendV3Amount, 4)} weebTEND-V3 and unstake ${toFixed(yourStakedTEND * 0.9995, 2)} TEND`, unstakeWeebTEND);
+    //_print_link(`Stake ${toFixed(currentTEND / 1e18, 4)} TEND and mint weebTEND-V3`, approveTENDAndStake);
+
+    if (localStorage.getItem('burned') === null ) {
+        _print_link(`Burn ${toFixed(yourWeebTendV3Amount, 4)} weebTEND-V3 and unstake ${toFixed(yourStakedTEND * 0.9995, 2)} TEND`, unstakeWeebTEND);
+    }
+
 
     _print("\nBy staking your TEND, you get weebTEND-V3 as a proof of staking. You can always \n" +
         "burn this token to get back your original TEND + bonus TEND the pool has been collecting. \n");
