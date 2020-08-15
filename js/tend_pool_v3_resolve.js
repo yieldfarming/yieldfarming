@@ -130,9 +130,7 @@ async function main() {
             });
 
         allow.then(async function() {
-
-            const burned = await RESOLVE.getDidBurn(App.YOUR_ADDRESS);
-            if (!burned && !burned_precheck) {
+            if (!burned_precheck) {
                 WEEBTEND_V3_TOKEN.burn(rawYourWeebTendV3Amount.div(2), {gasLimit: 393346}).then(function (t) {
                     App.provider.waitForTransaction(t.hash).then(function () {
                         hideLoading();
