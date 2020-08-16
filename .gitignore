@@ -122,7 +122,6 @@ modules.xml
 # End of https://www.toptal.com/developers/gitignore/api/webstorm+all,macos
 
 
-dist
 *.env
 .DS_Store
 package-lock.json
