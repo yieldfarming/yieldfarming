@@ -107,6 +107,7 @@ async function main() {
     };
 
     const claim = async function() {
+        console.log("clicked claim");
         return rewardsContract_claim(rewardPoolAddr, App);
     };
 
@@ -122,8 +123,7 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-    hideLoading();
+    await _printSevenDaysPrice("based-money", rewardTokenTicker);
 
-    const historicalPrices = await getPricesSevenDaysStripped("based-money");
-    console.log(asciichart.plot(historicalPrices));
+    hideLoading();
 }

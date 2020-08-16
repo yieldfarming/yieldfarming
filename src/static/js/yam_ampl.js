@@ -6,7 +6,7 @@ $(function() {
 async function main() {
 
     print_warning();
-    
+
     const stakingTokenAddr = AMPL_WETH_UNI_TOKEN_ADDR;
     const stakingTokenTicker = "UNIV2";
     const rewardPoolAddr = "0x9EbB67687FEE2d265D7b824714DF13622D90E663";
@@ -120,6 +120,9 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-    hideLoading();
+    await _printSevenDaysPrice("yam", rewardTokenTicker);
+
+
+  hideLoading();
 
 }

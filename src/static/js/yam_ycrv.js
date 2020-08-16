@@ -126,8 +126,13 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-    hideLoading();
+  alert("Warning\n" +
+    "Having liquidity in the YAM/YCRV Uniswap Pool is extremely dangerous because of a bug in the rebase functionality.");
 
-    alert("Warning\n" +
-        "Having liquidity in the YAM/YCRV Uniswap Pool is extremely dangerous because of a bug in the rebase functionality.");
+  await _printSevenDaysPrice("yam", rewardTokenTicker);
+
+
+  hideLoading();
+
+
 }

@@ -73,6 +73,8 @@ async function main() {
     _print(`    Not whitelisted yet?`);
     _print(`    Check http://www.predictions.exchange/balancer/ for latest update \n`)
 
+    await _printSevenDaysPrice("yfii-finance", "YFII");
+
     hideLoading();
 
 }

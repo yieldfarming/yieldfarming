@@ -135,11 +135,10 @@ const _print_link = function(message, onclickFunction) {
 
     logger.innerHTML += '<a href="#" id=' + uuid + '>' + message + '</a><br />';
 
-    $(document).ready(function() {
-        $('#' + uuid).click(function(){
-            console.log("clicked");
-            onclickFunction();
-        });
+    $(document).on( 'click', '#' + uuid, function () {
+        console.log("clicked");
+        onclickFunction();
+        return false;
     });
 };
 
@@ -184,8 +183,42 @@ const lookUpPricesSevenDays = async function(id) {
 
 const getPricesSevenDaysStripped = async function(id) {
   const prices = await lookUpPricesSevenDays(id);
-  return prices.map(x => x[1]);
+  return prices.prices.map(x => x[1]);
 }
+
+const _printSevenDaysPrice = async function(id, ticker) {
+  _print("");
+  try {
+    const historicalPrices = await getPricesSevenDaysStripped(id);
+    const config = {
+
+      offset:  3,          // axis offset from the left (min 2)
+      padding: '       ',  // padding string for label formatting (can be overrided)
+      height:  20,         // any height you want,
+    }
+
+    const plotString = asciichart.plot(historicalPrices, config);
+    _print(plotString);
+
+    let i = 0;
+    while (plotString[i] !== "\n") {
+      i++;
+    }
+
+    const msg = `${ticker} chart past 7 days`;
+    const space = (i - msg.length) > 0 ? (i - msg.length) / 2 : 0;
+    let leftSpacing = '';
+
+    for (let i = 0; i < space; i++) {
+      leftSpacing += " ";
+    }
+
+    _print(`${leftSpacing}${msg}\n`);
+  } catch (e) {
+    _print("Could not load historical price.");
+    console.log(e);
+  }
+};
 
 const getBlockTime = function() {
     _print("Fetching current block time...");
@@ -385,9 +418,9 @@ const rewardsContract_unstake = async function(rewardPoolAddr, App) {
 
     const REWARD_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
     const currentStakedAmount = await REWARD_POOL.balanceOf(App.YOUR_ADDRESS);
-    const earnedYFFI = (await REWARD_POOL.earned(App.YOUR_ADDRESS)) / 1e18;
+    const earnedTokenAmount = (await REWARD_POOL.earned(App.YOUR_ADDRESS)) / 1e18;
 
-    if (earnedYFFI > 0) {
+    if (earnedTokenAmount > 0) {
         showLoading();
         REWARD_POOL.withdraw(currentStakedAmount, {gasLimit: 250000})
             .then(function(t) {
@@ -418,15 +451,15 @@ const rewardsContract_exit = async function(rewardPoolAddr, App) {
 const rewardsContract_claim = async function(rewardPoolAddr, App) {
     const signer = App.provider.getSigner();
 
-    const WEEBTEND_V2_TOKEN = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
+    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, signer);
 
     console.log(App.YOUR_ADDRESS);
 
-    const earnedYFFI = (await WEEBTEND_V2_TOKEN.earned(App.YOUR_ADDRESS)) / 1e18;
+    const earnedYFFI = (await REWARD_POOL.earned(App.YOUR_ADDRESS)) / 1e18;
 
     if (earnedYFFI > 0) {
         showLoading();
-        WEEBTEND_V2_TOKEN.getReward({gasLimit: 250000})
+        REWARD_POOL.getReward({gasLimit: 250000})
             .then(function(t) {
                 return App.provider.waitForTransaction(t.hash);
             }).catch(function() {

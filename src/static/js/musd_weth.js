@@ -73,6 +73,8 @@ async function main() {
     _print("======== BAL REWARDS ========")
     _print_href(`Check http://www.predictions.exchange/balancer/ for accurate %`, "https://www.predictions.exchange/balancer/")
 
+    await _printSevenDaysPrice("meta", "MTA");
+
     hideLoading();
 
 }

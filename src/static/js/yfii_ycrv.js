@@ -37,9 +37,9 @@ async function main() {
     // Look up prices
     // const prices = await lookUpPrices(["yearn-finance"]);
     // const YFIPrice = prices["yearn-finance"].usd;
-    const prices = await lookUpPrices(["dai"]);
+    const prices = await lookUpPrices(["dai", "yfii-finance"]);
     const DAIPrice = prices["dai"].usd;
-    const YFIIPrice = (await YFI_DAI_BALANCER_POOL.getSpotPrice(DAI_TOKEN_ADDR,YFII_TOKEN_ADDR) / 1e18) * DAIPrice;
+    const YFIIPrice = prices["yfii-finance"].usd;
 
 
     // Finished. Start printing
@@ -70,6 +70,9 @@ async function main() {
     // CRV REWARDS
     _print("======== CRV REWARDS ========")
     _print(`    Not distributed yet`);
+
+    await _printSevenDaysPrice("yfii-finance", "YFII");
+
 
     hideLoading();
 
