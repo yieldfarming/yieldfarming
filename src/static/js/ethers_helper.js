@@ -186,26 +186,54 @@ const getPricesSevenDaysStripped = async function(id) {
   return prices.prices.map(x => x[1]);
 }
 
-const _printSevenDaysPrice = async function(id, ticker) {
-  _print("");
-  try {
-    const historicalPrices = await getPricesSevenDaysStripped(id);
-    const config = {
+const getHistoricalPricesStripped = async function(id, from, to) {
+    const prices = await lookUpPricesHistorical(id, from, to);
+    return prices.prices.map(x => x[1]);
+}
 
-      offset:  3,          // axis offset from the left (min 2)
-      padding: '       ',  // padding string for label formatting (can be overrided)
-      height:  20,         // any height you want,
+const getPrices24HoursStripped = async function (id) {
+    const to = Date.now() / 1000;
+    const from = to - 24 * 60 * 60;
+    const prices = (await lookUpPricesHistorical(id, from, to)).prices;
+
+    let skipEveryTwo = 0;
+
+    const reducedArr = [];
+
+    for (let i = 0; i < prices.length; i++) {
+        if (skipEveryTwo === 0) {
+            reducedArr.push(prices[i][1])
+        }
+        skipEveryTwo++;
+        if (skipEveryTwo > 1) {
+            skipEveryTwo = 0;
+        }
     }
+
+    return reducedArr;
+};
+
+const _print24HourPrice = async function(id, ticker) {
+    _print("");
+    try {
+
+        const historicalPrices = await getPrices24HoursStripped(id);
+        console.log(historicalPrices);
+        const config = {
+            offset:  3,          // axis offset from the left (min 2)
+            padding: '       ',  // padding string for label formatting (can be overrided)
+            height:  20,         // any height you want,
+        }
 
     const plotString = asciichart.plot(historicalPrices, config);
     _print(plotString);
 
     let i = 0;
     while (plotString[i] !== "\n") {
-      i++;
+        i++;
     }
 
-    const msg = `${ticker} chart past 7 days`;
+    const msg = `${ticker} chart past 24 hours`;
     const space = (i - msg.length) > 0 ? (i - msg.length) / 2 : 0;
     let leftSpacing = '';
 
@@ -214,10 +242,10 @@ const _printSevenDaysPrice = async function(id, ticker) {
     }
 
     _print(`${leftSpacing}${msg}\n`);
-  } catch (e) {
+    } catch (e) {
     _print("Could not load historical price.");
     console.log(e);
-  }
+    }
 };
 
 const getBlockTime = function() {

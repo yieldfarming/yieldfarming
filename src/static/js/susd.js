@@ -83,7 +83,7 @@ async function main() {
     _print("======== CRV REWARDS ========")
     _print(`    Not distributed yet`);
 
-    await _printSevenDaysPrice("havven", "SNX");
+    await _print24HourPrice("havven", "SNX");
 
     hideLoading();
 

@@ -70,7 +70,7 @@ async function main() {
     _print(`Weekly ROI        : ${toFixed(SNXWeeklyROI, 4)}%`)
     _print(`APR (Unstable)    : ${toFixed(SNXWeeklyROI * 52, 4)}%`)
 
-    await _printSevenDaysPrice("havven", "SNX");
+    await _print24HourPrice("havven", "SNX");
 
     hideLoading();
 

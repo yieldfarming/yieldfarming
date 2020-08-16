@@ -129,7 +129,7 @@ async function main() {
   alert("Warning\n" +
     "Having liquidity in the YAM/YCRV Uniswap Pool is extremely dangerous because of a bug in the rebase functionality.");
 
-  await _printSevenDaysPrice("yam", rewardTokenTicker);
+  await _print24HourPrice("yam", rewardTokenTicker);
 
 
   hideLoading();
