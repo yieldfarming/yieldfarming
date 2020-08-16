@@ -23,7 +23,8 @@
     "hash-filenames": "babel-node build-tools/hash-filenames.js",
     "prepend-banner": "babel-node build-tools/prepend-banner.js",
     "rmprod": "rimraf filename-map.json && rimraf dist",
-    "prettier": "prettier --write 'src/**/*.{js,css,scss,json,html}'"
+    "prettier": "prettier --write 'src/**/*.{js,css,scss,json,html}'",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "author": "Brenton Cozby",
   "license": "MIT",
