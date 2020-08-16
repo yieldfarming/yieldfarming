@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+******************* 👨‍🌾 UNOFFICIAL iETH YIELD FARMING CALCULATOR 👨‍🌾 ********************
+INFO: https://blog.synthetix.io/ieth-migration-and-ibtc-launch/
+TOKEN: https://synthetix.exchange/trade/iETH-sUSD
+STAKE: https://mintr.synthetix.io/
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'ieth'}); -%>
+</body>
+</html>

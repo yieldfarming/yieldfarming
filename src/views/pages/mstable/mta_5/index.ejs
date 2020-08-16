@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+*************** 👨‍🌾 UNOFFICIAL mUSD-MTA (95-5) YIELD FARMING CALCULATOR 👨‍🌾 ***************
+INFO  : https://medium.com/mstable/introducing-mstable-earn-6ac5f4e7560e
+POOL  : https://pools.balancer.exchange/#/pool/0xa5da8cc7167070b62fdcb332ef097a55a68d8824
+STAKE : https://app.mstable.org/earn
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'musd_mta_2'}); -%>
+</body>
+</html>

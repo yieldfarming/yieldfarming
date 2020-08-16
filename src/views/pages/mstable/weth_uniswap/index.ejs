@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+************* 👨‍🌾 UNOFFICIAL MTA-WETH UNISWAP YIELD FARMING CALCULATOR 👨‍🌾 *************
+INFO  : https://medium.com/mstable/introducing-mstable-earn-6ac5f4e7560e
+POOL  : https://uniswap.info/pair/0x0d0d65e7a7db277d3e0f5e1676325e75f3340455
+STAKE : https://app.mstable.org/earn
+***************************************************************************************
+
+</pre>
+<%- include(`${partials}/scripts`, {scriptname: 'mta_weth'}); -%>
+</body>
+</html>

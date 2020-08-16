@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+************* 👨‍🌾 UNOFFICIAL yffi's YFFI/DAI YIELD FARMING CALCULATOR 👨‍🌾 *************
+POOL  : https://pools.balancer.exchange/#/pool/0xFe793bC3D1Ef8d38934896980254e81d0c5F6239
+STAKE : https://www.yffi.finance/
+      = 0x81dfa0b3cf2601012075ef2619afb9d4ed4da762
+
+YFFI  : 0xCee1d3c3A02267e37E6B373060F79d5d7b9e1669
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'yffi_pool2'}); -%>
+</body>
+</html>

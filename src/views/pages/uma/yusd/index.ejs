@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+*************** 👨‍🌾 UNOFFICIAL yUSDSEP20-USDC YIELD FARMING CALCULATOR 👨‍🌾 ***************
+INFO  : https://medium.com/uma-project/liquidity-mining-on-uma-is-now-live-5f6cb0bd53ee
+POOL  : https://pools.balancer.exchange/#/pool/0x58EF3abAB72c6C365D4D0D8a70039752b9f32Bc9
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'yusd_usdc'}); -%>
+</body>
+</html>

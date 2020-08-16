@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<div>
+    <a href="../pool1">pool1</a> <a href="../pool2">pool2</a> <a href="../pool5">pool5</a>
+</div>
+    <pre id="log">
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'simp_pool1'}); -%>
+</body>
+</html>

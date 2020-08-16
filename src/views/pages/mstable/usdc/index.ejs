@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+***************** 👨‍🌾 UNOFFICIAL mUSD-USDC YIELD FARMING CALCULATOR 👨‍🌾 *****************
+INFO  : https://medium.com/mstable/introducing-mstable-earn-6ac5f4e7560e
+POOL  : https://pools.balancer.exchange/#/pool/0x72Cd8f4504941Bf8c5a21d1Fd83A96499FD71d2C
+STAKE : https://app.mstable.org/earn
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'musd_usdc'}); -%>
+</body>
+</html>

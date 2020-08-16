@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+******************* 👨‍🌾 UNOFFICIAL yCRV YIELD FARMING CALCULATOR 👨‍🌾 ********************
+INFO  : https://medium.com/iearn/earning-yfi-y-curve-fi-53b5fd347f0f
+POOL  : https://www.curve.fi/iearn/deposit
+STAKE : https://ygov.finance/
+      : 0x0001FB050Fe7312791bF6475b96569D83F695C9f
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'ygov_ycrv'}); -%>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+****************** 👨‍🌾 UNOFFICIAL YFII-DAI YIELD FARMING CALCULATOR 👨‍🌾 *****************
+INFO  : https://medium.com/@WhiteNoise1984/yfii-innovative-decentralized-defi-mining-pool-d745c032dfc0
+POOL  : https://pools.balancer.exchange/#/pool/0x16cAC1403377978644e78769Daa49d8f6B6CF565
+FORK  : https://bal.yfii.finance/#/pool/0x16cAC1403377978644e78769Daa49d8f6B6CF565 (Unofficial fork of Balancer pool. Use at your own risk.)
+STAKE : https://yfii.finance/
+      : 0xAFfcD3D45cEF58B1DfA773463824c6F6bB0Dc13a
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'yfii_balancer'}); -%>
+</body>
+</html>

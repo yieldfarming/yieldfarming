@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+***************** 👨‍🌾 UNOFFICIAL YFI-yCRV YIELD FARMING CALCULATOR 👨‍🌾 ******************
+INFO  : https://medium.com/@andre_54855/pool-3-meta-yield-governance-58f68e6d2f19
+yCRV  : https://www.curve.fi/iearn/deposit
+POOL  : https://pools.balancer.exchange/#/pool/0x95C4B6C7CfF608c0CA048df8b81a484aA377172B
+STAKE : https://ygov.finance/
+      : 0x3A22dF48d84957F907e67F4313E3D43179040d6E
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'ygov_ycrv_balancer'}); -%>
+</body>
+</html>

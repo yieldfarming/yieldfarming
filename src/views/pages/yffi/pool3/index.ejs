@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+************* 👨‍🌾 UNOFFICIAL yffi's YFFI/yCRV YIELD FARMING CALCULATOR 👨‍🌾 ************
+POOL  : https://pools.balancer.exchange/#/pool/0xc855f1572c8128add6f0503084ba23930b7461f8
+STAKE : https://www.yffi.finance/
+      = 0x7c8c77933e2fd6adc2ebfab5dc529c6787c57c34
+
+YFFI  : 0xCee1d3c3A02267e37E6B373060F79d5d7b9e1669
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'yffi_pool3'}); -%>
+</body>
+</html>

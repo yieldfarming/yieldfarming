@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+****************** 👨‍🌾 UNOFFICIAL YFI-DAI YIELD FARMING CALCULATOR 👨‍🌾 ******************
+INFO  : https://twitter.com/iearnfinance/status/1284462530551853058
+POOL  : https://pools.balancer.exchange/#/pool/0x60626db611a9957C1ae4Ac5b7eDE69e24A3B76c5
+STAKE : https://ygov.finance/
+      : 0x033E52f513F9B98e129381c6708F9faA2DEE5db5
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'ygov_balancer'}); -%>
+</body>
+</html>
