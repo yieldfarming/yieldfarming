@@ -1,5 +1,5 @@
 {
-  "name": "ejs-sass-static-boilerplate",
+  "name": "yieldfarming.info",
   "version": "1.0.0",
   "description": "Boilerplate for a Static website using EJS and SASS",
   "main": "index.js",
@@ -24,9 +24,9 @@
     "prepend-banner": "babel-node build-tools/prepend-banner.js",
     "rmprod": "rimraf filename-map.json && rimraf dist",
     "prettier": "prettier --write 'src/**/*.{js,css,scss,json,html}'",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "gh-pages -d dist"
   },
-  "author": "Brenton Cozby",
+  "author": "Jongseung Lim",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -66,7 +66,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BrentonCozby/ejs-sass-static-boilerplate.git"
+    "url": "git+https://github.com/yieldfarming/yieldfarming.git"
   },
   "keywords": [
     "EJS",
@@ -79,7 +79,7 @@
     "front-end"
   ],
   "bugs": {
-    "url": "https://github.com/BrentonCozby/ejs-sass-static-boilerplate/issues"
+    "url": "https://github.com/yieldfarming/yieldfarming/issues"
   },
-  "homepage": "https://github.com/BrentonCozby/ejs-sass-static-boilerplate#readme"
+  "homepage": "https://yieldfarming.info"
 }
