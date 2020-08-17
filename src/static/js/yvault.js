@@ -140,7 +140,7 @@ async function main() {
     }
 
     for (let i = 0; i < delegatedVaults.length; i++) {
-        totalValueLocked += vaults[i].balanceInUSD;
+        totalValueLocked += delegatedVaults[i].balanceInUSD;
     }
 
     _print_bold(`\nTotal Value Locked         : ${toDollar(totalValueLocked)}\n`);
@@ -156,28 +156,10 @@ async function main() {
         "    $/      $$$$$$$/  $$$$$$/  $$/    $$$$/        $$$$$$/ $$/  $$$$$$/  \n" +
         "                                                                         \n");
 
+
     for (let i = 0; i < vaults.length; i++) {
         const vault = vaults[i]
-        const decimal = 10**(await vault.vaultContractInstance.decimals());
-        const yourVaultTokenAmount = (await vault.vaultContractInstance.balanceOf(App.YOUR_ADDRESS) ) / decimal;
-        const yourVaultTokenInUnderlyingTokenAmount = yourVaultTokenAmount * vault.currentPricePerFullShare / 1e18;
-
-        _print(`================== ${vault.tokenTicker} ================== `);
-        _print(`1 ${trimOrFillTo(vault.tokenTicker, 15)} = $${vault.tokenPrice}`);
-        _print(`1 ${trimOrFillTo(vault.vaultTicker, 15)} = ${toFixed(vault.currentPricePerFullShare / 1e18, 6)} ${vault.tokenTicker}\n`);
-        _print_href(`Current strategy  : ${vault.strategyAddr}`, `https://etherscan.io/address/${vault.strategyAddr}#readContract`);
-
-        _print('');
-
-        _print(`There are total   : ${vault.tokenBalance} ${vault.tokenTicker} staked in ${vault.tokenTicker} vault`)
-        _print(`                  = ${toDollar(vault.balanceInUSD)}\n`)
-        _print(`You are staking   : ${yourVaultTokenInUnderlyingTokenAmount} ${vault.tokenTicker}`)
-        _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`)
-
-        _print(`Daily ROI in USD  : ${toFixed(vault.ROI_day, 4)}%`)
-        _print(`Weekly ROI in USD : ${toFixed(vault.ROI_week, 4)}%\n`)
-        _print(`APY (daily)       : ${toFixed(vault.ROI_day * 365, 4)}%`)
-        _print(`APY (weekly)      : ${toFixed(vault.ROI_week * 52, 4)}% \n\n`)
+        await printVault(vault, App);
     }
 
     _print_bold("                                __    __             ______        ______  \n" +
@@ -193,30 +175,43 @@ async function main() {
 
     for (let i = 0; i < delegatedVaults.length; i++) {
         const vault = delegatedVaults[i]
-        const decimal = 10**(await vault.vaultContractInstance.decimals());
-        const yourVaultTokenAmount = (await vault.vaultContractInstance.balanceOf(App.YOUR_ADDRESS) ) / decimal;
-        const yourVaultTokenInUnderlyingTokenAmount = yourVaultTokenAmount * vault.currentPricePerFullShare / 1e18;
-
-        _print(`================== ${vault.tokenTicker} ================== `);
-        _print(`1 ${trimOrFillTo(vault.tokenTicker, 15)} = $${vault.tokenPrice}`);
-        _print(`1 ${trimOrFillTo(vault.vaultTicker, 15)} = ${toFixed(vault.currentPricePerFullShare / 1e18, 6)} ${vault.tokenTicker}\n`);
-        _print_href(`Current strategy  : ${vault.strategyAddr}`, `https://etherscan.io/address/${vault.strategyAddr}#readContract`);
-
-        _print('');
-
-        _print(`There are total   : ${vault.tokenBalance} ${vault.tokenTicker} staked in ${vault.tokenTicker} vault`)
-        _print(`                  = ${toDollar(vault.balanceInUSD)}\n`)
-        _print(`You are staking   : ${yourVaultTokenInUnderlyingTokenAmount} ${vault.tokenTicker}`)
-        _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`)
-
-        _print(`Daily ROI in USD  : ${toFixed(vault.ROI_day, 4)}%`)
-        _print(`Weekly ROI in USD : ${toFixed(vault.ROI_week, 4)}%\n`)
-        _print(`APY (daily)       : ${toFixed(vault.ROI_day * 365, 4)}%`)
-        _print(`APY (weekly)      : ${toFixed(vault.ROI_week * 52, 4)}% \n\n`)
+        await printVault(vault, App);
     }
 
-    // await _print24HourPrice("meta", "MTA");
+    // await _print24HourPrice("yearn-finance", "YFI");
 
     hideLoading();
-
 }
+
+
+const printVault = async function(vault, App) {
+    const decimal = 10**(await vault.vaultContractInstance.decimals());
+    const yourVaultTokenAmount = (await vault.vaultContractInstance.balanceOf(App.YOUR_ADDRESS) ) / decimal;
+    const yourVaultTokenInUnderlyingTokenAmount = yourVaultTokenAmount * vault.currentPricePerFullShare / 1e18;
+
+    const yourDailyGains = yourVaultTokenInUnderlyingTokenAmount * vault.ROI_day / 100;
+    const yourWeeklygains = yourVaultTokenInUnderlyingTokenAmount * vault.ROI_week / 100;
+
+    _print(`================== ${vault.tokenTicker} ================== `);
+    _print(`1 ${trimOrFillTo(vault.tokenTicker, 15)} = $${vault.tokenPrice}`);
+    _print(`1 ${trimOrFillTo(vault.vaultTicker, 15)} = ${toFixed(vault.currentPricePerFullShare / 1e18, 6)} ${vault.tokenTicker}\n`);
+    _print_href(`Current strategy  : ${vault.strategyAddr}`, `https://etherscan.io/address/${vault.strategyAddr}#readContract`);
+
+    _print('');
+
+    _print(`There are total   : ${vault.tokenBalance} ${vault.tokenTicker} staked in ${vault.tokenTicker} vault`);
+    _print(`                  = ${toDollar(vault.balanceInUSD)}\n`);
+    _print(`You are staking   : ${yourVaultTokenInUnderlyingTokenAmount} ${vault.tokenTicker}`);
+    _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`);
+
+    if (yourVaultTokenInUnderlyingTokenAmount > 0) {
+        _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}% (${toFixed(yourDailyGains, 2)} ${vault.tokenTicker})`);
+        _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}% (${toFixed(yourWeeklygains, 2)} ${vault.tokenTicker})\n`);
+    } else {
+        _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}%`);
+        _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}%\n`);
+    }
+
+    _print(`APY (daily)       : ${toFixed(Math.pow((vault.ROI_day / 100) + 1 , 365) * 100, 4)}%`);
+    _print(`APY (weekly)      : ${toFixed(Math.pow(vault.ROI_week > 0 ? (vault.ROI_week / 100) + 1 : 0, 52) * 100, 4)}% \n\n`);
+};

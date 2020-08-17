@@ -4,12 +4,11 @@ $(function() {
 });
 
 async function main() {
-    
-    const stakingToken = LINK_TOKEN_ADDR;
-    const rewardPoolAddr = "0x2bee9fd7d942be58004400da26c9155f6abd8fe9";
-    const rewardTokenAddr = "0x28cb7e841ee97947a86B06fA4090C8451f64c0be";
-    const balancerPoolTokenAddr = "0xc7062D899dd24b10BfeD5AdaAb21231a1e7708fE";
-    const rewardTokenTicker = "YFL";
+    const stakingTokenAddr = YAM_TOKEN_ADDR;
+    const stakingTokenTicker = "YAM";
+    const rewardPoolAddr = "0x880f0550F0972231Dad1EBa238F5925367338C6D";
+    const rewardTokenAddr = "0x49411930AC0c14713e36Db62700FBE31017aCc9A";
+    const rewardTokenTicker = "YAM2";
 
     const App = await init_ethers();
 
@@ -18,170 +17,113 @@ async function main() {
     _print(`${rewardTokenTicker} Address: ${rewardTokenAddr}`);
     _print(`Reward Pool Address: ${rewardPoolAddr}\n`);
 
-    const Y_STAKING_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, App.provider);
-    const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
-    const Y_TOKEN = new ethers.Contract(stakingToken, ERC20_ABI, App.provider);
-    const YFFI_DAI_BALANCER_POOL = new ethers.Contract(balancerPoolTokenAddr, BALANCER_POOL_ABI, App.provider);
+    const REWARD_POOL = new ethers.Contract(rewardPoolAddr, YFFI_REWARD_CONTRACT_ABI, App.provider);
+    const CURVE_S_POOL = new ethers.Contract(CURVE_SUSD_POOL_ADDR, CURVE_SUSD_POOL_ABI, App.provider);
+    const STAKING_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider);
 
-    const stakedYAmount = await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
-    const earnedYFFI = await Y_STAKING_POOL.earned(App.YOUR_ADDRESS) / 1e18;
-    const totalSupplyY = await Y_TOKEN.totalSupply() / 1e18;
-    const totalStakedYAmount = await Y_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
+    // const BASED_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
+
+    // const totalSUSDInUniswapPair = await STAKING_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
+    // const totalBASEDInUniswapPair = await BASED_TOKEN.balanceOf(YAM_YCRV_UNI_TOKEN_ADDR) / 1e18;
+
+    const stakedTokenAmount = await REWARD_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const earnedTokenAmount = await REWARD_POOL.earned(App.YOUR_ADDRESS) / 1e18;
+    const totalSupplyOfStakingToken = await STAKING_TOKEN.totalSupply() / 1e18;
+    const totalStakedYAmount = await STAKING_TOKEN.balanceOf(rewardPoolAddr) / 1e18;
 
     // Find out reward rate
-    const weekly_reward = await get_synth_weekly_rewards(Y_STAKING_POOL);
-    const nextHalving = await getPeriodFinishForReward(Y_STAKING_POOL);
+    const weekly_reward = (await get_synth_weekly_rewards(REWARD_POOL));
 
-    // const weekly_reward = 0;
+    console.log(weekly_reward);
+
+    const nextHalving = await getPeriodFinishForReward(REWARD_POOL);
+
+    const startTime = await REWARD_POOL.starttime();
+    const timeUntil = startTime - (Date.now() / 1000);
 
     const rewardPerToken = weekly_reward / totalStakedYAmount;
 
     // Find out underlying assets of Y
-    // const YVirtualPrice = await CURVE_Y_POOL.get_virtual_price() / 1e18;
-    const unstakedY = await Y_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
+    const SVirtualPrice = await CURVE_S_POOL.get_virtual_price() / 1e18;
+    const unstakedTokenAmount = await STAKING_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     _print("Finished reading smart contracts... Looking up prices... \n")
 
     // Look up prices
-    // const prices = await lookUpPrices(["yearn-finance"]);
-    // const YFIPrice = prices["yearn-finance"].usd;
-    const prices = await lookUpPrices(["chainlink"]);
-    const LINKPrice = prices["chainlink"].usd;
-    const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * LINKPrice;
+    const prices = await lookUpPrices(["yam"]);
+    const stakingTokenPrice = prices["based-money"].usd;
 
+    // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
+    const rewardTokenPrice = 1;
 
     // Finished. Start printing
 
     _print("========== PRICES ==========")
-    _print(`1 YFL   = $${YFFIPrice}`);
-    _print(`1 LINK  = $${LINKPrice}\n`);
+    _print(`1 ${rewardTokenTicker}   = $${rewardTokenPrice}`);
+    _print(`1 ${stakingTokenTicker}    = $${stakingTokenPrice}\n`);
 
     _print("========== STAKING =========")
-    _print(`There are total   : ${totalSupplyY} yCRV issued by Y Curve Pool.`);
-    _print(`There are total   : ${totalStakedYAmount} yCRV staked in ${rewardTokenTicker}'s yCRV staking pool.`);
-    _print(`                  = ${toDollar(totalStakedYAmount * LINKPrice)}\n`);
-    _print(`You are staking   : ${stakedYAmount} yCRV (${toFixed(stakedYAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
-    _print(`                  = ${toDollar(stakedYAmount * LINKPrice)}\n`);
+    _print(`There are total   : ${totalSupplyOfStakingToken} ${stakingTokenTicker}.`);
+    _print(`There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`);
+    _print(`                  = ${toDollar(totalStakedYAmount * stakingTokenPrice)}\n`);
+    _print(`You are staking   : ${stakedTokenAmount} ${stakingTokenTicker} (${toFixed(stakedTokenAmount * 100 / totalStakedYAmount, 3)}% of the pool)`);
+    _print(`                  = ${toDollar(stakedTokenAmount * stakingTokenPrice)}\n`);
 
-    // YFII REWARDS
+
+    if (timeUntil > 0) {
+        _print_bold(`Reward starts in ${forHumans(timeUntil)}\n`);
+    }
+
+    // REWARDS
     _print(`======== ${rewardTokenTicker} REWARDS ========`)
     // _print(" (Temporarily paused until further emission model is voted by the community) ");
-    _print(`Claimable Rewards : ${toFixed(earnedYFFI, 4)} ${rewardTokenTicker} = $${toFixed(earnedYFFI * YFFIPrice, 2)}`);
-    const YFFIWeeklyEstimate = rewardPerToken * stakedYAmount;
+    _print(`Claimable Rewards : ${toFixed(earnedTokenAmount, 4)} ${rewardTokenTicker} = $${toFixed(earnedTokenAmount * rewardTokenPrice, 2)}`);
+    const hourlyEarnedTokenEstimate = rewardPerToken * stakedTokenAmount;
 
+    _print(`Hourly estimate   : ${toFixed(hourlyEarnedTokenEstimate / (24 * 7), 4)} ${rewardTokenTicker} = ${toDollar((hourlyEarnedTokenEstimate / (24 * 7)) * rewardTokenPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} ${rewardTokenTicker})`)
+    _print(`Daily estimate    : ${toFixed(hourlyEarnedTokenEstimate / 7, 2)} ${rewardTokenTicker} = ${toDollar((hourlyEarnedTokenEstimate / 7) * rewardTokenPrice)} (out of total ${toFixed(weekly_reward / 7, 2)} ${rewardTokenTicker})`)
+    _print(`Weekly estimate   : ${toFixed(hourlyEarnedTokenEstimate, 2)} ${rewardTokenTicker} = ${toDollar(hourlyEarnedTokenEstimate * rewardTokenPrice)} (out of total ${weekly_reward} ${rewardTokenTicker})`)
+    const WeeklyROI = (rewardPerToken * rewardTokenPrice) * 100 / (stakingTokenPrice);
 
-    _print(`Hourly estimate   : ${toFixed(YFFIWeeklyEstimate / (24 * 7), 4)} ${rewardTokenTicker} = ${toDollar((YFFIWeeklyEstimate / (24 * 7)) * YFFIPrice)} (out of total ${toFixed(weekly_reward / (7 * 24), 2)} ${rewardTokenTicker})`)
-    _print(`Daily estimate    : ${toFixed(YFFIWeeklyEstimate / 7, 2)} ${rewardTokenTicker} = ${toDollar((YFFIWeeklyEstimate / 7) * YFFIPrice)} (out of total ${toFixed(weekly_reward / 7, 2)} ${rewardTokenTicker})`)
-    _print(`Weekly estimate   : ${toFixed(YFFIWeeklyEstimate, 2)} ${rewardTokenTicker} = ${toDollar(YFFIWeeklyEstimate * YFFIPrice)} (out of total ${weekly_reward} ${rewardTokenTicker})`)
-    const YFIWeeklyROI = (rewardPerToken * YFFIPrice) * 100 / (LINKPrice);
-
-    _print(`\nHourly ROI in USD : ${toFixed((YFIWeeklyROI / 7) / 24, 4)}%`)
-    _print(`Daily ROI in USD  : ${toFixed(YFIWeeklyROI / 7, 4)}%`)
-    _print(`Weekly ROI in USD : ${toFixed(YFIWeeklyROI, 4)}%`)
-    _print(`APY (unstable)    : ${toFixed(YFIWeeklyROI * 52, 4)}% \n`)
+    _print(`\nHourly ROI in USD : ${toFixed((WeeklyROI / 7) / 24, 4)}%`)
+    _print(`Daily ROI in USD  : ${toFixed(WeeklyROI / 7, 4)}%`)
+    _print(`Weekly ROI in USD : ${toFixed(WeeklyROI, 4)}%`)
+    _print(`APY (unstable)    : ${toFixed(WeeklyROI * 52, 4)}% \n`)
 
     const timeTilHalving = nextHalving - (Date.now() / 1000);
 
-    _print(`Next halving      : in ${forHumans(timeTilHalving)} \n`);
+    _print(`Reward halving    : in ${forHumans(timeTilHalving)} \n`);
+
+    const resetApprove = async function() {
+        return rewardsContract_resetApprove(stakingTokenAddr, rewardPoolAddr, App);
+    };
 
     const approveTENDAndStake = async function () {
-
-        const signer = App.provider.getSigner();
-
-        const TEND_TOKEN = new ethers.Contract(stakingToken, ERC20_ABI, signer);
-        const WEEBTEND_V2_TOKEN = new ethers.Contract(rewardPoolAddr, YFFI_REWARD_CONTRACT_ABI, signer);
-
-        const currentTEND = await TEND_TOKEN.balanceOf(App.YOUR_ADDRESS);
-        const allowedTEND = await TEND_TOKEN.allowance(App.YOUR_ADDRESS, rewardPoolAddr);
-
-        console.log(currentTEND);
-
-        let allow = Promise.resolve();
-
-        if (allowedTEND < currentTEND) {
-            showLoading();
-            allow = TEND_TOKEN.approve(rewardPoolAddr, currentTEND)
-                .then(function(t) {
-                    return App.provider.waitForTransaction(t.hash);
-                }).catch(function() {
-                    hideLoading();
-                });
-        }
-
-        if (currentTEND > 0) {
-            showLoading();
-            allow.then(async function() {
-                WEEBTEND_V2_TOKEN.stake(currentTEND).then(function(t) {
-                    App.provider.waitForTransaction(t.hash).then(function() {
-                        hideLoading();
-                    });
-                }).catch(function() {
-                    hideLoading();
-                });
-            });
-        } else {
-            alert("You have no TEND!!");
-        }
+        return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
     };
 
     const unstake = async function() {
-        const signer = App.provider.getSigner();
-
-        const REWARD_POOL = new ethers.Contract(rewardPoolAddr, YFFI_REWARD_CONTRACT_ABI, signer);
-
-        if (earnedYFFI > 0) {
-            showLoading();
-            REWARD_POOL.exit()
-                .then(function(t) {
-                    return App.provider.waitForTransaction(t.hash);
-                }).catch(function() {
-                hideLoading();
-            });
-        }
+        return rewardsContract_unstake(rewardPoolAddr, App);
     };
 
     const claim = async function() {
-        const signer = App.provider.getSigner();
-
-        const WEEBTEND_V2_TOKEN = new ethers.Contract(rewardPoolAddr, YFFI_REWARD_CONTRACT_ABI, signer);
-
-        if (true) {
-            showLoading();
-            WEEBTEND_V2_TOKEN.getReward()
-                .then(function(t) {
-                    return App.provider.waitForTransaction(t.hash);
-                }).catch(function() {
-                    hideLoading();
-                });
-        }
+        console.log("clicked claim");
+        return rewardsContract_claim(rewardPoolAddr, App);
     };
 
     const exit = async function() {
-        const signer = App.provider.getSigner();
-
-        const WEEBTEND_V2_TOKEN = new ethers.Contract(rewardPoolAddr, YFFI_REWARD_CONTRACT_ABI, signer);
-
-        if (earnedYFFI > 0) {
-            showLoading();
-            WEEBTEND_V2_TOKEN.exit()
-                .then(function(t) {
-                    return App.provider.waitForTransaction(t.hash);
-                }).catch(function() {
-                hideLoading();
-            });
-        }
+        return rewardsContract_exit(rewardPoolAddr, App);
     };
 
-    _print_link(`Stake ${unstakedY} YCRV`, approveTENDAndStake);
-    _print_link(`Unstake ${stakedYAmount} YCRV`, unstake);
-    _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
+    print_warning();
+
+    _print_link(`Reset approval to 0`, resetApprove);
+    _print_link(`Stake ${unstakedTokenAmount} ${stakingTokenTicker}`, approveTENDAndStake);
+    _print_link(`Unstake ${stakedTokenAmount} ${stakingTokenTicker}`, unstake);
+    _print_link(`Claim ${earnedTokenAmount} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-
-    // CRV REWARDS
-    _print("\n======== CRV REWARDS ========")
-    _print(`    Not distributed yet`);
+    await _print24HourPrice("based-money", rewardTokenTicker);
 
     hideLoading();
-
 }
