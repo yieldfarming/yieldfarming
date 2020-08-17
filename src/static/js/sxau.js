@@ -13,7 +13,7 @@ async function main() {
     const SYNTH_UNIV2_SXAU_USDC_STAKING_POOL = new ethers.Contract(SYNTH_UNIV2_SXAU_STAKING_POOL_ADDR, SYNTH_UNIV2_SXAU_STAKING_POOL_ABI, App.provider);
     const UNISWAPV2_SXAU_USDC_POOL = new ethers.Contract(UNISWAP_SXAU_USDC_POOL_ADDR, UNISWAP_SXAU_USDC_POOL_ABI, App.provider);
     const SXAU_CONTRACT = new ethers.Contract(SXAU_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const USDC_CONTRACT = new ethers.Contract(USDC_ADDRESS, ERC20_ABI, App.provider);
+    const USDC_CONTRACT = new ethers.Contract(USDC_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     // SYNTH Staking Pool
     const yourStakedUniv2Amount = await SYNTH_UNIV2_SXAU_USDC_STAKING_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;

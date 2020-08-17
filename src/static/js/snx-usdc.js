@@ -19,7 +19,7 @@ async function main() {
     const totalBPTAmount = await SNX_USDC_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await SNX_USDC_BPT_TOKEN_CONTRACT.balanceOf(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR) / 1e18;
     const totalSNXAmount = await SNX_USDC_BALANCER_POOL.getBalance(SNX_TOKEN_ADDRESS) / 1e18;
-    const totalUSDCAmount = await SNX_USDC_BALANCER_POOL.getBalance(USDC_ADDRESS) / 1e6;
+    const totalUSDCAmount = await SNX_USDC_BALANCER_POOL.getBalance(USDC_TOKEN_ADDR) / 1e6;
 
     const SNXperBPT = totalSNXAmount / totalBPTAmount;
     const USDCperBPT = totalUSDCAmount / totalBPTAmount;

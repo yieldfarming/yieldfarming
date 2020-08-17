@@ -398,6 +398,19 @@ const rewardsContract_resetApprove = async function(stakingTokenAddr, rewardPool
         });
 };
 
+
+const trimOrFillTo = function (str, n) {
+    str = str + "";
+
+    if (str.length < n) {
+        str = str.padEnd(n, " ");
+    } else {
+        str = str.substr(0, n - 4).padEnd(n, ".");
+    }
+
+    return str;
+};
+
 const rewardsContract_stake = async function(stakingTokenAddr, rewardPoolAddr, App) {
 
         const signer = App.provider.getSigner();
@@ -494,6 +507,13 @@ const rewardsContract_claim = async function(rewardPoolAddr, App) {
             hideLoading();
         });
     }
+};
+
+const getVaultData = function(vaultControllerInstance, tokenAddr) {
+    const res = {};
+
+
+
 };
 
 const print_warning = function() {

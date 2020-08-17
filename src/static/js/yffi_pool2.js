@@ -41,7 +41,7 @@ async function main() {
     const prices = await lookUpPrices(["dai"]);
     const DAIPrice = prices["dai"].usd;
     const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(DAI_TOKEN_ADDR,YFFI_TOKEN_ADDR) / 1e18) * DAIPrice;
-    const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(Y_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
+    const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(YCRV_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
 
 
     const BPTPrice = YFFIPerBPT * YFFIPrice + DAIPerBPT * DAIPrice;

@@ -30,7 +30,7 @@ async function main() {
     const totalBPTAmount = await YFFI_DAI_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await YFFI_DAI_BPT_TOKEN_CONTRACT.balanceOf(rewardPoolAddr) / 1e18;
     const totalYFFIAmount = await YFFI_DAI_BALANCER_POOL.getBalance(rewardTokenAddr) / 1e18;
-    const totalDAIAmount = await YFFI_DAI_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const totalDAIAmount = await YFFI_DAI_BALANCER_POOL.getBalance(YCRV_TOKEN_ADDR) / 1e18;
 
     const YFFIPerBPT = totalYFFIAmount / totalBPTAmount;
     const DAIPerBPT = totalDAIAmount / totalBPTAmount;
@@ -50,7 +50,7 @@ async function main() {
     // Look up prices
     const prices = await lookUpPrices(["dai"]);
     const DAIPrice = 1.04;
-    const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(Y_TOKEN_ADDR, rewardTokenAddr) / 1e18);
+    const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(YCRV_TOKEN_ADDR, rewardTokenAddr) / 1e18);
     // const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(Y_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
 
 

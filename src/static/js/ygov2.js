@@ -12,7 +12,7 @@ async function main() {
 
     const YGOV_V2_POOL = new ethers.Contract(YFFI_POOL_1_ADDR, Y_STAKING_POOL_ABI, App.provider);
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
-    const Y_TOKEN = new ethers.Contract(Y_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const Y_TOKEN = new ethers.Contract(YCRV_TOKEN_ADDR, ERC20_ABI, App.provider);
     const YFI_TOKEN = new ethers.Contract(YFI_TOKEN_ADDR, YFI_TOKEN_ABI, App.provider);
 
     const stakedYFIAmount = await YGOV_V2_POOL.balanceOf(App.YOUR_ADDRESS) / 1e18;

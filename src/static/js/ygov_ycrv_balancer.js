@@ -25,7 +25,7 @@ async function main() {
     const totalBPTAmount = await YFI_YCRV_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR) / 1e18;
     const totalYFIAmount = await YFI_YCRV_BALANCER_POOL.getBalance(YFI_TOKEN_ADDR) / 1e18;
-    const totalYAmount = await YFI_YCRV_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const totalYAmount = await YFI_YCRV_BALANCER_POOL.getBalance(YCRV_TOKEN_ADDR) / 1e18;
     const voteLockBlock = await YGOV_2_BPT_POOL.voteLock(App.YOUR_ADDRESS);
     const currentBlock = await App.provider.getBlockNumber();
     const currentBlockTime = await getBlockTime();

@@ -17,7 +17,7 @@ async function main() {
     const yourBPTAmount = await YUSD_USDC_BPT_TOKEN.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
     const totalYUSDSEP20Amount = await YUSD_USDC_BALANCER_POOL.getBalance(YUSDSEP20_TOKEN_ADDR) / 1e18;
-    const totalUSDCAmount = await YUSD_USDC_BALANCER_POOL.getBalance(USDC_ADDRESS) / 1e6;
+    const totalUSDCAmount = await YUSD_USDC_BALANCER_POOL.getBalance(USDC_TOKEN_ADDR) / 1e6;
 
 
     const YUSDSEP20PerBPT = totalYUSDSEP20Amount / totalBPTAmount;
@@ -33,7 +33,7 @@ async function main() {
     const prices = await lookUpPrices(["usd-coin", "uma"]);
     const USDCPrice = prices["usd-coin"].usd;
     const UMAPrice = prices["uma"].usd;
-    const YUSDSEP20Price = (await YUSD_USDC_BALANCER_POOL.getSpotPrice(USDC_ADDRESS, YUSDSEP20_TOKEN_ADDR) /1e6) * USDCPrice;
+    const YUSDSEP20Price = (await YUSD_USDC_BALANCER_POOL.getSpotPrice(USDC_TOKEN_ADDR, YUSDSEP20_TOKEN_ADDR) /1e6) * USDCPrice;
 
     const BPTPrice = YUSDSEP20PerBPT * YUSDSEP20Price + USDCPerBPT * USDCPrice;
 

@@ -21,7 +21,7 @@ async function main() {
     const totalBPTAmount = await Y_DAI_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await Y_DAI_BPT_TOKEN_CONTRACT.balanceOf(YGOV_BPT_2_STAKING_POOL_ADDR) / 1e18;
     const totalYFIAmount = await Y_DAI_BALANCER_POOL.getBalance(YFI_TOKEN_ADDR) / 1e18;
-    const totalYAmount = await Y_DAI_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const totalYAmount = await Y_DAI_BALANCER_POOL.getBalance(YCRV_TOKEN_ADDR) / 1e18;
 
     const YFIPerBPT = totalYFIAmount / totalBPTAmount;
     const YPerBPT = totalYAmount / totalBPTAmount;

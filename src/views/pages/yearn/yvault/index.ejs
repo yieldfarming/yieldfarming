@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>yvault</title>
-</head>
-<body>
+<%- include(`${partials}/head`); -%>
 
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+***************** 👨‍🌾 UNOFFICIAL yVault YIELD FARMING CALCULATOR 👨‍🌾 ******************
+INFO  : https://www.learnyearn.finance/vaults/help
+STAKE : https://yearn.finance/vaults
+***************************************************************************************
+
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'yvault'}); -%>
 </body>
 </html>
