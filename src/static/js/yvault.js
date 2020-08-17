@@ -195,7 +195,7 @@ const printVault = async function(vault, App) {
     _print(`================== ${vault.tokenTicker} ================== `);
     _print(`1 ${trimOrFillTo(vault.tokenTicker, 15)} = $${vault.tokenPrice}`);
     _print(`1 ${trimOrFillTo(vault.vaultTicker, 15)} = ${toFixed(vault.currentPricePerFullShare / 1e18, 6)} ${vault.tokenTicker}\n`);
-    _print_href(`Current strategy  : ${vault.strategyAddr}`, `https://etherscan.io/address/${vault.strategyAddr}#readContract`);
+    _print_href(`Current strategy  : ${vault.strategyAddr}`, `https://etherscan.io/address/${vault.strategyAddr}#code`);
 
     _print('');
 

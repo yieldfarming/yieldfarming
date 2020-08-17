@@ -54,7 +54,7 @@ async function main() {
 
     _print("========== PRICES ==========")
     _print(`1 TEND            = $${TENDPrice}`);
-    _print(`1 weebTEND-V3     = $${WEEBTENDPrice}\n`);
+    _print(`1 weebTEND-V3     = $0\n`);
 
     _print("========= STAKING ==========")
     _print(`There are total   : ${totalTENDSupply / 1e18} TEND in the world`);
