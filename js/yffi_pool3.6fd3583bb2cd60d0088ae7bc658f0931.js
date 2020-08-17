@@ -33,7 +33,7 @@ async function main() {
     const totalBPTAmount = await YFFI_YCRV_BALANCER_POOL.totalSupply() / 1e18;
     const totalStakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(YFFI_POOL_3_ADDR) / 1e18;
     const totalYFFIAmount = await YFFI_YCRV_BALANCER_POOL.getBalance(YFFI_TOKEN_ADDR) / 1e18;
-    const totalYAmount = await YFFI_YCRV_BALANCER_POOL.getBalance(Y_TOKEN_ADDR) / 1e18;
+    const totalYAmount = await YFFI_YCRV_BALANCER_POOL.getBalance(YCRV_TOKEN_ADDR) / 1e18;
 
     // const yourUnstakedBPTAmount = await YFI_YCRV_BPT_TOKEN_CONTRACT.balanceOf(App.YOUR_ADDRESS) / 1e18;
 
@@ -56,7 +56,7 @@ async function main() {
 
 
     const YFFIPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(DAI_TOKEN_ADDR,YFFI_TOKEN_ADDR) / 1e18) * DAIPrice;
-    const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(Y_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
+    const YFFIPrice2 = (await YFFI_YCRV_BALANCER_POOL.getSpotPrice(YCRV_TOKEN_ADDR, YFFI_TOKEN_ADDR) / 1e18) * YVirtualPrice;
 
     const BPTPrice = YFFIPerBPT * YFFIPrice + YPerBPT * YVirtualPrice;
 
