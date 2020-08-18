@@ -52,11 +52,11 @@ async function main() {
     // Look up prices
     const prices = await lookUpPrices(["based-money", "nusd"]);
     const SUSDPrice = prices["nusd"].usd;
-    const rewardTokenPrice = prices["based-money"].usd;
+    // const rewardTokenPrice = prices["based-money"].usd;
 
+    const rewardTokenPrice = (SUSDPrice * totalSUSDInUniswapPair) / totalBASEDInUniswapPair;
     const stakingTokenPrice = (SUSDPrice * totalSUSDInUniswapPair + rewardTokenPrice * totalBASEDInUniswapPair) / totalSupplyOfStakingToken;
 
-    // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
 
 
     // Finished. Start printing
@@ -126,7 +126,8 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-    await _print24HourPrice("based-money", rewardTokenTicker);
+    // await _print24HourPrice("based-money", rewardTokenTicker);
+    _print("\nMigrated token price data not collected yet");
 
     hideLoading();
 }
