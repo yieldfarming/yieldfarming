@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include(`${partials}/head`); -%>
+
+  <body>
+    <div>
+      <a href="../../">Home</a> | <a href="../../funzone/">Funzone</a> | <a href="../yfi">yfi</a>
+      <a href="../dice">dice</a> <a href="../comp">comp</a> <a href="../cream">cream</a>
+      <a href="../uni-lp">uniswap-lp</a> <a href="../weth">weth</a>
+    </div>
+    <pre id="log">
+    /$$$$$$  /$$                 /$$
+    /$$__  $$| $$                |__/
+   | $$  \__/| $$$$$$$   /$$$$$$  /$$ /$$$$$$/$$$$   /$$$$$$
+   |  $$$$$$ | $$__  $$ /$$__  $$| $$| $$_  $$_  $$ /$$__  $$
+    \____  $$| $$  \ $$| $$  \__/| $$| $$ \ $$ \ $$| $$  \ $$
+    /$$  \ $$| $$  | $$| $$      | $$| $$ | $$ | $$| $$  | $$
+   |  $$$$$$/| $$  | $$| $$      | $$| $$ | $$ | $$| $$$$$$$/
+    \______/ |__/  |__/|__/      |__/|__/ |__/ |__/| $$____/
+                                                   | $$
+                                                   | $$
+                                                   |__/
+
+</pre
+    >
+    <div class="loader--1"></div>
+    <%- include(`${partials}/scripts`, {scriptname: 'yam_yfi'}); -%>
+  </body>
+</html>
