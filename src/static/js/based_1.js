@@ -23,7 +23,7 @@ async function main() {
     const STAKING_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider);
 
     const SUSD_TOKEN = new ethers.Contract(SUSD_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const BASED_TOKEN = new ethers.Contract(BASED_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
+    const BASED_TOKEN = new ethers.Contract(BASED_V1_5_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
 
     const totalSUSDInUniswapPair = await SUSD_TOKEN.balanceOf(BASED_SUSD_UNI_TOKEN_ADDR) / 1e18;
     const totalBASEDInUniswapPair = await BASED_TOKEN.balanceOf(BASED_SUSD_UNI_TOKEN_ADDR) / 1e18;
