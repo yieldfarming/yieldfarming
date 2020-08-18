@@ -54,8 +54,8 @@ async function main() {
   // Look up prices
   // const prices = await lookUpPrices(["yearn-finance"]);
   // const YFIPrice = prices["yearn-finance"].usd;
-  const prices = await lookUpPrices(['cream', 'ethereum', 'shrimp-finance'])
-  const stakingTokenPrice = prices['cream'].usd
+  const prices = await lookUpPrices(['cream-2', 'ethereum', 'shrimp-finance'])
+  const stakingTokenPrice = prices['cream-2'].usd
 
   // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
   const rewardTokenPrice = prices['shrimp-finance'].usd
