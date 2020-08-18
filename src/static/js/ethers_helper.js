@@ -220,7 +220,7 @@ const _print24HourPrice = async function(id, ticker) {
     console.log(historicalPrices)
     const config = {
       offset: 3, // axis offset from the left (min 2)
-      padding: '       ', // padding string for label formatting (can be overrided)
+      padding: '     ', // padding string for label formatting (can be overrided)
       height: 20, // any height you want,
     }
 
