@@ -7,8 +7,8 @@ async function main() {
 
     const stakingTokenAddr = BASED_SUSD_UNI_TOKEN_ADDR;
     const stakingTokenTicker = "UNIV2";
-    const rewardPoolAddr = "0x77caF750cC58C148D47fD52DdDe43575AA179d1f";
-    const rewardTokenAddr = BASED_TOKEN_ADDR;
+    const rewardPoolAddr = "0x4fc7e3249A149c0bf729863f49cD2FF468F2412F";
+    const rewardTokenAddr = BASED_V1_5_TOKEN_ADDR;
     const rewardTokenTicker = "BASED";
 
     const App = await init_ethers();
@@ -102,7 +102,7 @@ async function main() {
         return rewardsContract_resetApprove(stakingTokenAddr, rewardPoolAddr, App);
     };
 
-    const approveTENDAndStake = async function () {
+    const approveBASEDAndStake = async function () {
         return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App);
     };
 
@@ -121,7 +121,7 @@ async function main() {
     print_warning();
 
     _print_link(`Reset approval to 0`, resetApprove);
-    _print_link(`Stake ${unstakedY} ${stakingTokenTicker}`, approveTENDAndStake);
+    _print_link(`Stake ${unstakedY} ${stakingTokenTicker}`, approveBASEDAndStake);
     _print_link(`Unstake ${stakedYAmount} ${stakingTokenTicker}`, unstake);
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
