@@ -31,7 +31,6 @@ async function main() {
 
   const stakedYAmount = (await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS)) / 1e18
   const earnedYFFI = (yamScale * (await Y_STAKING_POOL.earned(App.YOUR_ADDRESS))) / 1e18
-  const totalSupplyY = (await Y_TOKEN.totalSupply()) / 1e18
   const totalSupplyOfStakingToken = (await STAKING_TOKEN.totalSupply()) / 1e18
   const totalStakedYAmount = (await STAKING_TOKEN.balanceOf(rewardPoolAddr)) / 1e18
 
@@ -45,7 +44,7 @@ async function main() {
 
   // Find out underlying assets of Y
   // const YVirtualPrice = await CURVE_Y_POOL.get_virtual_price() / 1e18;
-  const unstakedY = (await Y_TOKEN.balanceOf(App.YOUR_ADDRESS)) / 1e18
+  const unstakedY = (await STAKING_TOKEN.balanceOf(App.YOUR_ADDRESS)) / 1e18
 
   const ethAmount = (await WETH_TOKEN.balanceOf(stakingTokenAddr)) / 1e18
   const shrimpAmount = (await SHRIMP_TOKEN.balanceOf(stakingTokenAddr)) / 1e18
@@ -71,7 +70,7 @@ async function main() {
   _print(`1 ${stakingTokenTicker}  = $${stakingTokenPrice}\n`)
 
   _print('========== STAKING =========')
-  _print(`There are total   : ${totalSupplyY} ${stakingTokenTicker}.`)
+  _print(`There are total   : ${totalSupplyOfStakingToken} ${stakingTokenTicker}.`)
   _print(
     `There are total   : ${totalStakedYAmount} ${stakingTokenTicker} staked in ${rewardTokenTicker}'s ${stakingTokenTicker} staking pool.`
   )
