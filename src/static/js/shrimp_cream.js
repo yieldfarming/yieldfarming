@@ -8,7 +8,7 @@ async function main() {
 
   const stakingTokenAddr = CREAM_TOKEN_ADDR
   const stakingTokenTicker = 'CREAM'
-  const rewardPoolAddr = '0xCeC3fc05f9314528b5Ef324a2e2C47f1D8BeD515'
+  const rewardPoolAddr = '0xa8ed29d39Ec961Ded44451D38e56B609Fe08126e'
   const rewardTokenAddr = SHRIMP_TOKEN_ADDR
   const balancerPoolTokenAddr = '0xc7062D899dd24b10BfeD5AdaAb21231a1e7708fE'
   const rewardTokenTicker = 'SHRIMP'
