@@ -6,12 +6,13 @@ $(function() {
 async function main() {
   print_warning()
 
-  const stakingTokenAddr = COMP_TOKEN_ADDR
-  const stakingTokenTicker = 'COMP'
-  const rewardPoolAddr = '0xadceEB763dbd6F9bA7eFb7564AF2518a7fB49e7b'
+  const stakingTokenAddr = DICE_TOKEN_ADDR
+  const stakingTokenTicker = 'DICE'
+  const rewardPoolAddr = '0xCeC3fc05f9314528b5Ef324a2e2C47f1D8BeD515'
   const rewardTokenAddr = SHRIMP_TOKEN_ADDR
   const balancerPoolTokenAddr = '0xc7062D899dd24b10BfeD5AdaAb21231a1e7708fE'
   const rewardTokenTicker = 'SHRIMP'
+  const uniswapPoolAddr = ETH_DICE_UNI_TOKEN_ADDR
 
   const App = await init_ethers()
 
@@ -27,6 +28,7 @@ async function main() {
 
   //   const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
   const SHRIMP_TOKEN = new ethers.Contract(SHRIMP_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
+  const UNI_V2_TOKEN = new ethers.Contract(uniswapPoolAddr, ERC20_ABI, App.provider)
   const WETH_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider)
 
   const yamScale = (await SHRIMP_TOKEN.yamsScalingFactor()) / 1e18
@@ -51,12 +53,16 @@ async function main() {
 
   _print('Finished reading smart contracts... Looking up prices... \n')
 
+  const ethAmount = (await WETH_TOKEN.balanceOf(uniswapPoolAddr)) / 1e18
+  const diceAmount = (await Y_TOKEN.balanceOf(uniswapPoolAddr)) / 1e18
+  const totalUNIV2Amount = (await UNI_V2_TOKEN.totalSupply()) / 1e18
+
   // Look up prices
   // const prices = await lookUpPrices(["yearn-finance"]);
   // const YFIPrice = prices["yearn-finance"].usd;
-  const prices = await lookUpPrices(['compound-governance-token', 'ethereum', 'shrimp-finance'])
-  const stakingTokenPrice = prices['compound-governance-token'].usd
-  _print(stakingTokenPrice)
+  const prices = await lookUpPrices(['ethereum', 'shrimp-finance'])
+  const stakingTokenPrice = 55.38
+
   // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
   const rewardTokenPrice = prices['shrimp-finance'].usd
 

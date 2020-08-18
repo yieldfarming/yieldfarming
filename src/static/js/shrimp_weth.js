@@ -6,9 +6,9 @@ $(function() {
 async function main() {
   print_warning()
 
-  const stakingTokenAddr = COMP_TOKEN_ADDR
-  const stakingTokenTicker = 'COMP'
-  const rewardPoolAddr = '0xadceEB763dbd6F9bA7eFb7564AF2518a7fB49e7b'
+  const stakingToken = WETH_TOKEN_ADDR
+  const stakingTokenTicker = 'WETH'
+  const rewardPoolAddr = '0x7127EE43FAFba873ce985683AB79dF2ce2912198'
   const rewardTokenAddr = SHRIMP_TOKEN_ADDR
   const balancerPoolTokenAddr = '0xc7062D899dd24b10BfeD5AdaAb21231a1e7708fE'
   const rewardTokenTicker = 'SHRIMP'
@@ -21,15 +21,14 @@ async function main() {
   _print(`Reward Pool Address: ${rewardPoolAddr}\n`)
 
   const Y_STAKING_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, App.provider)
-  //   const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider)
-  const Y_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider)
+  const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider)
+  const Y_TOKEN = new ethers.Contract(stakingToken, ERC20_ABI, App.provider)
   const YFFI_DAI_BALANCER_POOL = new ethers.Contract(balancerPoolTokenAddr, BALANCER_POOL_ABI, App.provider)
 
-  //   const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
-  const SHRIMP_TOKEN = new ethers.Contract(SHRIMP_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
+  const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
   const WETH_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider)
 
-  const yamScale = (await SHRIMP_TOKEN.yamsScalingFactor()) / 1e18
+  const yamScale = (await YAM_TOKEN.yamsScalingFactor()) / 1e18
 
   const stakedYAmount = (await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS)) / 1e18
   const earnedYFFI = (yamScale * (await Y_STAKING_POOL.earned(App.YOUR_ADDRESS))) / 1e18
@@ -38,7 +37,7 @@ async function main() {
 
   // Find out reward rate
   const weekly_reward =
-    ((await get_synth_weekly_rewards(Y_STAKING_POOL)) * (await SHRIMP_TOKEN.yamsScalingFactor())) / 1e18
+    ((await get_synth_weekly_rewards(Y_STAKING_POOL)) * (await YAM_TOKEN.yamsScalingFactor())) / 1e18
   const nextHalving = await getPeriodFinishForReward(Y_STAKING_POOL)
 
   // const weekly_reward = 0;
@@ -54,9 +53,9 @@ async function main() {
   // Look up prices
   // const prices = await lookUpPrices(["yearn-finance"]);
   // const YFIPrice = prices["yearn-finance"].usd;
-  const prices = await lookUpPrices(['compound-governance-token', 'ethereum', 'shrimp-finance'])
-  const stakingTokenPrice = prices['compound-governance-token'].usd
-  _print(stakingTokenPrice)
+  const prices = await lookUpPrices(['ethereum', 'shrimp-finance'])
+  const stakingTokenPrice = prices['ethereum'].usd
+
   // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
   const rewardTokenPrice = prices['shrimp-finance'].usd
 

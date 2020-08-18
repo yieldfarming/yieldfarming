@@ -6,9 +6,9 @@ $(function() {
 async function main() {
   print_warning()
 
-  const stakingTokenAddr = COMP_TOKEN_ADDR
-  const stakingTokenTicker = 'COMP'
-  const rewardPoolAddr = '0xadceEB763dbd6F9bA7eFb7564AF2518a7fB49e7b'
+  const stakingTokenAddr = SHRIMP_WETH_UNI_TOKEN_ADDR
+  const stakingTokenTicker = 'UNIV2'
+  const rewardPoolAddr = '0x03b42a5E68D5a0BC47aD52D1deCf3752d6091264'
   const rewardTokenAddr = SHRIMP_TOKEN_ADDR
   const balancerPoolTokenAddr = '0xc7062D899dd24b10BfeD5AdaAb21231a1e7708fE'
   const rewardTokenTicker = 'SHRIMP'
@@ -21,11 +21,9 @@ async function main() {
   _print(`Reward Pool Address: ${rewardPoolAddr}\n`)
 
   const Y_STAKING_POOL = new ethers.Contract(rewardPoolAddr, Y_STAKING_POOL_ABI, App.provider)
-  //   const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider)
-  const Y_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider)
-  const YFFI_DAI_BALANCER_POOL = new ethers.Contract(balancerPoolTokenAddr, BALANCER_POOL_ABI, App.provider)
+  const STAKING_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider)
+  const Y_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider)
 
-  //   const YAM_TOKEN = new ethers.Contract(YAM_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
   const SHRIMP_TOKEN = new ethers.Contract(SHRIMP_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider)
   const WETH_TOKEN = new ethers.Contract(WETH_TOKEN_ADDR, ERC20_ABI, App.provider)
 
@@ -34,11 +32,11 @@ async function main() {
   const stakedYAmount = (await Y_STAKING_POOL.balanceOf(App.YOUR_ADDRESS)) / 1e18
   const earnedYFFI = (yamScale * (await Y_STAKING_POOL.earned(App.YOUR_ADDRESS))) / 1e18
   const totalSupplyY = (await Y_TOKEN.totalSupply()) / 1e18
-  const totalStakedYAmount = (await Y_TOKEN.balanceOf(rewardPoolAddr)) / 1e18
+  const totalSupplyOfStakingToken = (await STAKING_TOKEN.totalSupply()) / 1e18
+  const totalStakedYAmount = (await STAKING_TOKEN.balanceOf(rewardPoolAddr)) / 1e18
 
   // Find out reward rate
-  const weekly_reward =
-    ((await get_synth_weekly_rewards(Y_STAKING_POOL)) * (await SHRIMP_TOKEN.yamsScalingFactor())) / 1e18
+  const weekly_reward = (await get_synth_weekly_rewards(Y_STAKING_POOL)) * yamScale
   const nextHalving = await getPeriodFinishForReward(Y_STAKING_POOL)
 
   // const weekly_reward = 0;
@@ -49,21 +47,27 @@ async function main() {
   // const YVirtualPrice = await CURVE_Y_POOL.get_virtual_price() / 1e18;
   const unstakedY = (await Y_TOKEN.balanceOf(App.YOUR_ADDRESS)) / 1e18
 
+  const ethAmount = (await WETH_TOKEN.balanceOf(stakingTokenAddr)) / 1e18
+  const shrimpAmount = (await SHRIMP_TOKEN.balanceOf(stakingTokenAddr)) / 1e18
+  const totalUNIV2Amount = (await STAKING_TOKEN.totalSupply()) / 1e18
+
   _print('Finished reading smart contracts... Looking up prices... \n')
 
   // Look up prices
   // const prices = await lookUpPrices(["yearn-finance"]);
   // const YFIPrice = prices["yearn-finance"].usd;
-  const prices = await lookUpPrices(['compound-governance-token', 'ethereum', 'shrimp-finance'])
-  const stakingTokenPrice = prices['compound-governance-token'].usd
-  _print(stakingTokenPrice)
+  const prices = await lookUpPrices(['ethereum', 'shrimp-finance'])
+  const stakingTokenPrice =
+    (prices['ethereum'].usd * ethAmount + prices['shrimp-finance'].usd * shrimpAmount) / totalUNIV2Amount
+
   // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
   const rewardTokenPrice = prices['shrimp-finance'].usd
 
   // Finished. Start printing
 
   _print('========== PRICES ==========')
-  _print(`1 ${rewardTokenTicker}   = $${rewardTokenPrice}`)
+  _print(`1 ${rewardTokenTicker}    = $${rewardTokenPrice}`)
+  _print(`1 WETH   = $${prices['ethereum'].usd}`)
   _print(`1 ${stakingTokenTicker}  = $${stakingTokenPrice}\n`)
 
   _print('========== STAKING =========')
@@ -112,7 +116,7 @@ async function main() {
 
   const timeTilHalving = nextHalving - Date.now() / 1000
 
-  _print(`Reward ending      : in ${forHumans(timeTilHalving)} \n`)
+  _print(`Reward ending     : in ${forHumans(timeTilHalving)} \n`)
 
   const approveTENDAndStake = async function() {
     return rewardsContract_stake(stakingTokenAddr, rewardPoolAddr, App)
