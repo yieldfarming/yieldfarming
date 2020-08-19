@@ -60,10 +60,9 @@ async function main() {
             $(`#diff_contractInput1`).val(contract1addr);
             await loadContractSourceCode(contract1addr, 0);
         }
-
         if (contract2addr) {
             $(`#diff_contractInput2`).val(contract2addr);
-            await loadContractSourceCode(contract2addr, 0);
+            await loadContractSourceCode(contract2addr, 1);
         }
     } else {
 
