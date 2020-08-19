@@ -1,15 +1,15 @@
-const { resolve } = require('path')
+const {resolve} = require('path')
 
 // Use the following variables in src/views and src/js. They are made available in
 // build-tools/ejs-to-html.js in the 'transformer' function and in webpcak.config.js
 
 module.exports.PP = ''
 module.exports.DEV_PATH = __dirname
-module.exports.SITE_TITLE = 'Static Boilerplate EJS-SASS'
-module.exports.SITE_NAME = 'ejs-sass-static-boilerplate'
+module.exports.SITE_TITLE = 'YieldFarming'
+module.exports.SITE_NAME = 'yieldfarming.info'
 module.exports.DESCRIPTION = 'Boilerplate for a Static website using EJS and SASS'
-module.exports.SITE_URL = 'example.com'
-module.exports.DEVELOPER_NAME = 'Brenton Cozby'
+module.exports.SITE_URL = 'https://yieldfarming.info'
+module.exports.DEVELOPER_NAME = 'Jongseung Lim'
 module.exports.DEVELOPER_URL = 'https://yieldfarming.info'
 // module.exports.GOOGLE_ANALYTICS_ID = ''
 
