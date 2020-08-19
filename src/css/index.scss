@@ -5,8 +5,13 @@
 // @import 'footer';
 @import 'print';
 
-body {
+body, input {
   font-family: monospace;
+}
+
+
+.border {
+    border-style: solid;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +23,11 @@ body {
   a {
     color: #f1f1f1;
   }
+
+    .border {
+        border-style: solid;
+        border-color: #f1f1f1;
+    }
 }
 
 *, *:before, *:after {
@@ -434,3 +444,5 @@ code {
     content: "☴";
   }
 }
+
+@import "diff.scss";

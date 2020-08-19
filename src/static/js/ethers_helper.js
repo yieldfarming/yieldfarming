@@ -182,6 +182,13 @@ const getBlockNumberFromTimestamp = async function(timestamp) {
     })
 }
 
+const getSourceCode = async function(address) {
+    return $.ajax({
+        url: `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${address}&apikey=XRFWK1IDBR545CXNJ6NQSYAVINUQB7IDV1`,
+        type: 'GET',
+    })
+}
+
 const lookUpPricesSevenDays = async function(id) {
   const to = Date.now() / 1000
   const from = to - 604800

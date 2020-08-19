@@ -52,12 +52,10 @@ async function main() {
     // Look up prices
     const prices = await lookUpPrices(["based-money", "nusd"]);
     const SUSDPrice = prices["nusd"].usd;
-    // const rewardTokenPrice = prices["based-money"].usd;
+    const rewardTokenPrice = prices["based-money"].usd;
 
-    const rewardTokenPrice = (SUSDPrice * totalSUSDInUniswapPair) / totalBASEDInUniswapPair;
+    // const rewardTokenPrice = (SUSDPrice * totalSUSDInUniswapPair) / totalBASEDInUniswapPair;
     const stakingTokenPrice = (SUSDPrice * totalSUSDInUniswapPair + rewardTokenPrice * totalBASEDInUniswapPair) / totalSupplyOfStakingToken;
-
-
 
     // Finished. Start printing
 
@@ -126,8 +124,8 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-    // await _print24HourPrice("based-money", rewardTokenTicker);
-    _print("\nMigrated token price data not collected yet");
+    await _print24HourPrice("based-money", rewardTokenTicker);
+    //_print("\nMigrated token price data not collected yet");
 
     hideLoading();
 }

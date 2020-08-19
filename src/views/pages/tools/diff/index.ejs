@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+<body id="diffBody">
+    <h2>Ethereum Contract DiffChecker</h2>
+    <div>
+        <a href="#" id="diff_loadOriginal">Load original reward contract by @k06a</a> <br />
+        <a href="#" id="diff_loadHalving">Load halving reward contract (yfii)</a> <br />
+        <a href="#" id="diff_loadYAM">Load YAM reward contract</a> <br /> <br />
+        <form>
+            <label for="diff_contractInput1">Contract 1 address: </label><br>
+            <input id="diff_contractInput1" type="text" name="fname" value="" size="50"><br>
+            <label for="diff_contractInput2">Contract 2 address: </label><br>
+            <input id="diff_contractInput2" type="text" name="lname" value="" size="50">
+        </form>
+        <br />
+    </div>
+<table>
+    <tbody>
+    <tr>
+        <td class="border" id="a" spellcheck="false"></td>
+        <td class="border" id="b" spellcheck="false"></td>
+        <td>
+                        <pre
+                                id="result"
+                        ></pre>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<%- include(`${partials}/scripts`, {scriptname: 'diff'}); -%>
+</body>
+</html>

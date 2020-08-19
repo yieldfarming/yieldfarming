@@ -8,7 +8,7 @@
 import $ from "jquery";
 import { ethers } from "ethers";
 
-import dompurify from 'dompurify'
+//import dompurify from 'dompurify'
 
 import 'picturefill'
 import 'utils/errors'
@@ -17,6 +17,7 @@ import 'utils/validation'
 window.$ = $;
 window.ethers = ethers;
 window.asciichart = require("asciichart");
+window.Diff = require("diff");
 
 // eslint-disable-next-line no-console
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
