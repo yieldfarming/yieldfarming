@@ -107,7 +107,7 @@ async function main() {
         }
 
         try {
-                const pastPricePerFullShare = await delegatedVaultContract.getPricePerFullShare({blockTag : Math.round(currentBlockNumber - oneWeekInBlocks)});
+            const pastPricePerFullShare = await delegatedVaultContract.getPricePerFullShare({blockTag : Math.round(currentBlockNumber - oneWeekInBlocks)});
             ROI_week = (currentPricePerFullShare / pastPricePerFullShare - 1) * 100;
         } catch (e) {
             console.error(e);
