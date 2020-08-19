@@ -175,6 +175,13 @@ const lookUpPricesHistorical = async function(id, from, to) {
   })
 }
 
+const getBlockNumberFromTimestamp = async function(timestamp) {
+    return $.ajax({
+        url: `https://api.etherscan.io/api?module=block&action=getblocknobytime&timestamp=${timestamp}&closest=before&apikey=XRFWK1IDBR545CXNJ6NQSYAVINUQB7IDV1`,
+        type: 'GET',
+    })
+}
+
 const lookUpPricesSevenDays = async function(id) {
   const to = Date.now() / 1000
   const from = to - 604800
@@ -518,10 +525,6 @@ const rewardsContract_claim = async function(rewardPoolAddr, App) {
         hideLoading()
       })
   }
-}
-
-const getVaultData = function(vaultControllerInstance, tokenAddr) {
-  const res = {}
 }
 
 const print_warning = function() {
