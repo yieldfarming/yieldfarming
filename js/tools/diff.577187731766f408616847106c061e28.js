@@ -12,6 +12,7 @@ $(function() {
 
 const a = document.getElementById("a");
 const b = document.getElementById("b");
+const result = document.getElementById("result");
 
 async function loadContractSourceCode(address, index) {
     const sourceCode = (await getSourceCode(address)).result[0]["SourceCode"];
@@ -51,10 +52,24 @@ function changed() {
 
 async function main() {
 
-    $(`#diff_contractInput1`).val(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR);
-    await loadContractSourceCode(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR, 0);
+    const contract1addr = getUrlParameter('contract1')
+    const contract2addr = getUrlParameter('contract2')
 
-    var result = document.getElementById("result");
+    if (contract1addr || contract2addr) {
+        if (contract1addr) {
+            $(`#diff_contractInput1`).val(contract1addr);
+            await loadContractSourceCode(contract1addr, 0);
+        }
+
+        if (contract2addr) {
+            $(`#diff_contractInput2`).val(contract2addr);
+            await loadContractSourceCode(contract2addr, 0);
+        }
+    } else {
+
+        $(`#diff_contractInput1`).val(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR);
+        await loadContractSourceCode(SYNTH_USDC_SNX_BPT_STAKING_POOL_ADDR, 0);
+    }
 
     window.onload = function () {
         onDiffTypeChange(document.querySelector('#settings [name="diff_type"]:checked'));
