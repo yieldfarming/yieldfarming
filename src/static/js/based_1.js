@@ -7,8 +7,8 @@ async function main() {
 
     const stakingTokenAddr = BASED_SUSD_UNI_TOKEN_ADDR;
     const stakingTokenTicker = "UNIV2";
-    const rewardPoolAddr = "0x77caF750cC58C148D47fD52DdDe43575AA179d1f";
-    const rewardTokenAddr = BASED_TOKEN_ADDR;
+    const rewardPoolAddr = "0x4fc7e3249A149c0bf729863f49cD2FF468F2412F";
+    const rewardTokenAddr = BASED_2_TOKEN_ADDR;
     const rewardTokenTicker = "BASED";
 
     const App = await init_ethers();
@@ -23,7 +23,7 @@ async function main() {
     const STAKING_TOKEN = new ethers.Contract(stakingTokenAddr, ERC20_ABI, App.provider);
 
     const SUSD_TOKEN = new ethers.Contract(SUSD_TOKEN_ADDR, ERC20_ABI, App.provider);
-    const BASED_TOKEN = new ethers.Contract(BASED_TOKEN_ADDR, YAM_TOKEN_ABI, App.provider);
+    const BASED_TOKEN = new ethers.Contract(rewardTokenAddr, YAM_TOKEN_ABI, App.provider);
 
     const totalSUSDInUniswapPair = await SUSD_TOKEN.balanceOf(BASED_SUSD_UNI_TOKEN_ADDR) / 1e18;
     const totalBASEDInUniswapPair = await BASED_TOKEN.balanceOf(BASED_SUSD_UNI_TOKEN_ADDR) / 1e18;
@@ -52,11 +52,11 @@ async function main() {
     // Look up prices
     const prices = await lookUpPrices(["based-money", "nusd"]);
     const SUSDPrice = prices["nusd"].usd;
-    const rewardTokenPrice = prices["based-money"].usd;
+    // const rewardTokenPrice = prices["based-money"].usd;
 
+    const rewardTokenPrice = (SUSDPrice * totalSUSDInUniswapPair) / totalBASEDInUniswapPair;
     const stakingTokenPrice = (SUSDPrice * totalSUSDInUniswapPair + rewardTokenPrice * totalBASEDInUniswapPair) / totalSupplyOfStakingToken;
 
-    // const rewardTokenPrice = (await YFFI_DAI_BALANCER_POOL.getSpotPrice(LINK_TOKEN_ADDR, rewardTokenAddr) / 1e18) * stakingTokenPrice;
 
 
     // Finished. Start printing
@@ -126,6 +126,8 @@ async function main() {
     _print_link(`Claim ${earnedYFFI} ${rewardTokenTicker}`, claim);
     _print_link(`Exit`, exit);
 
-    hideLoading();
+    // await _print24HourPrice("based-money", rewardTokenTicker);
+    _print("\nMigrated token price data not collected yet");
 
+    hideLoading();
 }

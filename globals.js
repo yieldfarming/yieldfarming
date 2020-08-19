@@ -26,5 +26,5 @@ module.exports.Dir = {
   vendor: resolve(__dirname, 'src', 'vendor'),
   views: resolve(__dirname, 'src', 'views'),
   pages: resolve(__dirname, 'src', 'views', 'pages'),
-  partials: resolve(__dirname, 'src', 'views', 'partials'),
+  partials: resolve(__dirname, 'src', 'views', 'partials')
 }
