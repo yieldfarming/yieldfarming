@@ -212,6 +212,6 @@ const printVault = async function(vault, App) {
         _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}%\n`);
     }
 
-    _print(`APY (daily)       : ${toFixed(vault.ROI_day * 365, 4)}%`);
-    _print(`APY (weekly)      : ${toFixed(vault.ROI_week * 52, 4)}% \n\n`);
+    _print(`APY (daily)       : ${toFixed(((1 + (vault.ROI_day / 100))**365 - 1) * 100, 4)}%`);
+    _print(`APY (weekly)      : ${toFixed(((1 + (vault.ROI_week / 100))**52 - 1) * 100, 4)}% \n\n`);
 };
