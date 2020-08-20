@@ -28,14 +28,15 @@ async function main() {
     const oneWeekInBlocks = oneDayInBlocks * 7;
     const currentBlockNumber = await App.provider.getBlockNumber();
 
-    const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink"]);
+    const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink", 'yearn-finance']);
 
     const vaultCompatibleTokens = [
         ["yCRV", (await CURVE_Y_POOL.get_virtual_price()) / 1e18 , YCRV_TOKEN_ADDR],
         ["DAI", prices['dai'].usd ,DAI_TOKEN_ADDR],
         ["TUSD", prices['true-usd'].usd ,TUSD_TOKEN_ADDR],
         ["USDC", prices['usd-coin'].usd ,USDC_TOKEN_ADDR],
-        ["USDT", prices['tether'].usd,USDT_TOKEN_ADDR]
+        ["USDT", prices['tether'].usd,USDT_TOKEN_ADDR],
+        ["YFI", prices['yearn-finance'].usd, YFI_TOKEN_ADDR]
     ];
 
     const delegatedVaultCompatibleTokens = [
