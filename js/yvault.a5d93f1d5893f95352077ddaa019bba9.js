@@ -23,10 +23,17 @@ async function main() {
 
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
 
-    const currentBlockTime = await getBlockTime();
-    const oneDayInBlocks = 24 * 60 * 60 / currentBlockTime;
-    const oneWeekInBlocks = oneDayInBlocks * 7;
+    // const currentBlockTime = await getBlockTime();
+    // const oneDayInBlocks = 24 * 60 * 60 / currentBlockTime;
+    // const oneWeekInBlocks = oneDayInBlocks * 7;
+    const now = Math.round(Date.now() / 1000);
+
     const currentBlockNumber = await App.provider.getBlockNumber();
+    const oneDayAgoBlockNumber = parseInt(await getBlockNumberFromTimestamp(now - 60 * 60 * 24));
+    const oneWeekAgoBlockNumber = parseInt(await getBlockNumberFromTimestamp(now - 60 * 60 * 24 * 7));
+
+    console.log(oneDayAgoBlockNumber);
+    console.log(oneWeekAgoBlockNumber);
 
     const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink", 'yearn-finance']);
 
@@ -60,14 +67,14 @@ async function main() {
         let ROI_week = 0;
 
         try {
-            const pastPricePerFullShare = await vaultContract.getPricePerFullShare({blockTag : Math.round(currentBlockNumber - oneDayInBlocks)});
+            const pastPricePerFullShare = await vaultContract.getPricePerFullShare({blockTag : oneDayAgoBlockNumber});
             ROI_day = (currentPricePerFullShare / pastPricePerFullShare - 1) * 100;
         } catch (e) {
             console.error(e);
         }
 
         try {
-            const pastPricePerFullShare = await vaultContract.getPricePerFullShare({blockTag : Math.round(currentBlockNumber - oneWeekInBlocks)});
+            const pastPricePerFullShare = await vaultContract.getPricePerFullShare({blockTag : oneWeekAgoBlockNumber});
             ROI_week = (currentPricePerFullShare / pastPricePerFullShare - 1) * 100;
         } catch (e) {
             console.error(e);
@@ -109,14 +116,14 @@ async function main() {
         let ROI_week = 0;
 
         try {
-            const pastPricePerFullShare = await delegatedVaultContract.getPricePerFullShare({blockTag : Math.round(currentBlockNumber - oneDayInBlocks)});
+            const pastPricePerFullShare = await delegatedVaultContract.getPricePerFullShare({blockTag : oneDayAgoBlockNumber});
             ROI_day = (currentPricePerFullShare / pastPricePerFullShare - 1) * 100;
         } catch (e) {
             console.error(e);
         }
 
         try {
-            const pastPricePerFullShare = await delegatedVaultContract.getPricePerFullShare({blockTag : Math.round(currentBlockNumber - oneWeekInBlocks)});
+            const pastPricePerFullShare = await delegatedVaultContract.getPricePerFullShare({blockTag :oneWeekAgoBlockNumber});
             ROI_week = (currentPricePerFullShare / pastPricePerFullShare - 1) * 100;
         } catch (e) {
             console.error(e);
