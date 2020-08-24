@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+****************** 👨‍🌾 UNOFFICIAL CREAM YIELD FARMING CALCULATOR 👨‍🌾 *******************
+INFO  : https://twitter.com/CreamdotFinance/status/1296377883338792961?s=20
+POOL  : https://pools.balancer.exchange/#/pool/0x5a82503652d05b21780f33178fdf53d31c29b916/
+STAKE : https://app.cream.finance/reward#Balancer
+      : 0xc29E89845fA794Aa0A0B8823de23B760c3d766F5
+***************************************************************************************
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'cream_bal'}); -%>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+<body>
+<%- include(`${partials}/header_main`); -%>
+<pre id="log">
+****************** 👨‍🌾 UNOFFICIAL CREAM YIELD FARMING CALCULATOR 👨‍🌾 *******************
+INFO  : https://twitter.com/CreamdotFinance/status/1296377883338792961?s=20
+POOL  : https://app.uniswap.org/#/add/0x2ba592F78dB6436527729929AAf6c908497cB200/ETH
+STAKE : https://app.cream.finance/reward/#Uniswap
+      : 0x65bC20147E2cA6F3bf0819c38E519F8792043b36
+***************************************************************************************
+</pre>
+<div class="loader--1"></div>
+<%- include(`${partials}/scripts`, {scriptname: 'cream_uni'}); -%>
+</body>
+</html>
