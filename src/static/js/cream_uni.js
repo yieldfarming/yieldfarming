@@ -25,7 +25,7 @@ async function main() {
 
     const CREAMPerUNI = totalCREAMAmount / totalUNIAmount;
     const WETHPerUNI = totalWETHAmount / totalUNIAmount;
-    
+
     const weekly_reward = await get_synth_weekly_rewards(CREAM_STAKING_POOL);
     const nextHalving = await getPeriodFinishForReward(CREAM_STAKING_POOL)
 
@@ -100,7 +100,7 @@ async function main() {
     _print_link(`Claim ${earnedCREAM} CREAM`, claim);
     _print_link(`Exit`, exit);
 
-    // await _print24HourPrice("cream2", "CREAM");
+    await _print24HourPrice("cream-2", "CREAM");
 
     hideLoading();
 }
