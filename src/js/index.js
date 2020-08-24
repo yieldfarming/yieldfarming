@@ -13,6 +13,7 @@ import { ethers } from "ethers";
 import 'picturefill'
 import 'utils/errors'
 import 'utils/validation'
+import 'utils/quick'
 
 window.$ = $;
 window.ethers = ethers;
