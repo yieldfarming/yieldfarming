@@ -12,7 +12,7 @@ async function main() {
 
     const CURVE_SUSD_POOL = new ethers.Contract(CURVE_SUSD_POOL_ADDR, CURVE_SUSD_POOL_ABI, App.provider);
     const SYNTH_crvPlain3andSUSD_POOL = new ethers.Contract(SYNTH_crvPlain3andSUSD_STAKING_POOL_ADDR, SYNTH_crvPlain3andSUSD_STAKING_POOL_ABI, App.provider);
-    const crvPlain3andSUSD_TOKEN_CONTRACT = new ethers.Contract(crvPlain3andSUSD_TOKEN_ADDR, ERC20_ABI, App.provider);
+    const crvPlain3andSUSD_TOKEN_CONTRACT = new ethers.Contract(sCRV_TOKEN_ADDR, ERC20_ABI, App.provider);
 
     // SYNTH Staking pool
     const rawStakedCRVAmount = await SYNTH_crvPlain3andSUSD_POOL.balanceOf(App.YOUR_ADDRESS);

@@ -176,10 +176,12 @@ const lookUpPricesHistorical = async function(id, from, to) {
 }
 
 const getBlockNumberFromTimestamp = async function(timestamp) {
-    return $.ajax({
+    const res = await $.ajax({
         url: `https://api.etherscan.io/api?module=block&action=getblocknobytime&timestamp=${timestamp}&closest=before&apikey=XRFWK1IDBR545CXNJ6NQSYAVINUQB7IDV1`,
         type: 'GET',
     })
+
+    return res.result;
 }
 
 const getSourceCode = async function(address) {
