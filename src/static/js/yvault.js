@@ -237,6 +237,7 @@ const printVault = async function(vault, App) {
 
     _print(`There are total   : ${vault.tokenBalance} ${vault.tokenTicker} staked in ${vault.tokenTicker} vault`);
     _print(`                  = ${toDollar(vault.balanceInUSD)}\n`);
+    _print(`You own           : ${yourVaultTokenAmount} ${trimOrFillTo(vault.vaultTicker, 15)}\n`);
     _print(`You are staking   : ${yourVaultTokenInUnderlyingTokenAmount} ${vault.tokenTicker}`);
     _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`);
 
