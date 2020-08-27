@@ -26,6 +26,11 @@ const searchKeywords = [
         title: "Shrimp Taco",
         link: "/shrimp/taco",
         tags: ["shrimp", "taco"]
+    },
+    {
+        title: "Y Vaults",
+        link : "/yearn/yvault",
+        tags : ["yearn", "vault", "yvault", "andre", "cronje", "yusd"]
     }
 ]
 
@@ -59,7 +64,7 @@ window.onload = () => {
         const data = String(event.target.value).toLowerCase();
         quickDropdownEl.innerHTML = fuse.search(data)
             .map(
-                d => 
+                d =>
                 `<li><a href="${d.item.link}">${d.item.title}</a></li>`
             ).join("");
     })

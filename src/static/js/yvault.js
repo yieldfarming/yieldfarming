@@ -14,28 +14,32 @@ async function main() {
     const YAERN_DELEGATED_VAULT_CONTROLLER = new ethers.Contract(YEARN_DELEGATED_VAULT_CONTROLLER_ADDR, YEARN_DELEGATED_VAULT_CONTROLLER_ABI, App.provider);
 
     const CURVE_Y_POOL = new ethers.Contract(CURVE_Y_POOL_ADDR, CURVE_Y_POOL_ABI, App.provider);
+    const CURVE_B_POOL = new ethers.Contract(CURVE_B_POOL_ADDR, CURVE_B_POOL_ABI, App.provider);
+    const CURVE_BTC_POOL = new ethers.Contract(CURVE_BTC_POOL_ADDR, CURVE_BTC_POOL_ABI, App.provider);
 
     // const currentBlockTime = await getBlockTime();
     // const oneDayInBlocks = 24 * 60 * 60 / currentBlockTime;
     // const oneWeekInBlocks = oneDayInBlocks * 7;
     const now = Math.round(Date.now() / 1000);
 
-    const currentBlockNumber = await App.provider.getBlockNumber();
+    // const currentBlockNumber = await App.provider.getBlockNumber();
     const oneDayAgoBlockNumber = parseInt(await getBlockNumberFromTimestamp(now - 60 * 60 * 24));
     const oneWeekAgoBlockNumber = parseInt(await getBlockNumberFromTimestamp(now - 60 * 60 * 24 * 7));
 
     console.log(oneDayAgoBlockNumber);
     console.log(oneWeekAgoBlockNumber);
 
-    const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink", 'yearn-finance']);
+    const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink", 'yearn-finance', 'bitcoin']);
 
     const vaultCompatibleTokens = [
         ["yCRV", (await CURVE_Y_POOL.get_virtual_price()) / 1e18 , YCRV_TOKEN_ADDR],
+        ["ybCRV", (await CURVE_B_POOL.get_virtual_price()) / 1e18 , YBCRV_TOKEN_ADDR],
+        ["crvRenWSBTC", ((await CURVE_BTC_POOL.get_virtual_price()) / 1e18) * prices['bitcoin'].usd , crvRenWSBTC_TOKEN_ADDR],
+        ["YFI", prices['yearn-finance'].usd, YFI_TOKEN_ADDR],
         ["DAI", prices['dai'].usd ,DAI_TOKEN_ADDR],
         ["TUSD", prices['true-usd'].usd ,TUSD_TOKEN_ADDR],
         ["USDC", prices['usd-coin'].usd ,USDC_TOKEN_ADDR],
         ["USDT", prices['tether'].usd,USDT_TOKEN_ADDR],
-        ["YFI", prices['yearn-finance'].usd, YFI_TOKEN_ADDR]
     ];
 
     const delegatedVaultCompatibleTokens = [
