@@ -241,7 +241,7 @@ const printVault = async function(vault, App) {
     _print(`You are staking   : ${yourVaultTokenInUnderlyingTokenAmount} ${vault.tokenTicker}`);
     _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`);
 
-    if (yourVaultTokenInUnderlyingTokenAmount > 0) {
+    if (yourVaultTokenAmount * vault.tokenPrice > 1) {
         _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}% (${toFixed(yourDailyGains, 2)} ${vault.tokenTicker})`);
         _print(`                  = ${toDollar(toFixed(yourDailyGains, 2) * vault.tokenPrice)}\n`);
         _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}% (${toFixed(yourWeeklyGains, 2)} ${vault.tokenTicker})`);
