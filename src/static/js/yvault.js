@@ -57,7 +57,16 @@ async function main() {
         const tokenContract = new ethers.Contract(tokenAddr, ERC20_ABI, App.provider);
         const vaultContract = new ethers.Contract(vaultAddress, YEARN_VAULT_ABI, App.provider);
         const currentPricePerFullShare = await vaultContract.getPricePerFullShare();
-        const tokenBalance = (await vaultContract.balance()) / (10**parseInt(await tokenContract.decimals()));
+        const decimals = parseInt(await tokenContract.decimals())
+
+        const tokenBalance = (await vaultContract.balance()) / (10 ** decimals);
+
+        let tokenBalanceDayAgo = 0;
+        try {
+            tokenBalanceDayAgo = await vaultContract.balance({blockTag : oneDayAgoBlockNumber}) / (10 ** decimals);
+        } catch (e) {
+            console.error(e);
+        }
 
         let ROI_day = 0;
         let ROI_week = 0;
@@ -84,6 +93,7 @@ async function main() {
             vaultContractInstance: vaultContract,
             vaultTicker : await vaultContract.symbol(),
             tokenBalance : tokenBalance,
+            tokenBalanceDayAgo : tokenBalanceDayAgo,
             balanceInUSD : tokenBalance * tokenPrice,
             currentPricePerFullShare : currentPricePerFullShare,
             ROI_day: ROI_day,
@@ -105,7 +115,16 @@ async function main() {
         const tokenAddr = await delegatedVaultContract.underlying();
         const tokenContract = new ethers.Contract(tokenAddr, ERC20_ABI, App.provider);
 
-        const tokenBalance = await delegatedVaultContract.balance() / (10**parseInt(await tokenContract.decimals()));
+        const decimals = parseInt(await tokenContract.decimals())
+
+        const tokenBalance = await delegatedVaultContract.balance() / (10 ** decimals);
+        let tokenBalanceDayAgo = 0;
+        try {
+            tokenBalanceDayAgo = await delegatedVaultContract.balance({blockTag : oneDayAgoBlockNumber}) / (10 ** decimals);
+        } catch (e) {
+            console.error(e);
+        }
+
         const currentPricePerFullShare = await delegatedVaultContract.getPricePerFullShare();
 
         let ROI_day = 0;
@@ -133,6 +152,7 @@ async function main() {
             vaultContractInstance: delegatedVaultContract,
             vaultTicker : await delegatedVaultContract.symbol(),
             tokenBalance : tokenBalance,
+            tokenBalanceDayAgo : tokenBalanceDayAgo,
             balanceInUSD : tokenBalance * tokenPrice,
             currentPricePerFullShare : currentPricePerFullShare,
             ROI_day: ROI_day,
@@ -147,15 +167,19 @@ async function main() {
     // Start printing data
 
     let totalValueLocked = 0;
+    let dayProfitGenerated = 0;
     for (let i = 0; i < vaults.length; i++) {
         totalValueLocked += vaults[i].balanceInUSD;
+        dayProfitGenerated += (vaults[i].tokenBalanceDayAgo * vaults[i].tokenPrice) * vaults[i].ROI_day / 100
     }
 
     for (let i = 0; i < delegatedVaults.length; i++) {
         totalValueLocked += delegatedVaults[i].balanceInUSD;
+        dayProfitGenerated += (vaults[i].tokenBalanceDayAgo * vaults[i].tokenPrice) * vaults[i].ROI_day / 100
     }
 
-    _print_bold(`\nTotal Value Locked         : ${toDollar(totalValueLocked)}\n`);
+    _print_bold(`\nTotal Value Locked         : ${toDollar(totalValueLocked)}`);
+    _print_bold(`Profit generated in 24 hrs : ${toDollar(dayProfitGenerated)}\n`);
 
     _print_bold("                                __    __              __         ______  \n" +
         "                               /  |  /  |           _/  |       /      \\ \n" +
