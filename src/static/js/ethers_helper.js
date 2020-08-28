@@ -31,9 +31,22 @@ async function init_ethers() {
     sleep(10)
   }
 
-  App.YOUR_ADDRESS = getUrlParameter('addr')
+  let addr = getUrlParameter('addr')
 
-  // Cloud not load URL parameter
+  //resolve ENS domain if possible
+  if(typeof addr !== "undefined" && addr.includes('.eth')) 
+  {
+    addr = await App.provider.resolveName(addr)
+    if(addr == null)
+    {
+      _print(
+      "Could not initialize your ENS domain.\n"
+      )
+    }
+  }
+  App.YOUR_ADDRESS = addr
+
+  // Could not load URL parameter
   if (!App.YOUR_ADDRESS) {
     if (!isMetaMaskInstalled) {
       if (localStorage.hasOwnProperty('addr')) {
