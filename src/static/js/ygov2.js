@@ -72,6 +72,7 @@ async function main() {
 
     // REWARDS
     _print(`======== ${rewardTokenTicker} REWARDS ========`)
+    _print(`Reward rate       : ${toFixed(rewardPerToken, 2)} ${rewardTokenTicker} per 1 ${stakingTokenTicker} per week \n`);
     // _print(" (Temporarily paused until further emission model is voted by the community) ");
     _print(`Claimable Rewards : ${toFixed(earnedTokenAmount, 4)} ${rewardTokenTicker} = $${toFixed(earnedTokenAmount * rewardTokenPrice, 2)}`);
     const hourlyEarnedTokenEstimate = rewardPerToken * stakedTokenAmount;
