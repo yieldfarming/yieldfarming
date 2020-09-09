@@ -242,11 +242,29 @@ const printVault = async function(vault, App) {
     _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`);
 
     if (yourVaultTokenAmount * vault.tokenPrice > 1) {
-        const histDailyDecimals = yourDailyGains !== 0 && yourDailyGains < 0.01 ? 4 : 2;
+        let histDailyDecimals = 2;
+        if (yourDailyGains !== 0) {
+            if (yourDailyGains < 0.000001) {
+                histDailyDecimals = 8;
+            } else if (yourDailyGains < 0.0001) {
+                histDailyDecimals = 6;
+            } else if (yourDailyGains < 0.01) {
+                histDailyDecimals = 4;
+            }
+        }
         _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}% (${toFixed(yourDailyGains, histDailyDecimals)} ${vault.tokenTicker})`);
         _print(`                  = ${toDollar(toFixed(yourDailyGains, 2) * vault.tokenPrice)}\n`);
 
-        const histWeeklyDecimals = yourWeeklyGains !== 0 && yourWeeklyGains < 0.01 ? 4 : 2;
+        let histWeeklyDecimals = 2;
+        if (yourWeeklyGains !== 0) {
+            if (yourWeeklyGains < 0.000001) {
+                histWeeklyDecimals = 8;
+            } else if (yourWeeklyGains < 0.0001) {
+                histWeeklyDecimals = 6;
+            } else if (yourWeeklyGains < 0.01) {
+                histWeeklyDecimals = 4;
+            }
+        }
         _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}% (${toFixed(yourWeeklyGains, histWeeklyDecimals)} ${vault.tokenTicker})`);
         _print(`                  = ${toDollar(toFixed(yourWeeklyGains, 2) * vault.tokenPrice)}\n`);
     } else {
