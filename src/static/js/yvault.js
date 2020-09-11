@@ -242,10 +242,13 @@ const printVault = async function(vault, App) {
     _print(`                  = ${toDollar(yourVaultTokenInUnderlyingTokenAmount * vault.tokenPrice)}\n`);
 
     if (yourVaultTokenAmount * vault.tokenPrice > 1) {
-        _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}% (${toFixed(yourDailyGains, 2)} ${vault.tokenTicker})`);
-        _print(`                  = ${toDollar(toFixed(yourDailyGains, 2) * vault.tokenPrice)}\n`);
-        _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}% (${toFixed(yourWeeklyGains, 2)} ${vault.tokenTicker})`);
-        _print(`                  = ${toDollar(toFixed(yourWeeklyGains, 2) * vault.tokenPrice)}\n`);
+        const histDailyDecimals = decimalsForSmallNumber(yourDailyGains);
+        _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}% (${toFixed(yourDailyGains, histDailyDecimals)} ${vault.tokenTicker})`);
+        _print(`                  = ${toDollar(toFixed(yourDailyGains, histDailyDecimals) * vault.tokenPrice)}\n`);
+
+        const histWeeklyDecimals = decimalsForSmallNumber(yourDailyGains);
+        _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}% (${toFixed(yourWeeklyGains, histWeeklyDecimals)} ${vault.tokenTicker})`);
+        _print(`                  = ${toDollar(toFixed(yourWeeklyGains, histWeeklyDecimals) * vault.tokenPrice)}\n`);
     } else {
         _print(`Hist. Daily ROI   : ${toFixed(vault.ROI_day, 4)}%`);
         _print(`Hist. Weekly ROI  : ${toFixed(vault.ROI_week, 4)}%\n`);
