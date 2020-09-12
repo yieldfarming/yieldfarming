@@ -93,6 +93,26 @@ const toFixed = function(num, fixed) {
   }
 }
 
+const decimalsForSmallNumber = function(num) {
+  if (!num) {
+      return 2
+  }
+
+  if (num < 0.000001) {
+      return 8
+  }
+
+  if (num < 0.0001) {
+      return 6
+  }
+
+  if (num < 0.01) {
+      return 4
+  }
+
+  return 2
+}
+
 const start = function(f) {
   f().catch(e => {
     _print(e)
