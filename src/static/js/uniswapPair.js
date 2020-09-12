@@ -25,6 +25,7 @@ async function loadUniswapPairInfo() {
 
     const PAIR_TOKEN = new ethers.Contract(pairAddress, UNISWAP_V2_PAIR_ABI, App.provider);
     const pairTokenSymbol = await PAIR_TOKEN.symbol();
+    const pairTokenName = await PAIR_TOKEN.name();
     const pairTokenTotalSupply = await PAIR_TOKEN.totalSupply();
 
     const pairToken0Addr = ethers.utils.getAddress(await PAIR_TOKEN.token0());
@@ -37,9 +38,11 @@ async function loadUniswapPairInfo() {
     const PAIR_TOKEN_1 = new ethers.Contract(pairToken1Addr, ERC20_ABI, App.provider);
 
     const token0Symbol = await PAIR_TOKEN_0.symbol();
+    const token0Name = await PAIR_TOKEN_0.name();
     const token0Decimals = await PAIR_TOKEN_0.decimals();
 
     const token1Symbol = await PAIR_TOKEN_1.symbol();
+    const token1Name = await PAIR_TOKEN_1.name();
     const token1Decimals = await PAIR_TOKEN_1.decimals();
 
     const reserves = await PAIR_TOKEN.getReserves();
@@ -51,9 +54,9 @@ async function loadUniswapPairInfo() {
 
     // Start printing info
     _print(`\n=================== PAIR INFO ====================`)
-    _print(`\n${pairTokenSymbol} @ ${pairAddress}`)
-    _print(`- ${token0Symbol} @ ${pairToken0Addr}`)
-    _print(`- ${token1Symbol} @ ${pairToken1Addr}\n`)
+    _print(`\n${pairTokenSymbol} (${pairTokenName}) @ ${pairAddress}`)
+    _print(`- ${token0Symbol} (${token0Name}) @ ${pairToken0Addr}`)
+    _print(`- ${token1Symbol} (${token1Name}) @ ${pairToken1Addr}\n`)
 
     let leftSideString = `1 ` + pairTokenSymbol;
     _print(`${leftSideString} = [${token0AmountPerPair / (10 ** token0Decimals)} ${token0Symbol}, ${token1AmountPerPair / (10 ** token1Decimals)} ${token1Symbol}]`);
