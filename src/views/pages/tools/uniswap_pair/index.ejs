@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+<body id="diffBody">
+    <h2>Uniswap-like pair value viewer</h2>
+    <div>
+        <form>
+            <label for="uniswapPair_address">Uniswap-like pair address: </label><br>
+            <input id="uniswapPair_address" type="text" name="fname" value="" size="50"><br>
+            <label for="uniswapPair_amount">Token amount: </label><br>
+            <input id="uniswapPair_amount" type="text" name="lname" value="" size="50">
+        </form>
+        <br />
+    </div>
+<pre id="log"></pre>
+<%- include(`${partials}/scripts`, {scriptname: 'uniswapPair'}); -%>
+</body>
+</html>

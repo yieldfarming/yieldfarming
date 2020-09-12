@@ -34,7 +34,7 @@ async function init_ethers() {
   let addr = getUrlParameter('addr')
 
   //resolve ENS domain if possible
-  if(typeof addr !== "undefined" && addr.includes('.eth')) 
+  if(typeof addr !== "undefined" && addr.includes('.eth'))
   {
     addr = await App.provider.resolveName(addr)
     if(addr == null)
@@ -122,6 +122,13 @@ const _print = function(message) {
       logger.innerHTML += arguments[i] + '<br />'
     }
   }
+}
+
+const _clear = function () {
+    if (!logger) {
+        logger = document.getElementById('log')
+    }
+    logger.innerHTML = "";
 }
 
 const _print_bold = function(message) {
