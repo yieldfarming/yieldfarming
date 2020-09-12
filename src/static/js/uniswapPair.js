@@ -6,7 +6,8 @@ let App;
 
 async function loadUniswapPairInfo() {
     _clear();
-    _print(`Initialized ${App.YOUR_ADDRESS}`);
+    _print(new Date().toString());
+    _print(`\nInitialized ${App.YOUR_ADDRESS}`);
     _print("Reading smart contracts...");
 
     let pairAddress = $(`#uniswapPair_address`).val();
