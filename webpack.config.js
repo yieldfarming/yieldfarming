@@ -76,6 +76,9 @@ module.exports = (env = {}) => {
       },
       symlinks: false
     },
-    devtool: isProduction ? '' : 'eval'
+    devtool: isProduction ? '' : 'eval',
+      node: {
+          fs: "empty"
+      }
   }
 }

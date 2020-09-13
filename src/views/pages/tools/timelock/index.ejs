@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include(`${partials}/head`); -%>
+<body id="diffBody">
+<h2>Timelock Contract Viewer</h2>
+<div>
+    <form>
+        <label for="timelockViewer_address">Timelock contract address: </label><br>
+        <input id="timelockViewer_address" type="text" name="contractAddress" value="" size="50"><br>
+    </form>
+    <br />
+</div>
+<pre id="log"></pre>
+<%- include(`${partials}/scripts`, {scriptname: 'tools_timelockViewer'}); -%>
+</body>
+</html>

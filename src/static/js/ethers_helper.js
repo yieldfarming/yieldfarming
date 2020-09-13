@@ -65,6 +65,20 @@ async function init_ethers() {
   }
 
   localStorage.setItem('addr', App.YOUR_ADDRESS)
+
+    // enhance the original "$.ajax" with a retry mechanism
+    $.ajax = (($oldAjax) => {
+        // on fail, retry by creating a new Ajax deferred
+        function check(a,b,c){
+            let shouldRetry = b !== 'success' && b !== 'parsererror';
+            if( shouldRetry && -- this.retries > 0 )
+                setTimeout(() => { $.ajax(this) }, this.retryInterval || 100);
+        }
+
+        return settings => $oldAjax(settings).always(check)
+    })($.ajax);
+
+
   return App
 }
 
@@ -228,6 +242,26 @@ const getSourceCode = async function(address) {
     return $.ajax({
         url: `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${address}&apikey=XRFWK1IDBR545CXNJ6NQSYAVINUQB7IDV1`,
         type: 'GET',
+        retries       : 3,
+        retryInterval : 201,
+    })
+}
+
+const getTransactionHistory = async function(address) {
+    return $.ajax({
+        url: `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=desc&apikey=XRFWK1IDBR545CXNJ6NQSYAVINUQB7IDV1`,
+        type: 'GET',
+        retries       : 3,
+        retryInterval : 201,
+    })
+}
+
+const getContractABI = async function(address) {
+    return $.ajax({
+        url: `https://api.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=XRFWK1IDBR545CXNJ6NQSYAVINUQB7IDV1`,
+        type: 'GET',
+        retries       : 3,
+        retryInterval : 201,
     })
 }
 

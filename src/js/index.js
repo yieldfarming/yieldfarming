@@ -19,6 +19,7 @@ window.$ = $;
 window.ethers = ethers;
 window.asciichart = require("asciichart");
 window.Diff = require("diff");
+window.InputDataDecoder = require('ethereum-input-data-decoder');
 
 // eslint-disable-next-line no-console
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
