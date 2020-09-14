@@ -30,14 +30,26 @@ async function loadTimelockInfo() {
 
     if (!ethers.utils.isAddress(timelockAddress)) {
         alert(`${timelockAddress} is not a valid address`);
+        return;
     }
 
     const transactions = (await getTransactionHistory(timelockAddress)).result;
 
+    const TIMELOCK_CONTRACT = new ethers.Contract(timelockAddress, TIMELOCK_ABI, App.provider);
+    const min_delay = (await TIMELOCK_CONTRACT.MINIMUM_DELAY()) / (60 * 60);
+    const max_delay = (await TIMELOCK_CONTRACT.MAXIMUM_DELAY()) / (60 * 60);
+    const timelockAdmin = await TIMELOCK_CONTRACT.admin();
+
     const timelockArgDecoder = new InputDataDecoder(TIMELOCK_ABI);
 
     // Start printing info
-    _print(`\n=================== TIMELOCK INFO ====================\n`)
+    _print(`\n=================== TIMELOCK INFO ====================`)
+    _print(`Minimum delay   : ${min_delay} hours`);
+    _print(`Maximum delay   : ${max_delay} hours`);
+    _print(`Admin           : ${timelockAdmin}`)
+
+    _print("\n==================== TRANSACTIONS ====================\n");
+
     for (let i = 0; i < transactions.length; i++) {
         const transaction = transactions[i];
         const decodedData = timelockArgDecoder.decodeData(transaction.input)
