@@ -50,11 +50,14 @@ async function loadTimelockInfo() {
 
     _print("\n==================== TRANSACTIONS ====================\n");
 
+    const nowInSeconds = (Date.now() / 1000);
+
     for (let i = 0; i < transactions.length; i++) {
         const transaction = transactions[i];
         const decodedData = timelockArgDecoder.decodeData(transaction.input)
         const methodCalled = getMethodCalled(decodedData);
 
+        _print_bold(`${forHumans(nowInSeconds - transaction.timeStamp)} ago`)
         _print_bold(`${new Date(parseInt(transaction.timeStamp + "000")).toString()}\n`);
         _print(`Called by     : ${transaction.from}`);
         _print(`Method called : ${methodCalled}\n`)
