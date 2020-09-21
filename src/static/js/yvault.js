@@ -62,6 +62,13 @@ async function main() {
 
         const tokenBalance = (await vaultContract.balance()) / (10 ** decimals);
 
+        const strategyAddr = await YEARN_VAULT_CONTROLLER.strategies(tokenAddr);
+        let strategyName = 'StrategyDForceUSDC';
+        if(!['USDC'].includes(tokenTicker)) {
+            const strategyContract = new ethers.Contract(strategyAddr, YEARN_STRATEGY_ABI, App.provider);
+            strategyName = await strategyContract.getName();
+        }
+
         let tokenBalanceDayAgo = 0;
         try {
             tokenBalanceDayAgo = await vaultContract.balance({blockTag : oneDayAgoBlockNumber}) / (10 ** decimals);
@@ -99,8 +106,8 @@ async function main() {
             currentPricePerFullShare : currentPricePerFullShare,
             ROI_day: ROI_day,
             ROI_week: ROI_week,
-            strategyAddr : await YEARN_VAULT_CONTROLLER.strategies(tokenAddr),
-            strategyName : "" // TODO: Create lambda that queries ContractName from etherscan
+            strategyAddr : strategyAddr,
+            strategyName : strategyName,
         }
     }));
 
@@ -232,7 +239,7 @@ const printVault = async function(vault, App) {
     _print(`================== ${vault.tokenTicker} ================== `);
     _print(`1 ${trimOrFillTo(vault.tokenTicker, 15)} = $${vault.tokenPrice}`);
     _print(`1 ${trimOrFillTo(vault.vaultTicker, 15)} = ${toFixed(vault.currentPricePerFullShare / 1e18, 6)} ${vault.tokenTicker}\n`);
-    _print_href(`Current strategy  : ${vault.strategyAddr}`, `https://etherscan.io/address/${vault.strategyAddr}#code`);
+    _print_href(`Current strategy  : ${vault.strategyName}`, `https://etherscan.io/address/${vault.strategyAddr}#code`);
 
     _print('');
 
