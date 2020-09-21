@@ -29,7 +29,7 @@ async function main() {
     console.log(oneDayAgoBlockNumber);
     console.log(oneWeekAgoBlockNumber);
 
-    const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink", 'yearn-finance', 'bitcoin']);
+    const prices = await lookUpPrices(["usd-coin", "dai", "true-usd", "tether", "usd-coin", "chainlink", 'yearn-finance', 'bitcoin', "weth"]);
 
     const vaultCompatibleTokens = [
         ["yCRV", (await CURVE_Y_POOL.get_virtual_price()) / 1e18 , YCRV_TOKEN_ADDR],
@@ -40,6 +40,7 @@ async function main() {
         ["TUSD", prices['true-usd'].usd ,TUSD_TOKEN_ADDR],
         ["USDC", prices['usd-coin'].usd ,USDC_TOKEN_ADDR],
         ["USDT", prices['tether'].usd,USDT_TOKEN_ADDR],
+        ["WETH", prices['weth'].usd,WETH_TOKEN_ADDR],
     ];
 
     const delegatedVaultCompatibleTokens = [
