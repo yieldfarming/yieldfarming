@@ -63,10 +63,16 @@ async function main() {
         const tokenBalance = (await vaultContract.balance()) / (10 ** decimals);
 
         const strategyAddr = await YEARN_VAULT_CONTROLLER.strategies(tokenAddr);
-        let strategyName = 'StrategyDForceUSDC';
+        let strategyName = 'DForceUSDC';
         if(!['USDC'].includes(tokenTicker)) {
-            const strategyContract = new ethers.Contract(strategyAddr, YEARN_STRATEGY_ABI, App.provider);
-            strategyName = await strategyContract.getName();
+            try {
+                const strategyContract = new ethers.Contract(strategyAddr, YEARN_STRATEGY_ABI, App.provider);
+                strategyName = await strategyContract.getName();
+                strategyName = strategyName.replace(/^Strategy/, '');
+            } catch(ex) {
+                console.error(ex);
+                strategyName = strategyAddr;
+            }
         }
 
         let tokenBalanceDayAgo = 0;
