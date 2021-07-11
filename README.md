@@ -1,3 +1,6 @@
+## No longer maintained
+This repo is no longer maintained due to difficulty in upkeep with newest farms and different chains. Please checkout an unofficial fork of this repo at (https://github.com/vfat-tools/vfat-tools)
+
 ## yieldfarming.info
 
 _It ain't much, but it's honest work_
